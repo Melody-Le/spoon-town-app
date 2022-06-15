@@ -9,12 +9,7 @@
     href="./src/img/myfavicon.jpeg"
   />
     <link rel="stylesheet" href="./src/style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-      crossorigin="anonymous"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <title>Spoon Town</title>
   </head>
   <body>
@@ -22,7 +17,7 @@
       <div class="container">
         <a class="navbar-brand" href="#">
           <img src="https://i.pinimg.com/564x/13/82/9d/13829d380c2b555345f9859c51b676cb.jpg" alt="logo" width="60" />
-          MealSpace
+          Spoon Town
         </a>
         <button
           class="navbar-toggler"
@@ -36,11 +31,12 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link href="#"">HOME</a></li>
-            <li class="nav-item"><a class="nav-link href="#"">POPULAR </a></li>
-            <li class="nav-item"><a class="nav-link href="#"">ABOUT US</a></li>
-            <li class="nav-item"><a class="nav-link href="#"">CONTACT</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"">HOME</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"">POPULAR </a></li>
+            <li class="nav-item"><a class="nav-link" href="./filter.html">ABOUT US</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"">CONTACT</a></li>
             <li class="nav-item account">
               <a class="navbar-brand" href="#">
                 <img src="./src/img/user-profile-img.jpeg" alt="account" width="60" />
@@ -52,18 +48,16 @@
     </nav>
     <div class="container-fluid homepage">
       <div class="text-center">
-        <h1>Hey! Are you ready for meal?</h1>
-        <div class="search-filter-box" >
-          
-          <button class="btn bg-white search-by-map border-0 rounded-5">Search MAP</button>
+        <h1 class="mb-5 cover-title">Hey! Are you ready for meal?</h1>
+        <div class="search-filter-box d-md-flex g-3 " >
+          <button class="btn bg-white search-by-map border-0 rounded-5 py-2">Search MAP</button>
           <form  action="search-location">
-            <div class="search-box position-relative">
-              <input class="search py-2 border-0 rounded-5" type="search" name="search" id="seach" placeholder="Where to eat?">
-              <button type="submit" class="btn-light border-0 rounded-5 p-2" ><img src="./src/img/icons8-search.gif" alt="search icon" width="20rem"/></button>
+            <div class="search-box px-4 py-1 border-0 rounded-5  bg-white">
+              <input class="search border-0" type="search" name="search" id="seach" placeholder="Where to eat?">
+              <button type="submit" class="btn border-0" ><img src="./src/img/icons8-search.gif" alt="search icon" width="20rem"/></button>
             </div>
-            
             <div class="search-option-container hidden">
-              <li class="search-option-item">
+              <li class="search-option-item ">
                 <a href="#" class = "search-nearby">
                   <img class="icon" src="./src/img/icons8-near-me-48.png" alt="icon Nearby">
                   <p>Nearby</p>
@@ -87,9 +81,7 @@
             </div>
           </form>
           <form  action="filter-catogery">
-            <div class="search-box">
-              <input class="filter py-2 border-0 rounded-5" type="search" name="search" id="filter-catogery" placeholder="Catogery">
-            </div>
+            <input class="filter py-2 border-0 rounded-5 " type="search" name="search" id="filter-catogery" placeholder="Catogery">
             <div class="filter-catogery-container hidden">
               <li class="search-option-item">
                 <a href="#" class = "search-nearby">
@@ -108,18 +100,7 @@
               </li>
             </div>
           </form>
-
-         
         </div>
-        <!-- <label  class="form-label">Datalist example</label>
-        <input class="form-control" list="listPlace" id="listPlace" placeholder="Where To eat?" data-set = "listbox">
-          <datalist id="listPlace">
-            <option value="Nearby">
-            <option value="">
-            <option value="Seattle">   
-            <option value="Chicago">
-          </datalist> -->
-          <!-- <button class="btn">Next step &rarr;</button> -->
       </div>
     </div>
 

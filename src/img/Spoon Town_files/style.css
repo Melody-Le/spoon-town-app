@@ -14,6 +14,7 @@ body {
 }
 .homepage {
   min-height: 100vh;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,14 +22,23 @@ body {
   background-image: url(./img/home-cover2.jpeg);
   background-size: cover;
   background-position: center;
+
   color: #fff;
 }
 .icon {
   border: none;
 }
 
+.search-box {
+  /* display: flex; */
+  /* background-color: aqua;
+  border-radius: 5rem; */
+}
+
 .search-filter-box {
-  align-items: start;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: start; */
   gap: 1rem;
 }
 
@@ -51,7 +61,11 @@ body {
   display: flex;
   align-items: center;
 }
-
+.search {
+  /* width: 30rem; */
+  /* border: none; */
+  /* border-radius: 3rem; */
+}
 .btn-submit {
   display: inline-block;
 }
@@ -61,19 +75,4 @@ body {
 
 h1.cover-title {
   text-shadow: 3px 3px 6px #030303;
-}
-ul li a {
-  cursor: pointer;
-}
-
-/* NOTE: Filter Page:  */
-.filter-page-container {
-  /* min-height: 100vh; */
-  /* position: relative; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* background-image: linear-gradient(rgba(34, 34, 34, 0.6), rgba(34, 34, 34, 0.6)), url(./img/home-cover1.png); */
-  background-color: rgb(189, 207, 207);
-  color: #fff;
 }

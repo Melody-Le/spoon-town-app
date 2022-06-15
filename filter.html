@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+    rel="icon"
+    href="./src/img/myfavicon.jpeg"
+  />
+    <link rel="stylesheet" href="./src/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Filter</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-light sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="https://i.pinimg.com/564x/13/82/9d/13829d380c2b555345f9859c51b676cb.jpg" alt="logo" width="60" />
+          Spoon Town
+        </a>
+        <form class="d-flex" role="search">
+          <button class="btn bg-white search-by-map border-0 rounded-5 py-2">Search MAP</button>
+          <form  action="search-location">
+            <div class="search-box px-4 py-1 border-0 rounded-5  bg-white">
+              <input class="search border-0" type="search" name="search" id="seach" placeholder="Where to eat?">
+              <button type="submit" class="btn border-0" ><img src="./src/img/icons8-search.gif" alt="search icon" width="20rem"/></button>
+            </div>
+        </form>
+        
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarTogglerDemo01"
+          aria-controls="navbarTogglerDemo01"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="./index.html">HOME</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"">POPULAR </a></li>
+            <li class="nav-item"><a class="nav-link" href="#"">ABOUT US</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"">CONTACT</a></li>
+            <li class="nav-item account">
+              <a class="navbar-brand" href="#">
+                <img src="./src/img/user-profile-img.jpeg" alt="account" width="60" />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container filter-page-container">
+      <button class=" btn-filter px-4 py-2 m-lg-3 border-1 rounded-1 bg-white">Filter</button>
+      <button class="btn-sort px-4 py-2 m-lg-3 border-1 rounded-1 bg-white">Sort ↓</button>
+    </div>
+
+    
+
+    <script src="./src/js/controller.js"></script>
+  </body>
+</html>
