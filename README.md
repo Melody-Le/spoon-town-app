@@ -1,7 +1,8 @@
 # Spoon Town
 Project page can be reach on the link below:
 https://melody-le.github.io/spoon-town-app/
-fRAMEWORK - Figma with Prototype:
+/n
+Framework - Figma with Prototype:
 For phone: https://www.figma.com/file/zkAq1NILfDLHda4u2NbmOJ/PROJECT-1---WEB?node-id=0%3A1
 For Website: https://www.figma.com/file/PT1VnkziKm4l6cg8LoKH3o/PROJECT-1---PHONE?node-id=0%3A1
 
