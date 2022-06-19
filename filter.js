@@ -21,7 +21,7 @@ async function callApi(url) {
   return data;
 }
 
-const locateCurentPosition = () =>
+const getLocation = () =>
   new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -36,23 +36,29 @@ const locateCurentPosition = () =>
     );
   });
 
-async function getLocation() {
-  const [lat, long] = await locateCurentPosition();
+//NOTE: get Location, return Restaurant Object List:
+async function getRestaurantObjListByLocation() {
+  const [lat, long] = await getLocation();
   const urlRestaurant = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${lat}&longitude=${long}`;
-  console.log(urlRestaurant);
+  // console.log(urlRestaurant);
   const restaurantAPI = await callApi(urlRestaurant);
   const { businesses: restaurantObjList } = restaurantAPI;
   return restaurantObjList;
 }
-// getLocation().then(businesses => console.log(businesses));
-async function getRestaurantCategories() {
-  const restaurantObjList = await getLocation();
-  // console.log(restaurantObjList);
+
+async function getCategories() {
+  const restaurantObjList = await getRestaurantObjListByLocation();
   const restaurantCategories = restaurantObjList
     .map(obj => obj.categories)
     .flat()
     .map(item => item.title);
-  restaurantCategories.forEach(categoryItem => {
+  const catogeries = [...new Set(restaurantCategories)];
+  return catogeries;
+}
+
+async function showCategoriesList() {
+  const categoriesList = await getCategories();
+  categoriesList.forEach(categoryItem => {
     const filterHtml = `
       <li class="search-option-item">
         <a href="#" class = "search-nearby">
@@ -62,12 +68,42 @@ async function getRestaurantCategories() {
     filterCatContainer.insertAdjacentHTML('beforeend', filterHtml);
   });
 }
+class restaurant {
+  constructor() {
+    this.lat = lat;
+    this.long = long;
+  }
+}
+const selectedCat = ['Dim Sum', 'Seafood', 'Noodels'];
+const resObj = {
+  lat: '1.3485673',
+  long: '103.8507789',
+};
+
+async function getRestaurantFilterLink() {
+  const [lat, long] = await getLocation();
+  const selectedCatLink = selectedCat.reduce((acc, cur) => `${acc}&categories=${cur}`);
+  const updatedCatLink = `&categories=${selectedCatLink}`;
+  const urlFilterLink = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${lat}&longitude=${long}${updatedCatLink}`;
+  console.log(urlFilterLink);
+  return urlFilterLink;
+}
+
+const selectCategoriesList = function (e) {
+  const selectCategoriesList = [];
+  const catSelect = e.target;
+  const catContent = catSelect?.textContent;
+  selectCategoriesList.push(catContent.trim());
+  console.log(selectCategoriesList);
+  return selectCategoriesList;
+};
+function userAddCategories() {
+  filterCatContainer.addEventListener('click', selectCategoriesList);
+}
 
 function init() {
-  getRestaurantCategories();
-  getLocation();
-  // const coords = getLocation();
-  // console.log('COORDS got', coords);
+  showCategoriesList();
+  userAddCategories();
   // step 1
   // step 2
   // step 3
