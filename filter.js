@@ -21,22 +21,40 @@ async function callApi(url) {
   const data = await response.json();
   return data;
 }
-function getLocation() {
-  console.log('START GET LOCATION');
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      console.log('Getting coords');
-      const { latitude, longitude } = position.coords;
-      const coords = [latitude, longitude];
-      // console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
-      console.log(latitude, longitude);
-      return coords;
-    }, console.log('Cannot get coords'));
-  }
-}
+// function getLocation() {
+// console.log('START GET LOCATION');
+// if (navigator.geolocation) {
+//   navigator.geolocation.getCurrentPosition(showPosition, () => console.log('Cannot get coords'));
+// }
+// }
 
-async function search() {
-  const restaurantByLocation = await urlRestaurant;
+// function showPosition(position) {
+//   const { latitude, longitude } = position.coords;
+//   const coords = [latitude, longitude];
+//   // console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+//   return `${latitude}, ${longitude}`;
+// }
+
+const locateCurentPosition = () =>
+  new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        const coords = [latitude, longitude];
+        resolve(coords);
+      },
+      error => {
+        console.log('Could not get your location');
+      }
+    );
+  });
+
+// const myLocation = locateCurentPosition().then(coords => console.log(coords));
+
+async function getLocation() {
+  const [lat, long] = await locateCurentPosition();
+  const urlRestaurant = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${lat}&longitude=${long}`;
+  console.log(urlRestaurant);
 }
 
 async function getRestaurantCatList() {
@@ -55,17 +73,6 @@ async function getRestaurantCatList() {
     filterCatContainer.insertAdjacentHTML('beforeend', filterHtml);
   });
 }
-// getRestaurantCatList();
-
-// async function getRestaurantBlackList() {
-//   const allCatList = await callApi(urlCat);
-//   const { categories } = allCatList;
-//   const restaurantCatObj = categories.filter(item => item.parent_aliases.includes('restaurants'));
-//   const restaurantBlackObj = restaurantCatObj.filter(item => item.country_blacklist.includes('SG'));
-//   // const restaurantCatList = restaurantCatObj.map(obj => obj.alias);
-//   console.log(restaurantBlackObj);
-// }
-// getRestaurantBlackList();
 
 const showFilter = function () {
   btnFilter.classList.remove('hidden');
@@ -75,8 +82,9 @@ btnFilter.addEventListener('click', showFilter);
 //NOTE: INIT
 function init() {
   getRestaurantCatList();
-  const coords = getLocation();
-  console.log('COORDS got', coords);
+  getLocation();
+  // const coords = getLocation();
+  // console.log('COORDS got', coords);
   // step 1
   // step 2
   // step 3
