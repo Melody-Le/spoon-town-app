@@ -68,20 +68,28 @@ async function showCategoriesList() {
     filterCatContainer.insertAdjacentHTML('beforeend', filterHtml);
   });
 }
-class restaurant {
-  constructor() {
-    this.lat = lat;
-    this.long = long;
-  }
+//FIXME:
+function selectCategoriesList(e) {
+  // e.preventDefaut();
+  const selectCatList = ['Dim Sum', 'Seafood'];
+  const catSelect = e.target;
+  const catContent = catSelect?.textContent;
+  const updatedCatList = selectCatList.concat(catContent.trim());
+  console.log(updatedCatList);
+  return updatedCatList;
 }
-const selectedCat = ['Dim Sum', 'Seafood', 'Noodels'];
-const resObj = {
-  lat: '1.3485673',
-  long: '103.8507789',
-};
+
+function userAddCategories() {
+  filterCatContainer.addEventListener('click', selectCategoriesList);
+  // return data;
+}
 
 async function getRestaurantFilterLink() {
   const [lat, long] = await getLocation();
+  // const selectedCat = await userAddCategories();
+  //FIXME: I CAN NOT GET THE SELECTED CATEGORIES ARRAY, SO I HARDCODE HERE:
+  const selectedCat = ['Dim Sum', 'Seafood'];
+
   const selectedCatLink = selectedCat.reduce((acc, cur) => `${acc}&categories=${cur}`);
   const updatedCatLink = `&categories=${selectedCatLink}`;
   const urlFilterLink = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${lat}&longitude=${long}${updatedCatLink}`;
@@ -89,21 +97,19 @@ async function getRestaurantFilterLink() {
   return urlFilterLink;
 }
 
-const selectCategoriesList = function (e) {
-  const selectCategoriesList = [];
-  const catSelect = e.target;
-  const catContent = catSelect?.textContent;
-  selectCategoriesList.push(catContent.trim());
-  console.log(selectCategoriesList);
-  return selectCategoriesList;
-};
-function userAddCategories() {
-  filterCatContainer.addEventListener('click', selectCategoriesList);
+async function getResulf() {
+  const url = await getRestaurantFilterLink();
+  const resulf = await callApi(url);
+  console.log(resulf);
+  const { businesses: filterResulf } = resulf;
+  console.log(filterResulf);
+  return filterResulf;
 }
 
 function init() {
   showCategoriesList();
   userAddCategories();
+  getResulf();
   // step 1
   // step 2
   // step 3
