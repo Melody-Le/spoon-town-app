@@ -57,17 +57,73 @@
     <div class="container filter-page-container">
       <button class=" btn-filter px-4 py-2 m-lg-3 border-1 rounded-1 bg-white">Filter</button>
       <button class="btn-sort px-4 py-2 m-lg-3 border-1 rounded-1 bg-white">Sort ↓</button>
+      
+      <!-- FILTER BOX  -->
+      <div class="search-filter-box hidden d-md-flex g-3 " >
+        <button class="btn bg-white search-by-map border-0 rounded-5 py-2">Search MAP</button>
+        <form  action="search-location">
+          <div class="search-box px-4 py-1 border-0 rounded-5  bg-white">
+            <input class="search border-0" type="search" name="search" id="seach" placeholder="Where to eat?">
+            <button type="submit" class="btn border-0" ><img src="./src/img/icons8-search.gif" alt="search icon" width="20rem"/></button>
+          </div>
+          <div class="search-option-container hidden">
+            <li class="search-option-item ">
+              <a href="#" class = "search-nearby">
+                <img class="icon" src="./src/img/icons8-near-me-48.png" alt="icon Nearby">
+                <p>Nearby</p>
+              </a>
+            </li>
+            <hr class="m-3">
+            <p class="text-start popular-place-title">Popular place</p>
+            <li class="search-option-item">
+              <a href="#" class = "search-nearby">
+                <img class="icon" src="./src/img/map-point-icon.svg" alt="icon Nearby">
+                <p>Orchard</p>
+              </a>
+            </li>
+            <li class="search-option-item">
+              <a href="#" class = "search-nearby">
+                <img class="icon" src="./src/img/map-point-icon.svg" alt="icon Nearby">
+                <p>Novena</p>
+              </a>
+            </li>
+           
+          </div>
+        </form>
+        <form  action="filter-catogery">
+          <input class="filter py-2 border-0 rounded-5 " type="search" name="search" id="filter-catogery" placeholder="Catogery">
+          <div class="filter-catogery-container hidden">
+            <li class="search-option-item">
+              <a href="#" class = "search-nearby">
+                Asian food
+              </a>
+            </li>
+            <li class="search-option-item">
+              <a href="#" class = "search-nearby">
+                Western food
+              </a>
+            </li>
+            <li class="search-option-item">
+              <a href="#" class = "search-nearby">
+                Vietnamese food
+              </a>
+            </li>
+          </div>
+        </form>
+        
+      </div>
+
     </div>
     <div class="container container-card">
       <div class="col-md-4 ">
-        <div id="card-1" class="card">
+        <div class="card">
           <div class="card-body">
             <img
             src="https://i.pinimg.com/564x/71/59/15/7159156b124ba46f68309e90ebf10714.jpg"
-            class="card-img-top place-image"
-            alt=" place-image"
+            class="card-img-top restaurant-image"
+            alt=" restaurant-image"
           />
-            <h5 class="card-title place-name">FIO.BRICK</h5>
+            <h5 class="card-title restaurant-name">FIO.BRICK</h5>
             <p class="card-text cotent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae sint, commodi voluptates quas et sed non numquam ab magnam animi. Ullam nostrum blanditiis cum quo optio dolor neque magni veritatis?</p>
             <p class="card-text review">⭐⭐⭐⭐⭐</p>
           </div>
@@ -76,6 +132,6 @@
 
     
 
-    <script src="./src/js/controller.js"></script>
+    <script src="./filter.js"></script>
   </body>
 </html>

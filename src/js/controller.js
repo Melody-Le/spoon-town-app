@@ -1,43 +1,4 @@
-const urlAllSushi = 'https://api.yelp.com/v3/businesses/search?location=singapore&categories=sushi, All';
-const urlSuShiPlace = 'https://api.yelp.com/v3/businesses/XuxzGu2PEr59drHseZOVCg';
-// const cors = 'https://melodycors.herokuapp.com/';
-
-const renderPlace = async function (url) {
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        Authorization:
-          'Bearer XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx',
-      },
-    });
-    const data = await response.json();
-    console.log(data);
-  } catch (err) {
-    console.log(`Hey man! This city is not exist in my planet. Please choose again! 👽`);
-  }
-};
-// renderPlace(cors + urlAllSushi);
-// renderPlace(cors + urlSuShiPlace);
-
-//NOTE: callApi:
-
-async function callApi(url) {
-  const cors = 'https://melodycors.herokuapp.com/';
-  const response = await fetch(cors + url, {
-    method: 'GET',
-    headers: {
-      Authorization:
-        'Bearer XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx',
-    },
-  });
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
-callApi(urlAllSushi);
-
+//NOTE: CLASS COMPONENT:
 class Restaurant {
   constructor() {
     id = this.id;
@@ -106,3 +67,61 @@ class Review {
     parentElm.insertAdjacentHTML('beforeend', html);
   }
 }
+
+//FETCH DATA
+const urlAllSushi = 'https://api.yelp.com/v3/businesses/search?location=singapore&categories=sushi, All';
+const urlSuShiPlace = 'https://api.yelp.com/v3/businesses/XuxzGu2PEr59drHseZOVCg';
+
+async function callApi(url) {
+  const cors = 'https://melodycors.herokuapp.com/';
+  const apiKey =
+    'XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx';
+  const response = await fetch(cors + url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+  const data = await response.json();
+  // console.log(data.businesses);
+  return data;
+}
+callApi(urlAllSushi);
+
+// document.getElementById('button').addEventListener('click', async () => {
+//   const result = await callApi(urlAllSushi)
+//   console.log(result);
+
+// });
+
+async function getAllSushi() {
+  const sushiList = await callApi(urlAllSushi);
+  const { businesses } = sushiList;
+  console.log(businesses);
+  // sushiList.map(item => console.log(item));
+}
+getAllSushi();
+
+// function handlePermission() {
+//   navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+//     if (result.state == 'granted') {
+//       report(result.state);
+//       // geoBtn.style.display = 'none';
+//     } else if (result.state == 'prompt') {
+//       report(result.state);
+//       geoBtn.style.display = 'none';
+//       navigator.geolocation.getCurrentPosition(revealPosition, positionDenied, geoSettings);
+//     } else if (result.state == 'denied') {
+//       report(result.state);
+//     }
+//     result.addEventListener('change', function () {
+//       report(result.state);
+//     });
+//   });
+// }
+
+// function report(state) {
+//   console.log('Permission ' + state);
+// }
+
+// handlePermission();

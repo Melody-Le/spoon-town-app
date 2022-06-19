@@ -56,7 +56,7 @@ body {
   display: inline-block;
 }
 .hidden {
-  display: none;
+  /* display: none; */
 }
 
 h1.cover-title {
@@ -78,6 +78,6 @@ ul li a {
   background-color: rgb(189, 207, 207);
   color: #fff;
 }
-.place-image {
-  height: 50rem;
+.restaurant-image {
+  /* height: auto; */
 }
