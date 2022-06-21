@@ -46,14 +46,14 @@ class topPickPlace {
   showTopPickPlace(parentElm) {
     const htmlTopPick = `
       <li class="search-option-item">
-      <a href="#" class = "search-top-pick">
+      <a href="#" class = " search-location search-top-pick">
         <img class="icon" src="./src/img/map-point-icon.svg" alt="icon Nearby">
-        <p>${this.locationName}</p>
+        <p class = "location-name">${this.locationName}</p>
       </a>
       </li>`;
     parentElm.insertAdjacentHTML('beforeend', htmlTopPick);
   }
-  getPosition(locationName) {
+  getPosition() {
     const coords = [this.latitude, this.longitude];
     return coords;
   }
@@ -74,37 +74,6 @@ const getLocation = () =>
     );
   });
 
-//list of topPick Place:
-// const nearBy =
-const orchard = new topPickPlace('Ion Orchard', 1.304052, 103.831764);
-const sentosa = new topPickPlace('Sentosa, Singapore', 1.249404, 103.830322);
-const novena = new topPickPlace('Novena', 1.3203434, 103.8406453);
-const hougang = new topPickPlace('Hougang', 1.3725948, 103.8915338);
-const placeList = [orchard, sentosa, novena, hougang];
-
-//show topPick list in filter box:
-placeList.forEach(item => {
-  item.showTopPickPlace(searchPlaceContainer);
-});
-
-// When user click topPick list => get the place name => get the Lat & long => put inside the APIlink
-const getPlace = function () {
-  searchPlaceContainer.addEventListener('click', e => {
-    const placeName = e.target.textContent.toLowerCase();
-    const selectedPlace = placeList.find(place => place.locationName.toLowerCase() === placeName);
-    return selectedPlace;
-  });
-};
-async function userSelectPlace() {
-  const place = await getPlace();
-  // console.log(place);
-}
-
-//NOTE: LINK API:
-const urlAllSushi = 'https://api.yelp.com/v3/businesses/search?location=singapore&categories=sushi, All';
-const urlSushiRestaurant = 'https://api.yelp.com/v3/businesses/XuxzGu2PEr59drHseZOVCg';
-const urlCat = 'https://api.yelp.com/v3/categories';
-
 async function callApi(url) {
   const cors = 'https://melodycors.herokuapp.com/';
   const apiKey =
@@ -119,18 +88,67 @@ async function callApi(url) {
   return data;
 }
 
-//NOTE: get Location, return Restaurant Object List:
-async function getRestaurantObjListByLocation() {
-  const [lat, long] = await getLocation();
+//list of topPick Place:
+// const nearBy =
+const orchard = new topPickPlace('Ion Orchard', 1.304052, 103.831764);
+const sentosa = new topPickPlace('Sentosa, Singapore', 1.249404, 103.830322);
+const novena = new topPickPlace('Novena', 1.3203434, 103.8406453);
+const hougang = new topPickPlace('Hougang', 1.3725948, 103.8915338);
+
+const placeList = [orchard, sentosa, novena, hougang];
+
+//show topPick list in filter box:
+placeList.forEach(item => {
+  item.showTopPickPlace(searchPlaceContainer);
+});
+
+// When user click topPick list => get the place name => get the Lat & long => put inside the APIlink
+const selectedPlaceLocation = [];
+const getPlace = function () {
+  searchPlaceContainer.addEventListener('click', e => {
+    if (!e.target.classList.contains('location-name')) return;
+    if (e.target.classList.contains('near-by')) {
+      console.log('Near By');
+      const nearByLocation = getCurrentLocaiton();
+      getRestaurantObjListByLocation(nearByLocation);
+      getCategories(nearByLocation);
+      showCategoriesList(nearByLocation);
+      userAddCategories();
+      renderFilterPage();
+    }
+    const placeName = e.target.textContent.toLowerCase();
+    const selectedPlaceLowercase = placeList.find(place => place.locationName.toLowerCase() === placeName);
+    const topPickLocation = selectedPlaceLowercase?.getPosition();
+    // const selectedPlace = selectedPlaceLocation.concat(location);
+    // getRestaurantObjListByLocation(location);
+    console.log(topPickLocation);
+    getRestaurantObjListByLocation(topPickLocation);
+    getCategories(topPickLocation);
+    showCategoriesList(topPickLocation);
+    userAddCategories();
+    renderFilterPage();
+  });
+};
+
+async function getCurrentLocaiton() {
+  const location = await getLocation();
+  console.log(location);
+  return location;
+}
+
+async function getRestaurantObjListByLocation(location) {
+  // const [lat, long] = await getLocation();
   // console.log(`https://www.google.com/maps/@${lat},${long}`);
+  const [lat, long] = location;
   const urlRestaurant = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${lat}&longitude=${long}`;
   const restaurantAPI = await callApi(urlRestaurant);
   const { businesses: restaurantObjList } = restaurantAPI;
   return restaurantObjList;
 }
+//NOTE: CATOGERIES:
 
-async function getCategories() {
-  const restaurantObjList = await getRestaurantObjListByLocation();
+async function getCategories(location) {
+  const restaurantObjList = await getRestaurantObjListByLocation(location);
   const restaurantCategories = restaurantObjList
     .map(obj => obj.categories)
     .flat()
@@ -139,22 +157,22 @@ async function getCategories() {
   return catogeries;
 }
 
-async function showCategoriesList() {
-  const categoriesList = await getCategories();
+async function showCategoriesList(location) {
+  const categoriesList = await getCategories(location);
   categoriesList.forEach(categoryItem => {
     const filterHtml = `
       <li class="search-option-item">
-        <a href="#" class = "search-nearby">
+        <a href="#" class = "search-categories">
           ${categoryItem}
         </a>
       </li>`;
     filterCatContainer.insertAdjacentHTML('beforeend', filterHtml);
   });
 }
-
 const selectedCatList = [];
 function selectCategoriesList(e) {
   const catSelect = e.target;
+  if (!catSelect.classList.contains('search-categories')) return;
   const catContent = catSelect?.textContent;
   selectedCatList.push(catContent.trim());
   getRestaurantFilterLink(selectedCatList);
@@ -164,8 +182,10 @@ function userAddCategories() {
   filterCatContainer.addEventListener('click', selectCategoriesList);
 }
 
-async function getRestaurantFilterLink(catLink) {
+//currently, the Filterlink is setting follow the currentLocation. How to get the location of TopPick Place here?
+async function getRestaurantFilterLink(location, catLink) {
   const [lat, long] = await getLocation();
+  // const [lat, long] = location;
   const selectedCatLink = catLink?.reduce((acc, cur) => `${acc}&categories=${cur}`);
   const updatedCatLink = `&categories=${selectedCatLink}`;
   const urlFilterLink = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${lat}&longitude=${long}${updatedCatLink}`;
@@ -176,6 +196,7 @@ async function renderFilterPage(link) {
   const url = await getRestaurantFilterLink(link);
   const resulf = await callApi(url);
   const { businesses: data } = resulf;
+  console.log(data);
   data.forEach(resObj => {
     const restaurantCard = new RestaurantFilter(resObj);
     restaurantCard.showRestaurantCard(restaurantCardContainer);
@@ -184,10 +205,11 @@ async function renderFilterPage(link) {
 
 function init() {
   // step 1
-  userSelectPlace();
-  showCategoriesList();
+  getPlace();
+  // userSelectPlace();
+  // showCategoriesList();
   // step 2
-  userAddCategories();
+  // userAddCategories();
   // renderFilterPage();
   // step 3
 }
