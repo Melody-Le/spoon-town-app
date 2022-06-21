@@ -74,6 +74,12 @@ const getLocation = () =>
     );
   });
 
+async function getCurrentLocaiton() {
+  const location = await getLocation();
+  console.log(location);
+  return location;
+}
+
 async function callApi(url) {
   const cors = 'https://melodycors.herokuapp.com/';
   const apiKey =
@@ -113,28 +119,22 @@ const getPlace = function () {
       getRestaurantObjListByLocation(nearByLocation);
       getCategories(nearByLocation);
       showCategoriesList(nearByLocation);
-      userAddCategories();
+      userAddCategories(nearByLocation);
       renderFilterPage();
     }
     const placeName = e.target.textContent.toLowerCase();
     const selectedPlaceLowercase = placeList.find(place => place.locationName.toLowerCase() === placeName);
     const topPickLocation = selectedPlaceLowercase?.getPosition();
-    // const selectedPlace = selectedPlaceLocation.concat(location);
-    // getRestaurantObjListByLocation(location);
+    const selectedPlace = selectedPlaceLocation.concat(location);
+    getRestaurantObjListByLocation(location);
     console.log(topPickLocation);
     getRestaurantObjListByLocation(topPickLocation);
     getCategories(topPickLocation);
     showCategoriesList(topPickLocation);
-    userAddCategories();
+    userAddCategories(topPickLocation);
     renderFilterPage();
   });
 };
-
-async function getCurrentLocaiton() {
-  const location = await getLocation();
-  console.log(location);
-  return location;
-}
 
 async function getRestaurantObjListByLocation(location) {
   // const [lat, long] = await getLocation();
@@ -170,22 +170,21 @@ async function showCategoriesList(location) {
   });
 }
 const selectedCatList = [];
-function selectCategoriesList(e) {
+function selectCategoriesList(e, location) {
   const catSelect = e.target;
   if (!catSelect.classList.contains('search-categories')) return;
   const catContent = catSelect?.textContent;
   selectedCatList.push(catContent.trim());
-  getRestaurantFilterLink(selectedCatList);
+  getRestaurantFilterLink(location, selectedCatList);
   renderFilterPage(selectedCatList);
 }
-function userAddCategories() {
+function userAddCategories(location) {
   filterCatContainer.addEventListener('click', selectCategoriesList);
 }
 
-//currently, the Filterlink is setting follow the currentLocation. How to get the location of TopPick Place here?
 async function getRestaurantFilterLink(location, catLink) {
-  const [lat, long] = await getLocation();
-  // const [lat, long] = location;
+  // const [lat, long] = await getLocation();
+  const [lat, long] = location;
   const selectedCatLink = catLink?.reduce((acc, cur) => `${acc}&categories=${cur}`);
   const updatedCatLink = `&categories=${selectedCatLink}`;
   const urlFilterLink = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${lat}&longitude=${long}${updatedCatLink}`;
