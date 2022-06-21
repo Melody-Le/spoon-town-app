@@ -58,7 +58,7 @@ class topPickPlace {
     return coords;
   }
 }
-//get currentLocation:
+//get currentLocation :
 const getLocation = () =>
   new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
@@ -110,29 +110,33 @@ placeList.forEach(item => {
 
 // When user click topPick list => get the place name => get the Lat & long => put inside the APIlink
 const selectedPlaceLocation = [];
+let selectedLocation;
 const getPlace = function () {
-  searchPlaceContainer.addEventListener('click', e => {
+  searchPlaceContainer.addEventListener('click', async e => {
+    console.log(e.target.classList);
     if (!e.target.classList.contains('location-name')) return;
     if (e.target.classList.contains('near-by')) {
       console.log('Near By');
-      const nearByLocation = getCurrentLocaiton();
-      getRestaurantObjListByLocation(nearByLocation);
-      getCategories(nearByLocation);
+      const nearByLocation = await getCurrentLocaiton();
+      // getRestaurantObjListByLocation(nearByLocation);
+      // getCategories(nearByLocation);
+      selectedLocation = nearByLocation;
       showCategoriesList(nearByLocation);
-      userAddCategories(nearByLocation);
-      renderFilterPage();
+      // userAddCategories(nearByLocation);
+      // renderFilterPage();
+      return;
     }
     const placeName = e.target.textContent.toLowerCase();
     const selectedPlaceLowercase = placeList.find(place => place.locationName.toLowerCase() === placeName);
     const topPickLocation = selectedPlaceLowercase?.getPosition();
-    const selectedPlace = selectedPlaceLocation.concat(location);
-    getRestaurantObjListByLocation(location);
+    // getRestaurantObjListByLocation(location);
     console.log(topPickLocation);
-    getRestaurantObjListByLocation(topPickLocation);
-    getCategories(topPickLocation);
+    selectedLocation = topPickLocation;
+    // getRestaurantObjListByLocation(topPickLocation);
+    // getCategories(topPickLocation);
     showCategoriesList(topPickLocation);
-    userAddCategories(topPickLocation);
-    renderFilterPage();
+    // userAddCategories(topPickLocation);
+    // renderFilterPage();
   });
 };
 
@@ -175,7 +179,7 @@ function selectCategoriesList(e, location) {
   if (!catSelect.classList.contains('search-categories')) return;
   const catContent = catSelect?.textContent;
   selectedCatList.push(catContent.trim());
-  getRestaurantFilterLink(location, selectedCatList);
+  // getRestaurantFilterLink(location, selectedCatList);
   renderFilterPage(selectedCatList);
 }
 function userAddCategories(location) {
@@ -192,7 +196,7 @@ async function getRestaurantFilterLink(location, catLink) {
 }
 
 async function renderFilterPage(link) {
-  const url = await getRestaurantFilterLink(link);
+  const url = await getRestaurantFilterLink(selectedLocation, link);
   const resulf = await callApi(url);
   const { businesses: data } = resulf;
   console.log(data);
@@ -208,7 +212,7 @@ function init() {
   // userSelectPlace();
   // showCategoriesList();
   // step 2
-  // userAddCategories();
+  userAddCategories();
   // renderFilterPage();
   // step 3
 }
