@@ -24,6 +24,7 @@ class RestaurantFilter {
     this.address = address;
     this.title = title;
   }
+
   showRestaurantCard(parentElm) {
     const html = `
     <div class="col-md-4 ">
@@ -72,18 +73,18 @@ const renderError = () => {
   const html = `<p class = "text-center p-lg-4 bg-warning" id = "error">Please allow access your location to have better suggestion restaurant. <br> In the meantime, we will set your current Location is in Singapore </p>`;
   errorContainer.insertAdjacentHTML('beforeend', html);
   setTimeout(() => {
-    document.querySelector('#error').textContent = '';
+    const errorMessage = document.querySelector('#error');
+    errorMessage.parentElement.removeChild(errorMessage);
   }, 3000);
 };
 
-const getLocation = () =>
-  new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      const coords = [latitude, longitude];
-      resolve(coords);
-    }, error());
-  });
+const getLocation = async () => {
+  await navigator.geolocation.getCurrentPosition(position => {
+    const { latitude, longitude } = position.coords;
+    const coords = [latitude, longitude];
+    return coords;
+  }, error());
+};
 
 const getCurrentLocaiton = async function () {
   try {
@@ -123,24 +124,35 @@ const renderTopPickSearch = () => {
   });
 };
 
+const setLocationNearby = async () => {
+  const nearByLocation = await getCurrentLocaiton();
+  selectedPlace = nearByLocation;
+  showCategories(selectedPlace);
+};
+
+const setLocationTopPick = async e => {
+  const userSelectPlace = e.target.textContent.toLowerCase();
+  const getSelectedPlaceObj = placeList.find(
+    place => place.locationName.toLowerCase() === userSelectPlace
+  );
+  const topPickLocation = getSelectedPlaceObj.getPosition();
+  selectedPlace = topPickLocation;
+  showCategories(selectedPlace);
+};
+
+const setLocation = async e => {
+  console.log(e.target);
+  e.target.style.color = 'Red';
+  if (!e.target.classList.contains('location-name')) return;
+  if (e.target.classList.contains('near-by')) {
+    setLocationNearby();
+    return;
+  }
+  setLocationTopPick(e);
+};
+
 const userSelectPlace = () => {
-  selectedPlace = '';
-  searchPlaceContainer.addEventListener('click', async e => {
-    if (!e.target.classList.contains('location-name')) return;
-    if (e.target.classList.contains('near-by')) {
-      const nearByLocation = await getCurrentLocaiton();
-      renderCategoriesList(nearByLocation);
-      selectedPlace = nearByLocation;
-      return;
-    }
-    const userSelectPlace = e.target.textContent.toLowerCase();
-    const getSelectedPlaceObj = placeList.find(
-      place => place.locationName.toLowerCase() === userSelectPlace
-    );
-    const topPickLocation = getSelectedPlaceObj.getPosition();
-    selectedPlace = topPickLocation;
-    renderCategoriesList(topPickLocation);
-  });
+  searchPlaceContainer.addEventListener('click', setLocation);
 };
 
 const getRestaurantObjListByLocation = async function (location) {
@@ -163,8 +175,8 @@ const getCategories = async function (location) {
   return catogeries;
 };
 
-const renderCategoriesList = async function (location) {
-  const categoriesList = await getCategories(location);
+const showCategories = async function (location) {
+  categoriesList = await getCategories(location);
   categoriesList.forEach(categoryItem => {
     const filterHtml = `
       <li class="search-option-item">
@@ -193,6 +205,7 @@ const renderFilterPage = async function (filterLink) {
   console.log(url);
   const resulf = await callApi(url);
   const { businesses: data } = resulf;
+  console.log(data);
   data.forEach(resObj => {
     const restaurantCard = new RestaurantFilter(resObj);
     restaurantCard.showRestaurantCard(restaurantCardContainer);
@@ -200,6 +213,7 @@ const renderFilterPage = async function (filterLink) {
 };
 
 const userSelecCategoryList = e => {
+  e.target.style.color = 'Red';
   if (!e.target.classList.contains('search-categories')) return;
   const catogeriesContent = e.target.textContent;
   selectedCategories.push(catogeriesContent.trim());
@@ -216,6 +230,7 @@ const init = function () {
   renderTopPickSearch();
   // step 2
   userSelectPlace();
+
   // step 3
   userAddCategories();
 };
