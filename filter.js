@@ -8,6 +8,12 @@ const restaurantCardContainer = document.querySelector('.container-card');
 const errorContainer = document.querySelector('.error-container');
 
 //STATE:
+// const state = {
+//   selectedPlace: [],
+//   selectedCategories: [],
+//   urlFilterPage: `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${this.selectedPlace[1]}&longitude=${this.selectedPlace[2]}${updatedCategoryLink}`,
+// };
+
 let selectedPlace;
 const selectedCategories = [];
 
@@ -15,6 +21,7 @@ class RestaurantFilter {
   constructor(data) {
     const address = Object.values(data.location).toString();
     const title = data.categories.map(item => item.title).join(', ');
+    this.id = data.id;
     this.restaurantName = data.name;
     this.image = data.image_url;
     this.sourceUrl = data.url;
@@ -36,9 +43,11 @@ class RestaurantFilter {
           alt=" restaurant-image"
           />
           <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
-          <p class="card-text cotent">Address: ${this.address}</p>
-          <p class="card-text cotent">Search Title: ${this.title}</p>
           <p class="card-text review"> Review: ${this.rating}</p>
+          <p class="card-text review"> ID: ${this.id}</p>
+          <li class = "btn bg-warning">
+            <a href="./restaurant/${this.id}.html">READ MORE</a>
+          </li>
           
         </div>
       </div>

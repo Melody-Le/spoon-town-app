@@ -83,3 +83,13 @@ ul li a {
 .restaurant-image {
   /* height: auto; */
 }
+.see-location {
+  height: 30rem;
+  background-color: rgb(189, 207, 207);
+}
+.restaurant-image {
+  /* height: 30rem; */
+  object-fit: cover;
+  max-width: 100%;
+  /* width: 30rem; */
+}
