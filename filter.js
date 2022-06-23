@@ -234,6 +234,8 @@ const userAddCategories = () => {
   filterCategoryContainer.addEventListener('click', userSelecCategoryList);
 };
 
+//
+
 const init = function () {
   // step 1: Window Load:
   renderTopPickSearch();

@@ -1,4 +1,5 @@
 //NOTE: CLASS COMPONENT:
+const restaurantContent = document.querySelector('.restaurant-content');
 const reviewContainer = document.querySelector('.review-container');
 
 class Review {
@@ -64,7 +65,10 @@ class Restaurant {
         <div class="col-lg-6 ">
          <img class="restaurant-image" src="${this.image}" alt="restaurant-image-${this.id}">
         </div>
-        <div class="col-lg-6 ">
+        <div class="col-lg-6">
+          <img class="restaurant-image col-lg-6" src="${this.photo2}" alt="restaurant-image-${this.id}">
+          <img class="restaurant-image col-lg-2" src="${this.photo1}" alt="restaurant-image-${this.id}">
+          <img class="restaurant-image col-lg-3" src="${this.photo3}" alt="restaurant-image-${this.id}">
           <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
           <p class="card-text review"> Rating: ${this.rating}</p>
           <p class="card-text review"> Adress: ${this.address}</p>
@@ -79,8 +83,32 @@ class Restaurant {
       </div>
       <div class="see-location text-center row-cols-lg-6">
         I AM MAP LOCATION - API MAP
-        call Mapp API as per ${latitude} : ${longitude}
+        
       </div>`;
     parentElm.insertAdjacentHTML('beforeend', html);
   }
 }
+
+async function callApi(url) {
+  const cors = 'https://melodycors.herokuapp.com/';
+  const apiKey =
+    'XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx';
+  const response = await fetch(cors + url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
+const renderRestaurant = async function () {
+  const data = await callApi(
+    'https://api.yelp.com/v3/businesses/XuxzGu2PEr59drHseZOVCg'
+  );
+  const restaurant = new Restaurant(data);
+  restaurant.showRestaurantCard(restaurantContent);
+};
+
+renderRestaurant();

@@ -80,18 +80,20 @@ ul li a {
   background-color: rgb(189, 207, 207);
   color: #fff;
 }
-.restaurant-image {
-  /* height: auto; */
-}
+
 .see-location {
   height: 30rem;
   background-color: rgb(189, 207, 207);
 }
+
+/* RESTAURANT PAGE:  */
+.restaurant-content {
+  width: 100%;
+}
+
 .restaurant-image {
-  /* height: 30rem; */
   object-fit: cover;
   max-width: 100%;
-  /* width: 30rem; */
 }
 .user-image {
   object-fit: cover;
