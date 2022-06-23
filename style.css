@@ -93,3 +93,8 @@ ul li a {
   max-width: 100%;
   /* width: 30rem; */
 }
+.user-image {
+  object-fit: cover;
+  max-width: 100%;
+  border-radius: 10rem;
+}
