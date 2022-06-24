@@ -1,5 +1,4 @@
-import { addToCart, Restaurant, restaurantContent } from './restaurant.js';
-addToCart('chicken', 2);
+import { Restaurant, restaurantContent } from './restaurant.js';
 
 //select element:
 const btnFilter = document.querySelector('.btn-filter');
@@ -15,7 +14,7 @@ const selectedCard = document.querySelector('.card-body');
 
 let selectedPlace;
 const selectedCategories = [];
-let selectedRestaurantId;
+export let selectedRestaurantId;
 
 class RestaurantFilter {
   constructor(data) {
@@ -249,18 +248,19 @@ const init = function () {
 };
 init();
 
-const renderRestaurant = async function (id) {
-  const data = await callApi(`https://api.yelp.com/v3/businesses/${id}`);
-  const restaurant = new Restaurant(data);
-  restaurant.showRestaurantCard(restaurantContent);
-};
-
-restaurantCardContainer.addEventListener('click', e => {
+export const userSelectRestaurant = function (e) {
   const selectedRestaurant = e.target.closest('.restaurant-card');
   const id = selectedRestaurant?.getAttribute('id');
+  selectedRestaurantId = id;
+  // return id;
+  // renderRestaurant(id);
   const url = `restaurant/${id}`;
+  const url = `restaurant.html`;
   window.location.href = url;
-  renderRestaurant(id);
-});
+};
+
+export const selectRestaurant = async function () {
+  restaurantCardContainer.addEventListener('click', userSelectRestaurant);
+};
 
 console.log(window.location.pathname);

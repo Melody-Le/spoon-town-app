@@ -1,12 +1,11 @@
 export const restaurantContent = document.querySelector('.restaurant-content');
+import {
+  selectedRestaurantId,
+  userSelectRestaurant,
+  selectRestaurant,
+} from './filter.js';
+
 const reviewContainer = document.querySelector('.review-container');
-
-const shipphingCost = 10;
-const cart = [];
-
-export const addToCart = function (product, quantity) {
-  console.log(`${quantity} ${product} add to cart`);
-};
 
 class Review {
   constructor(data) {
@@ -69,10 +68,9 @@ export class Restaurant {
     const html = `
     <div class=" row g-3 p-1  justify-content-start">
         <div class="col-lg-6 ">
-         <img class="restaurant-image" src="${this.image}" alt="restaurant-image-${this.id}">
+         <img class="restaurant-image" src="${this.photo2}" alt="restaurant-image-${this.id}">
         </div>
         <div class="col-lg-6">
-          <img class="restaurant-image col-lg-6" src="${this.photo2}" alt="restaurant-image-${this.id}">
           <img class="restaurant-image col-lg-2" src="${this.photo1}" alt="restaurant-image-${this.id}">
           <img class="restaurant-image col-lg-3" src="${this.photo3}" alt="restaurant-image-${this.id}">
           <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
@@ -119,5 +117,20 @@ const renderReview = async function (id) {
   console.log(typeof data);
 };
 
+const renderRestaurant = async function (id) {
+  const data = await callApi(`https://api.yelp.com/v3/businesses/${id}`);
+  const restaurant = new Restaurant(data);
+  restaurant.showRestaurantCard(restaurantContent);
+  // const url = `restaurant/${id}`;
+  // const url = `restaurant.html`;
+  // window.location.href = url;
+};
+
+// const renderRestaurantPage = async () => {
+//   const id = selectedRestaurantId;
+//   console.log(id);
+//   renderRestaurant(id);
+// };
 // renderRestaurant(idRestaurant);
 // renderReview(idRestaurant);
+renderRestaurant(idRestaurant);
