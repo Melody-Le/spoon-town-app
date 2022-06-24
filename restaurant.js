@@ -1,10 +1,9 @@
-//NOTE: CLASS COMPONENT:
 const restaurantContent = document.querySelector('.restaurant-content');
 const reviewContainer = document.querySelector('.review-container');
 
 class Review {
   constructor(data) {
-    const { userId, userProfile, userImage, userName } = data.user;
+    const { userId, userProfile, userImage, userName } = data.review.user;
     this.id = data.id;
     this.url = data.url;
     this.text = data.text;
@@ -102,13 +101,22 @@ async function callApi(url) {
   const data = await response.json();
   return data;
 }
-
-const renderRestaurant = async function () {
-  const data = await callApi(
-    'https://api.yelp.com/v3/businesses/XuxzGu2PEr59drHseZOVCg'
-  );
+// const idRestaurant = 'XuxzGu2PEr59drHseZOVCg';
+const renderRestaurant = async function (id) {
+  const data = await callApi(`https://api.yelp.com/v3/businesses/${id}`);
   const restaurant = new Restaurant(data);
   restaurant.showRestaurantCard(restaurantContent);
 };
 
-renderRestaurant();
+const renderReview = async function (id) {
+  const data = await callApi(
+    `https://api.yelp.com/v3/businesses/${id}/reviews`
+  );
+  // const review = new Review(data);
+  // review.showReview(reviewContainer);
+  console.log(data.reviews);
+  console.log(typeof data);
+};
+
+// renderRestaurant(idRestaurant);
+// renderReview(idRestaurant);

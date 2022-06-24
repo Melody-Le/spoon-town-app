@@ -1,3 +1,5 @@
+// import { eat } from './restaurant';
+
 const btnFilter = document.querySelector('.btn-filter');
 const filterContainer = document.querySelector('.search-filter-box');
 const filterCategoryContainer = document.querySelector(
@@ -6,6 +8,8 @@ const filterCategoryContainer = document.querySelector(
 const searchPlaceContainer = document.querySelector('.search-option-container');
 const restaurantCardContainer = document.querySelector('.container-card');
 const errorContainer = document.querySelector('.error-container');
+const changePage = document.querySelector('.change-page');
+const selectedCard = document.querySelector('.card-body');
 
 //STATE:
 // const state = {
@@ -16,6 +20,7 @@ const errorContainer = document.querySelector('.error-container');
 
 let selectedPlace;
 const selectedCategories = [];
+let selectedRestaurantId;
 
 class RestaurantFilter {
   constructor(data) {
@@ -34,9 +39,9 @@ class RestaurantFilter {
 
   showRestaurantCard(parentElm) {
     const html = `
-    <div class="col-md-4 ">
-      <div class="card">
-        <div class="card-body">
+    <div class="col-md-4 restaurant-card" id = "${this.id}">
+      <div class="card" >
+        <div class="card-body" id = "${this.id}">
           <img
           src=${this.image}
           class="card-img-top restaurant-image"
@@ -46,9 +51,9 @@ class RestaurantFilter {
           <p class="card-text review"> Review: ${this.rating}</p>
           <p class="card-text review"> ID: ${this.id}</p>
           <li class = "btn bg-warning">
-            <a href="./restaurant/${this.id}.html">READ MORE</a>
+            <a  href="#">READ MORE</a>
           </li>
-          
+          <button class = "change-page" id = "${this.id}">Go restaurant</button>
         </div>
       </div>
     </div>`;
@@ -150,7 +155,6 @@ const setLocationTopPick = async e => {
 };
 
 const setLocation = async e => {
-  console.log(e.target);
   e.target.style.color = 'Red';
   if (!e.target.classList.contains('location-name')) return;
   if (e.target.classList.contains('near-by')) {
@@ -226,7 +230,6 @@ const userSelecCategoryList = e => {
   if (!e.target.classList.contains('search-categories')) return;
   const catogeriesContent = e.target.textContent;
   selectedCategories.push(catogeriesContent.trim());
-  console.log(selectedCategories);
   renderFilterPage(selectedCategories);
 };
 
@@ -235,6 +238,10 @@ const userAddCategories = () => {
 };
 
 //
+// const getURL = e => {
+//   console.log(e.target);
+// };
+// changePage.addEventListener('click', getURL);
 
 const init = function () {
   // step 1: Window Load:
@@ -246,3 +253,24 @@ const init = function () {
   userAddCategories();
 };
 init();
+
+const idRestaurant = 'XuxzGu2PEr59drHseZOVCg';
+const renderRestaurant = async function (id) {
+  const data = await callApi(`https://api.yelp.com/v3/businesses/${id}`);
+  console.log(data);
+  // const restaurant = new Restaurant(data);
+  // restaurant.showRestaurantCard(restaurantContent);
+};
+// window.addEventListener('load', renderRestaurant(idRestaurant));
+// const goRestaurant = () => {
+//   window.location.href = 'https://www.pinterest.com/pin/304133781096232663/';
+// };
+// changePage.addEventListener('click', goRestaurant);
+
+restaurantCardContainer.addEventListener('click', e => {
+  // const id = e.target.getAttribute('id');
+  const selectedRestaurant = e.target.closest('.restaurant-card');
+  const id = selectedRestaurant?.getAttribute('id');
+  console.log(id);
+  selectedRestaurantId = id;
+});
