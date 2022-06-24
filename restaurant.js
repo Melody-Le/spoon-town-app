@@ -1,34 +1,57 @@
 export const restaurantContent = document.querySelector('.restaurant-content');
 const reviewContainer = document.querySelector('.review-container');
+// console.log(restaurantContent.innerHTML);
+// console.log(reviewContainer.innerHTML);
+
+async function callApi(url) {
+  const cors = 'https://melodycors.herokuapp.com/';
+  const apiKey =
+    'XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx';
+  const response = await fetch(cors + url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+  const data = await response.json();
+  return data;
+}
 
 class Review {
   constructor(data) {
-    const { userId, userProfile, userImage, userName } = data.review.user;
-    this.id = data.id;
-    this.url = data.url;
-    this.text = data.text;
+    const { id, profile_url, image_url, name } = data.user;
+    this.reviewId = data.id;
+    this.reviewUrl = data.url;
+    this.comment = data.text;
     this.userRating = data.rating;
     this.commentTime = data.time_created;
-    this.userId = userId;
-    this.userProfile = userProfile;
-    this.userImage = userImage;
-    this.userName = userName;
+    this.userId = id;
+    this.userProfileUrl = profile_url;
+    this.userProfilePhoto = image_url;
+    this.userName = name;
   }
-
+  getUserReview(user) {
+    return {
+      userId: user.id,
+      userRating: user.rating,
+      userText: user.text,
+      commentTime: user.time_created,
+    };
+  }
   showReview(parentElm) {
     const html = `
       <div class="revew row p-3 bg-light rounded-5 my-3">
-        <div class="col-1 user-identify">
-          <img class="row user-image" src="${this.userImage}" alt="progile-picture">
+        <div class="col-2 user-identify">
+          <img class="row user-image" src="${this.userProfilePhoto}" alt="progile-picture">
           <h4 class = "row user-name">${this.userName}</h4>
         </div> 
        <div class="col-9 align-content-center">
           <p class="user-rating">${this.userRating}</p>
           <p class = "user-comment">
-          ${this.text}
+          ${this.comment}
           </p>
           <p class="comment-time">${this.commentTime}</p>
-          <li class="userProfile"><a href="${this.userProfile}">User Profile</a></li>
+          <li class="userProfile"><a href="${this.userProfileUrl}">User Profile</a></li>
         </div>
       </div>`;
     parentElm.insertAdjacentHTML('beforeend', html);
@@ -86,12 +109,17 @@ export class Restaurant {
   }
 }
 
-const idRestaurant = 'XuxzGu2PEr59drHseZOVCg';
+const idRestaurant = 'vVqxGrqt5ALxQjJGnntpKQ';
 
-const renderReview = async function (id) {
-  const data = await callApi(
-    `https://api.yelp.com/v3/businesses/${id}/reviews`
+const renderReview = async function (idRestaurant) {
+  const { reviews: data } = await callApi(
+    `https://api.yelp.com/v3/businesses/${idRestaurant}/reviews`
   );
-  console.log(data.reviews);
-  console.log(typeof data);
+  // console.log(data.reviews);
+  data.forEach(reviewCard => {
+    const reviewUser = new Review(reviewCard);
+    console.log(reviewUser);
+    reviewUser.showReview(reviewContainer);
+  });
 };
+renderReview(idRestaurant);

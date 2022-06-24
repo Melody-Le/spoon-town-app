@@ -52,7 +52,7 @@ class RestaurantFilter {
   }
 }
 
-class topPickPlace {
+class TopPickPlace {
   constructor(locationName, latitude, longitude) {
     this.locationName = locationName;
     this.latitude = latitude;
@@ -116,10 +116,10 @@ async function callApi(url) {
   return data;
 }
 
-const orchard = new topPickPlace('Ion Orchard', 1.304052, 103.831764);
-const sentosa = new topPickPlace('Sentosa, Singapore', 1.249404, 103.830322);
-const novena = new topPickPlace('Novena', 1.3203434, 103.8406453);
-const hougang = new topPickPlace('Hougang', 1.3725948, 103.8915338);
+const orchard = new TopPickPlace('Ion Orchard', 1.304052, 103.831764);
+const sentosa = new TopPickPlace('Sentosa, Singapore', 1.249404, 103.830322);
+const novena = new TopPickPlace('Novena', 1.3203434, 103.8406453);
+const hougang = new TopPickPlace('Hougang', 1.3725948, 103.8915338);
 
 const placeList = [orchard, sentosa, novena, hougang];
 
