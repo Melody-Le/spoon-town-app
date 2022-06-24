@@ -254,16 +254,12 @@ const renderRestaurant = async function (id) {
   const restaurant = new Restaurant(data);
   restaurant.showRestaurantCard(restaurantContent);
 };
-// window.addEventListener('load', renderRestaurant(idRestaurant));
-// const goRestaurant = () => {
-//   window.location.href = 'https://www.pinterest.com/pin/304133781096232663/';
-// };
-// changePage.addEventListener('click', goRestaurant);
 
 restaurantCardContainer.addEventListener('click', e => {
   const selectedRestaurant = e.target.closest('.restaurant-card');
   const id = selectedRestaurant?.getAttribute('id');
-  selectedRestaurantId = id;
+  const url = `restaurant/${id}`;
+  window.location.href = url;
   renderRestaurant(id);
 });
 

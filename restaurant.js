@@ -89,7 +89,6 @@ export class Restaurant {
       </div>
       <div class="see-location text-center row-cols-lg-6">
         I AM MAP LOCATION - API MAP
-        
       </div>`;
     parentElm.insertAdjacentHTML('beforeend', html);
   }
