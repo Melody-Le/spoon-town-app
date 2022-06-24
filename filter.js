@@ -255,7 +255,7 @@ export const userSelectRestaurant = function (e) {
   // return id;
   // renderRestaurant(id);
   const url = `restaurant/${id}`;
-  const url = `restaurant.html`;
+  // const url = `restaurant.html`;
   window.location.href = url;
 };
 
