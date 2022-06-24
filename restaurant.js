@@ -1,5 +1,12 @@
-const restaurantContent = document.querySelector('.restaurant-content');
+export const restaurantContent = document.querySelector('.restaurant-content');
 const reviewContainer = document.querySelector('.review-container');
+
+const shipphingCost = 10;
+const cart = [];
+
+export const addToCart = function (product, quantity) {
+  console.log(`${quantity} ${product} add to cart`);
+};
 
 class Review {
   constructor(data) {
@@ -35,7 +42,7 @@ class Review {
   }
 }
 
-class Restaurant {
+export class Restaurant {
   constructor(data) {
     const address = Object.values(data.location.display_address).toString(' ');
     const title = data.categories.map(item => item.title).join(', ');
@@ -101,12 +108,7 @@ async function callApi(url) {
   const data = await response.json();
   return data;
 }
-// const idRestaurant = 'XuxzGu2PEr59drHseZOVCg';
-const renderRestaurant = async function (id) {
-  const data = await callApi(`https://api.yelp.com/v3/businesses/${id}`);
-  const restaurant = new Restaurant(data);
-  restaurant.showRestaurantCard(restaurantContent);
-};
+const idRestaurant = 'XuxzGu2PEr59drHseZOVCg';
 
 const renderReview = async function (id) {
   const data = await callApi(

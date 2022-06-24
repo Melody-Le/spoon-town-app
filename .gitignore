@@ -1,7 +1,4 @@
 .prettierrc
-try.js
 draft.js
-controller.js
-categories.js
-categories.html
 filter copy.html
+package.json

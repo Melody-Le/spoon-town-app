@@ -1,5 +1,7 @@
-// import { eat } from './restaurant';
+import { addToCart, Restaurant, restaurantContent } from './restaurant.js';
+addToCart('chicken', 2);
 
+//select element:
 const btnFilter = document.querySelector('.btn-filter');
 const filterContainer = document.querySelector('.search-filter-box');
 const filterCategoryContainer = document.querySelector(
@@ -10,13 +12,6 @@ const restaurantCardContainer = document.querySelector('.container-card');
 const errorContainer = document.querySelector('.error-container');
 const changePage = document.querySelector('.change-page');
 const selectedCard = document.querySelector('.card-body');
-
-//STATE:
-// const state = {
-//   selectedPlace: [],
-//   selectedCategories: [],
-//   urlFilterPage: `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${this.selectedPlace[1]}&longitude=${this.selectedPlace[2]}${updatedCategoryLink}`,
-// };
 
 let selectedPlace;
 const selectedCategories = [];
@@ -189,7 +184,7 @@ const getCategories = async function (location) {
 };
 
 const showCategories = async function (location) {
-  categoriesList = await getCategories(location);
+  const categoriesList = await getCategories(location);
   categoriesList.forEach(categoryItem => {
     const filterHtml = `
       <li class="search-option-item">
@@ -254,12 +249,10 @@ const init = function () {
 };
 init();
 
-const idRestaurant = 'XuxzGu2PEr59drHseZOVCg';
 const renderRestaurant = async function (id) {
   const data = await callApi(`https://api.yelp.com/v3/businesses/${id}`);
-  console.log(data);
-  // const restaurant = new Restaurant(data);
-  // restaurant.showRestaurantCard(restaurantContent);
+  const restaurant = new Restaurant(data);
+  restaurant.showRestaurantCard(restaurantContent);
 };
 // window.addEventListener('load', renderRestaurant(idRestaurant));
 // const goRestaurant = () => {
@@ -268,9 +261,10 @@ const renderRestaurant = async function (id) {
 // changePage.addEventListener('click', goRestaurant);
 
 restaurantCardContainer.addEventListener('click', e => {
-  // const id = e.target.getAttribute('id');
   const selectedRestaurant = e.target.closest('.restaurant-card');
   const id = selectedRestaurant?.getAttribute('id');
-  console.log(id);
   selectedRestaurantId = id;
+  renderRestaurant(id);
 });
+
+console.log(window.location.pathname);
