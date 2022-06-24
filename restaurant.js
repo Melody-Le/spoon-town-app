@@ -38,20 +38,21 @@ class Review {
   }
   showReview(parentElm) {
     const html = `
-      <div class="revew row p-3 bg-light rounded-5 my-3">
-        <div class="col-2 user-identify">
-          <img class="row user-image" src="${this.userProfilePhoto}" alt="progile-picture">
-          <h4 class = "row user-name">${this.userName}</h4>
+      <div class = "review-container container">
+      <hr class="m-3 my-5">
+      <div class="review row p-3 bg-light my-3">
+        <div class="col-lg-2 col-sm-2 user-identify ">
+          <img class="user-image" src="${this.userProfilePhoto}" alt="progile-picture">
+          <h6 class = "user-name text-center mt-md-5">${this.userName}</h6>
         </div> 
-       <div class="col-9 align-content-center">
-          <p class="user-rating">${this.userRating}</p>
-          <p class = "user-comment">
-          ${this.comment}
-          </p>
-          <p class="comment-time">${this.commentTime}</p>
+        <div class="col-md-10 ms-auto">
+          <p class="user-rating">Rating: ${this.userRating}</p>
+          <p class = "user-comment">${this.comment}</p>
+          <p class="comment-time">review time: ${this.commentTime}</p>
           <li class="userProfile"><a href="${this.userProfileUrl}">User Profile</a></li>
         </div>
-      </div>`;
+      </div>
+      `;
     parentElm.insertAdjacentHTML('beforeend', html);
   }
 }

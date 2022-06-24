@@ -102,7 +102,6 @@ a {
 .restaurant-image {
   object-fit: cover;
   max-height: 100%;
-  /* border: #868e96 1px solid; */
 }
 .user-image {
   object-fit: cover;
@@ -113,7 +112,6 @@ a {
   cursor: pointer;
 }
 .detail-restaurant {
-  /* margin-right: 1rem; */
   padding-left: 1rem;
   border: #549490 1px solid;
   display: flex;
@@ -125,8 +123,23 @@ a {
 .other-button li {
   background-color: #549490;
   color: white;
+  border-radius: 10rem;
 }
 .page-url {
   text-decoration: none;
   color: white;
+}
+
+/* REVIEW CONTAINER */
+
+.user-identify {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user-image {
+  /* min-width: 5rem;
+  min-height: 5rem; */
+  width: 8rem;
+  height: 8rem;
 }
