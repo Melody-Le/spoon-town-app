@@ -14,7 +14,7 @@ const selectedCard = document.querySelector('.card-body');
 
 let selectedPlace;
 const selectedCategories = [];
-export let selectedRestaurantId;
+let selectedRestaurantId;
 
 class RestaurantFilter {
   constructor(data) {
@@ -231,12 +231,6 @@ const userAddCategories = () => {
   filterCategoryContainer.addEventListener('click', userSelecCategoryList);
 };
 
-//
-// const getURL = e => {
-//   console.log(e.target);
-// };
-// changePage.addEventListener('click', getURL);
-
 const init = function () {
   // step 1: Window Load:
   renderTopPickSearch();
@@ -248,19 +242,21 @@ const init = function () {
 };
 init();
 
-export const userSelectRestaurant = function (e) {
-  const selectedRestaurant = e.target.closest('.restaurant-card');
-  const id = selectedRestaurant?.getAttribute('id');
-  selectedRestaurantId = id;
-  // return id;
-  // renderRestaurant(id);
-  const url = `restaurant/${id}`;
-  // const url = `restaurant.html`;
-  window.location.href = url;
+const renderRestaurant = async function (idRestaurant) {
+  const data = await callApi(
+    `https://api.yelp.com/v3/businesses/${idRestaurant}`
+  );
+  const restaurant = new Restaurant(data);
+  restaurant.showRestaurantCard(restaurantContent);
 };
 
-export const selectRestaurant = async function () {
-  restaurantCardContainer.addEventListener('click', userSelectRestaurant);
-};
+restaurantCardContainer.addEventListener('click', e => {
+  const selectedRestaurant = e.target.closest('.restaurant-card');
+  const id = selectedRestaurant?.getAttribute('id');
+  // selectedRestaurantId = id;
+  renderRestaurant(id);
+  const url = `restaurant/${id}`;
+  // window.location.href = url;
+});
 
 console.log(window.location.pathname);

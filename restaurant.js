@@ -1,10 +1,4 @@
 export const restaurantContent = document.querySelector('.restaurant-content');
-import {
-  selectedRestaurantId,
-  userSelectRestaurant,
-  selectRestaurant,
-} from './filter.js';
-
 const reviewContainer = document.querySelector('.review-container');
 
 class Review {
@@ -68,9 +62,10 @@ export class Restaurant {
     const html = `
     <div class=" row g-3 p-1  justify-content-start">
         <div class="col-lg-6 ">
-         <img class="restaurant-image" src="${this.photo2}" alt="restaurant-image-${this.id}">
+         <img class="restaurant-image" src="${this.image}" alt="restaurant-image-${this.id}">
         </div>
         <div class="col-lg-6">
+          <img class="restaurant-image col-lg-6" src="${this.photo2}" alt="restaurant-image-${this.id}">
           <img class="restaurant-image col-lg-2" src="${this.photo1}" alt="restaurant-image-${this.id}">
           <img class="restaurant-image col-lg-3" src="${this.photo3}" alt="restaurant-image-${this.id}">
           <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
@@ -87,50 +82,20 @@ export class Restaurant {
       </div>
       <div class="see-location text-center row-cols-lg-6">
         I AM MAP LOCATION - API MAP
+        
       </div>`;
     parentElm.insertAdjacentHTML('beforeend', html);
   }
 }
 
-async function callApi(url) {
-  const cors = 'https://melodycors.herokuapp.com/';
-  const apiKey =
-    'XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx';
-  const response = await fetch(cors + url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
-  const data = await response.json();
-  return data;
-}
 const idRestaurant = 'XuxzGu2PEr59drHseZOVCg';
 
 const renderReview = async function (id) {
   const data = await callApi(
     `https://api.yelp.com/v3/businesses/${id}/reviews`
   );
-  // const review = new Review(data);
-  // review.showReview(reviewContainer);
+
   console.log(data.reviews);
   console.log(typeof data);
 };
-
-const renderRestaurant = async function (id) {
-  const data = await callApi(`https://api.yelp.com/v3/businesses/${id}`);
-  const restaurant = new Restaurant(data);
-  restaurant.showRestaurantCard(restaurantContent);
-  // const url = `restaurant/${id}`;
-  // const url = `restaurant.html`;
-  // window.location.href = url;
-};
-
-// const renderRestaurantPage = async () => {
-//   const id = selectedRestaurantId;
-//   console.log(id);
-//   renderRestaurant(id);
-// };
-// renderRestaurant(idRestaurant);
-// renderReview(idRestaurant);
-renderRestaurant(idRestaurant);
+console.log(window.location.pathname);
