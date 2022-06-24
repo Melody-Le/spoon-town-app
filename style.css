@@ -100,3 +100,6 @@ ul li a {
   max-width: 100%;
   border-radius: 10rem;
 }
+.restaurant-card {
+  cursor: pointer;
+}

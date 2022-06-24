@@ -9,8 +9,6 @@ const filterCategoryContainer = document.querySelector(
 const searchPlaceContainer = document.querySelector('.search-option-container');
 const restaurantCardContainer = document.querySelector('.container-card');
 const errorContainer = document.querySelector('.error-container');
-const changePage = document.querySelector('.change-page');
-const selectedCard = document.querySelector('.card-body');
 
 let selectedPlace;
 const selectedCategories = [];
@@ -35,7 +33,7 @@ class RestaurantFilter {
     const html = `
     <div class="col-md-4 restaurant-card" id = "${this.id}">
       <div class="card" >
-        <div class="card-body" id = "${this.id}">
+        <div class="card-body">
           <img
           src=${this.image}
           class="card-img-top restaurant-image"
@@ -43,11 +41,10 @@ class RestaurantFilter {
           />
           <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
           <p class="card-text review"> Review: ${this.rating}</p>
-          <p class="card-text review"> ID: ${this.id}</p>
+          <p class="card-text review"> </p>
           <li class = "btn bg-warning">
             <a  href="#">READ MORE</a>
           </li>
-          <button class = "change-page" id = "${this.id}">Go restaurant</button>
         </div>
       </div>
     </div>`;
@@ -195,7 +192,7 @@ const showCategories = async function (location) {
   });
 };
 
-// Render Page:
+// Render Filter Page:
 const getFilterLink = async function (location, selectedCatogeriesList) {
   const [lat, long] = location;
   console.log(location);
@@ -236,7 +233,6 @@ const init = function () {
   renderTopPickSearch();
   // step 2
   userSelectPlace();
-
   // step 3
   userAddCategories();
 };
@@ -251,6 +247,9 @@ const renderRestaurant = async function (idRestaurant) {
 };
 
 restaurantCardContainer.addEventListener('click', e => {
+  if (!e.target.closest('.restaurant-card')) {
+    return;
+  }
   const selectedRestaurant = e.target.closest('.restaurant-card');
   const id = selectedRestaurant?.getAttribute('id');
   // selectedRestaurantId = id;
@@ -258,5 +257,3 @@ restaurantCardContainer.addEventListener('click', e => {
   const url = `restaurant/${id}`;
   // window.location.href = url;
 });
-
-console.log(window.location.pathname);

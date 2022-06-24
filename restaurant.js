@@ -62,10 +62,9 @@ export class Restaurant {
     const html = `
     <div class=" row g-3 p-1  justify-content-start">
         <div class="col-lg-6 ">
-         <img class="restaurant-image" src="${this.image}" alt="restaurant-image-${this.id}">
+         <img class="restaurant-image" src="${this.photo2}" alt="restaurant-image-${this.id}">
         </div>
         <div class="col-lg-6">
-          <img class="restaurant-image col-lg-6" src="${this.photo2}" alt="restaurant-image-${this.id}">
           <img class="restaurant-image col-lg-2" src="${this.photo1}" alt="restaurant-image-${this.id}">
           <img class="restaurant-image col-lg-3" src="${this.photo3}" alt="restaurant-image-${this.id}">
           <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
@@ -82,7 +81,6 @@ export class Restaurant {
       </div>
       <div class="see-location text-center row-cols-lg-6">
         I AM MAP LOCATION - API MAP
-        
       </div>`;
     parentElm.insertAdjacentHTML('beforeend', html);
   }
@@ -94,8 +92,6 @@ const renderReview = async function (id) {
   const data = await callApi(
     `https://api.yelp.com/v3/businesses/${id}/reviews`
   );
-
   console.log(data.reviews);
   console.log(typeof data);
 };
-console.log(window.location.pathname);
