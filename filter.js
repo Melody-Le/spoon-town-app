@@ -217,7 +217,7 @@ const renderFilterPage = async function (filterLink) {
 };
 
 const userSelecCategoryList = e => {
-  e.target.style.color = 'Red';
+  e.target.style.color = 'red';
   if (!e.target.classList.contains('search-categories')) return;
   const catogeriesContent = e.target.textContent;
   selectedCategories.push(catogeriesContent.trim());

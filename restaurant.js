@@ -1,7 +1,5 @@
 export const restaurantContent = document.querySelector('.restaurant-content');
 const reviewContainer = document.querySelector('.review-container');
-// console.log(restaurantContent.innerHTML);
-// console.log(reviewContainer.innerHTML);
 
 async function callApi(url) {
   const cors = 'https://melodycors.herokuapp.com/';
@@ -83,28 +81,35 @@ export class Restaurant {
 
   showRestaurantCard(parentElm) {
     const html = `
-    <div class=" row g-3 p-1  justify-content-start">
-        <div class="col-lg-6 ">
-         <img class="restaurant-image" src="${this.photo2}" alt="restaurant-image-${this.id}">
-        </div>
-        <div class="col-lg-6">
-          <img class="restaurant-image col-lg-2" src="${this.photo1}" alt="restaurant-image-${this.id}">
-          <img class="restaurant-image col-lg-3" src="${this.photo3}" alt="restaurant-image-${this.id}">
-          <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
+    <h1 class="card-title restaurant-name my-lg-2">${this.restaurantName}</h1>
+    <div class=" row gy-3 m-y-5">
+      <div class="row align-items-stretch g-2 mt-3">
+       <img class="restaurant-image col-md-4 " src="${this.photo2}" alt="restaurant-image-${this.id}">
+       <img class="restaurant-image col-md-4 " src="${this.photo1}" alt="restaurant-image-${this.id}">
+       <img class="restaurant-image col-md-4 " src="${this.photo3}" alt="restaurant-image-${this.id}">
+      </div>
+      <div class="restaurant-information row gy-3 gx-2 justify-content-between">
+        <div class="detail-restaurant col-6 ">
+          <h3>Detail</h3>
           <p class="card-text review"> Rating: ${this.rating}</p>
           <p class="card-text review"> Adress: ${this.address}</p>
           <p class="card-text review"> Phone: ${this.phone}</p>
-          <li class = "btn bg-warning">
-            <a href="${this.sourceUrl}">Click here for Table reservation</a>
-          </li>
-          <button class="btn btn-share bg-warning p-2 ">SHARE</button>
-          <button class="btn btn-like bg-warning p-2">♥️</button>
-          <button class="btn btn-pin  bg-warning p-2">📌</button>
+          <p class="card-text review"> Cuisine: ${this.title}</p>
+          <div class="other-button">
+            <li class = "btn btn-go-page p-2">
+              <a class="page-url" href="${this.sourceUrl}">MAKE A RESERVATION</a>
+            </li>
+            <button class="btn btn-share  p-2 ">SHARE</button>
+            <button class="btn btn-like  p-2">♥️</button>
+            <button class="btn btn-pin   p-2">📌</button>
+          </div>
+        </div>
+        <div class="see-map col-6 ">
+          I AM MAP LOCATION - API MAP
         </div>
       </div>
-      <div class="see-location text-center row-cols-lg-6">
-        I AM MAP LOCATION - API MAP
-      </div>`;
+    </div>
+      `;
     parentElm.insertAdjacentHTML('beforeend', html);
   }
 }
@@ -115,10 +120,8 @@ const renderReview = async function (idRestaurant) {
   const { reviews: data } = await callApi(
     `https://api.yelp.com/v3/businesses/${idRestaurant}/reviews`
   );
-  // console.log(data.reviews);
   data.forEach(reviewCard => {
     const reviewUser = new Review(reviewCard);
-    console.log(reviewUser);
     reviewUser.showReview(reviewContainer);
   });
 };

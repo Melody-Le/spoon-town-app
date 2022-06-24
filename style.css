@@ -68,22 +68,30 @@ ul li a {
   cursor: pointer;
 }
 
+a {
+  text-decoration: none;
+  color: #030303;
+}
 /* NOTE: Filter Page:  */
 
 .filter-page-container {
-  /* min-height: 100vh; */
-  /* position: relative; */
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-image: linear-gradient(rgba(34, 34, 34, 0.6), rgba(34, 34, 34, 0.6)), url(./img/home-cover1.png); */
   background-color: rgb(189, 207, 207);
   color: #fff;
 }
 
-.see-location {
-  height: 30rem;
-  background-color: rgb(189, 207, 207);
+.search-option-container,
+.filter-catogery-container {
+  height: 20rem;
+  overflow-y: scroll;
+}
+
+.see-map {
+  min-height: 20rem;
+  background-color: #549490;
+  padding-right: 0rem;
 }
 
 /* RESTAURANT PAGE:  */
@@ -93,7 +101,8 @@ ul li a {
 
 .restaurant-image {
   object-fit: cover;
-  max-width: 100%;
+  max-height: 100%;
+  /* border: #868e96 1px solid; */
 }
 .user-image {
   object-fit: cover;
@@ -102,4 +111,22 @@ ul li a {
 }
 .restaurant-card {
   cursor: pointer;
+}
+.detail-restaurant {
+  /* margin-right: 1rem; */
+  padding-left: 1rem;
+  border: #549490 1px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+}
+.other-button button,
+.other-button li {
+  background-color: #549490;
+  color: white;
+}
+.page-url {
+  text-decoration: none;
+  color: white;
 }
