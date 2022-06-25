@@ -17,8 +17,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-image: linear-gradient(rgba(34, 34, 34, 0.6), rgba(34, 34, 34, 0.6)), url(./img/home-cover1.png); */
-  background-image: url(./src/img/home-cover2.jpeg);
+  /* background-image: linear-gradient(rgba(34, 34, 34, 0.6), rgba(34, 34, 34, 0.6)), url(../img/home-cover1.png); */
+  background-image: url(./img/home-cover2.jpeg);
   background-size: cover;
   background-position: center;
   color: #fff;
