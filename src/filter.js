@@ -35,12 +35,49 @@ class topPickPlace {
   }
 }
 
+class RestaurantFilter {
+  constructor(data) {
+    const address = Object.values(data.location).toString();
+    const title = data.categories.map((item) => item.title).join(', ');
+    this.id = data.id;
+    this.restaurantName = data.name;
+    this.image = data.image_url;
+    this.sourceUrl = data.url;
+    this.rating = data.rating;
+    this.price = data.price;
+    this.phone = data.phone;
+    this.address = address;
+    this.title = title;
+  }
+
+  showRestaurantCard(parentElm) {
+    const html = `
+    <div class="col-md-4 restaurant-card" id = "${this.id}">
+      <div class="card" >
+        <div class="card-body">
+          <img
+          src=${this.image}
+          class="card-img-top restaurant-image"
+          alt=" restaurant-image"
+          />
+          <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
+          <p class="card-text review"> Review: ${this.rating}</p>
+          <p class="card-text review"> </p>
+          <li class = "btn bg-warning">
+            <a  href="#">READ MORE</a>
+          </li>
+        </div>
+      </div>
+    </div>`;
+    parentElm.insertAdjacentHTML('beforeend', html);
+  }
+}
+
 const getTopPickPlaces = () => {
   const orchard = new topPickPlace('Ion Orchard', 1.304052, 103.831764);
   const sentosa = new topPickPlace('Sentosa, Singapore', 1.249404, 103.830322);
   const novena = new topPickPlace('Novena', 1.3203434, 103.8406453);
   const hougang = new topPickPlace('Hougang', 1.3725948, 103.8915338);
-  console.log(orchard);
   const placeList = [orchard, sentosa, novena, hougang];
   return placeList;
 };
@@ -56,13 +93,12 @@ const showTopPickLocation = () => {
 };
 
 const getTopLickLocation = async (evnt) => {
-  const placeList = getTopPickPlaces(); //FIXME: I WANNA GET THE PLACELIST IN showTopPickLocation() funciton, but if I call it here, It will have error
+  const placeList = getTopPickPlaces();
   const target = evnt.target;
   const userSelectPlace = target.textContent.toLowerCase();
   const getSelectedPlaceObj = placeList.find(
     (place) => place.locationName.toLowerCase() === userSelectPlace
   );
-  console.log(getSelectedPlaceObj.getPosition());
   return getSelectedPlaceObj.getPosition();
 };
 
@@ -129,6 +165,45 @@ const onTopPickClicked = async (evnt) => {
   showCategories(categories);
 };
 
+//RENDER FILTER PAGE:
+const getSelectedCategories = (evnt) => {
+  const target = evnt.target;
+  const selectedCategories = [];
+  target.style.color = 'Red';
+  if (!target.classList.contains('search-categories')) return;
+  const catogeriesContent = target.textContent;
+  selectedCategories.push(catogeriesContent.trim());
+  return selectedCategories;
+};
+
+const getFilterLink = async function (location, categories) {
+  const { latitude, longitude } = location;
+  const selectedCategorytLink = categories?.reduce(
+    (acc, cur) => `${acc}&categories=${cur}`
+  );
+  return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&categories=${selectedCategorytLink}`;
+};
+
+const renderFilterPage = async function (location, categories) {
+  const restaurantCardContainer = document.querySelector('.container-card');
+  const url = await getFilterLink(location, categories);
+  const resulf = await callApi(url);
+  const { businesses: data } = resulf;
+  data.forEach((resObj) => {
+    const restaurantCard = new RestaurantFilter(resObj);
+    // console.log(typeof restaurantCard);
+    console.log(restaurantCardContainer);
+    restaurantCard.showRestaurantCard(restaurantCardContainer);
+  });
+};
+
+const onCategoriesClick = async (evnt) => {
+  const selectedLocation = await await getCurrentLocation();
+  const selectedCategories = await getSelectedCategories(evnt);
+  renderFilterPage(selectedLocation, selectedCategories);
+};
+
+//EVENT:
 const addEventListeners = () => {
   document
     .querySelector('.search-option-container')
@@ -142,6 +217,11 @@ const addEventListeners = () => {
         return;
       }
       onTopPickClicked(evnt);
+    });
+  document
+    .querySelector('.filter-catogery-container')
+    .addEventListener('click', (evnt) => {
+      onCategoriesClick(evnt);
     });
 };
 
