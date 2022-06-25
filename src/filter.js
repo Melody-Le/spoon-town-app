@@ -1,10 +1,10 @@
 // proxy server
 const callApi = async (url) => {
-  const cors = 'https://melodycors.herokuapp.com/';
+  const cors = "https://melodycors.herokuapp.com/";
   const apiKey =
-    'XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx';
+    "XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx";
   const response = await fetch(cors + url, {
-    method: 'GET',
+    method: "GET",
     headers: {
       Authorization: `Bearer ${apiKey}`,
     },
@@ -20,12 +20,13 @@ class topPickPlace {
   showTopPickPlace(parentElm) {
     const htmlTopPick = `
       <li class="search-option-item">
-      <a href="#" class = " search-location search-top-pick">
+      <a href="#" class = "search-location search-top-pick">
         <img class="icon" src="./img/map-point-icon.svg" alt="icon Nearby">
         <p class = "location-name">${this.locationName}</p>
       </a>
-      </li>`;
-    parentElm.insertAdjacentHTML('beforeend', htmlTopPick);
+      </li>
+    `;
+    parentElm.insertAdjacentHTML("beforeend", htmlTopPick);
   }
   getPosition() {
     return {
@@ -38,7 +39,7 @@ class topPickPlace {
 class RestaurantFilter {
   constructor(data) {
     const address = Object.values(data.location).toString();
-    const title = data.categories.map((item) => item.title).join(', ');
+    const title = data.categories.map((item) => item.title).join(", ");
     this.id = data.id;
     this.restaurantName = data.name;
     this.image = data.image_url;
@@ -52,39 +53,37 @@ class RestaurantFilter {
 
   showRestaurantCard(parentElm) {
     const html = `
-    <div class="col-md-4 restaurant-card" id = "${this.id}">
-      <div class="card" >
-        <div class="card-body">
-          <img
-          src=${this.image}
-          class="card-img-top restaurant-image"
-          alt=" restaurant-image"
-          />
-          <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
-          <p class="card-text review"> Review: ${this.rating}</p>
-          <p class="card-text review"> </p>
-          <li class = "btn bg-warning">
-            <a  href="#">READ MORE</a>
-          </li>
+      <a class="col-md-4 restaurant-card" id = "${this.id}" href="./restaurant.html?id=${this.id}">
+        <div class="card" >
+          <div class="card-body">
+            <img
+              src=${this.image}
+              class="card-img-top restaurant-image"
+              alt="restaurant-image"
+            />
+            <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
+            <p class="card-text review"> Review: ${this.rating}</p>
+            <p class="card-text review"> </p>
+          </div>
         </div>
-      </div>
-    </div>`;
-    parentElm.insertAdjacentHTML('beforeend', html);
+      </a>
+    `;
+    parentElm.insertAdjacentHTML("beforeend", html);
   }
 }
 
 const getTopPickPlaces = () => {
-  const orchard = new topPickPlace('Ion Orchard', 1.304052, 103.831764);
-  const sentosa = new topPickPlace('Sentosa, Singapore', 1.249404, 103.830322);
-  const novena = new topPickPlace('Novena', 1.3203434, 103.8406453);
-  const hougang = new topPickPlace('Hougang', 1.3725948, 103.8915338);
+  const orchard = new topPickPlace("Ion Orchard", 1.304052, 103.831764);
+  const sentosa = new topPickPlace("Sentosa, Singapore", 1.249404, 103.830322);
+  const novena = new topPickPlace("Novena", 1.3203434, 103.8406453);
+  const hougang = new topPickPlace("Hougang", 1.3725948, 103.8915338);
   const placeList = [orchard, sentosa, novena, hougang];
   return placeList;
 };
 
 const showTopPickLocation = () => {
   const searchPlaceContainer = document.querySelector(
-    '.search-option-container'
+    ".search-option-container"
   );
   const placeList = getTopPickPlaces();
   placeList.forEach((place) => {
@@ -139,7 +138,7 @@ const getCategoriesByLocation = async (location) => {
 
 const showCategories = (categories) => {
   const filterCategoryContainer = document.querySelector(
-    '.filter-catogery-container'
+    ".filter-catogery-container"
   );
   categories.forEach((category) => {
     const filterHtml = `
@@ -149,7 +148,7 @@ const showCategories = (categories) => {
         </a>
       </li>
     `;
-    filterCategoryContainer.insertAdjacentHTML('beforeend', filterHtml);
+    filterCategoryContainer.insertAdjacentHTML("beforeend", filterHtml);
   });
 };
 
@@ -169,8 +168,8 @@ const onTopPickClicked = async (evnt) => {
 const getSelectedCategories = (evnt) => {
   const target = evnt.target;
   const selectedCategories = [];
-  target.style.color = 'Red';
-  if (!target.classList.contains('search-categories')) return;
+  target.style.color = "Red";
+  if (!target.classList.contains("search-categories")) return;
   const catogeriesContent = target.textContent;
   selectedCategories.push(catogeriesContent.trim());
   return selectedCategories;
@@ -185,14 +184,12 @@ const getFilterLink = async function (location, categories) {
 };
 
 const renderFilterPage = async function (location, categories) {
-  const restaurantCardContainer = document.querySelector('.container-card');
+  const restaurantCardContainer = document.querySelector(".container-card");
   const url = await getFilterLink(location, categories);
   const resulf = await callApi(url);
   const { businesses: data } = resulf;
   data.forEach((resObj) => {
     const restaurantCard = new RestaurantFilter(resObj);
-    // console.log(typeof restaurantCard);
-    console.log(restaurantCardContainer);
     restaurantCard.showRestaurantCard(restaurantCardContainer);
   });
 };
@@ -206,21 +203,21 @@ const onCategoriesClick = async (evnt) => {
 //EVENT:
 const addEventListeners = () => {
   document
-    .querySelector('.search-option-container')
-    .addEventListener('click', (evnt) => {
+    .querySelector(".search-option-container")
+    .addEventListener("click", (evnt) => {
       const target = evnt.target;
-      target.style.color = 'Red';
+      target.style.color = "Red";
 
-      if (!target.classList.contains('location-name')) return;
-      if (target.classList.contains('near-by')) {
+      if (!target.classList.contains("location-name")) return;
+      if (target.classList.contains("near-by")) {
         onNearByClicked();
         return;
       }
       onTopPickClicked(evnt);
     });
   document
-    .querySelector('.filter-catogery-container')
-    .addEventListener('click', (evnt) => {
+    .querySelector(".filter-catogery-container")
+    .addEventListener("click", (evnt) => {
       onCategoriesClick(evnt);
     });
 };
