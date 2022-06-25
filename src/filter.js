@@ -130,6 +130,7 @@ const getRestaurantsByLocation = async (location) => {
 
 const getCategoriesByLocation = async (location) => {
   const restaurantObjList = await getRestaurantsByLocation(location);
+  // console.log(restaurantObjList);
   const restaurantCategories = restaurantObjList
     .map((obj) => obj.categories.map((category) => category.title))
     .flat();
@@ -140,16 +141,18 @@ const showCategories = (categories) => {
   const filterCategoryContainer = document.querySelector(
     ".filter-catogery-container"
   );
-  categories.forEach((category) => {
-    const filterHtml = `
+  const categoriesStr = categories
+    .map((category) => {
+      return `
       <li class="search-option-item">
         <a href="#" class="search-categories">
           ${category}
         </a>
       </li>
     `;
-    filterCategoryContainer.insertAdjacentHTML("beforeend", filterHtml);
-  });
+    })
+    .join("");
+  filterCategoryContainer.innerHTML = categoriesStr;
 };
 
 const onNearByClicked = async () => {
@@ -199,6 +202,8 @@ const onCategoriesClick = async (evnt) => {
   const selectedCategories = await getSelectedCategories(evnt);
   renderFilterPage(selectedLocation, selectedCategories);
 };
+
+const onSubmitFilter = async (evnt) => {};
 
 //EVENT:
 const addEventListeners = () => {
