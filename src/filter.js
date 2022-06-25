@@ -62,7 +62,7 @@ class TopPickPlace {
     const htmlTopPick = `
       <li class="search-option-item">
       <a href="#" class = " search-location search-top-pick">
-        <img class="icon" src="./src/img/map-point-icon.svg" alt="icon Nearby">
+        <img class="icon" src="./img/map-point-icon.svg" alt="icon Nearby">
         <p class = "location-name">${this.locationName}</p>
       </a>
       </li>`;
