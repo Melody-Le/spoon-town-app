@@ -73,8 +73,8 @@ class RestaurantFilter {
 }
 
 const getTopPickPlaces = () => {
-  const orchard = new topPickPlace("Ion Orchard", 1.304052, 103.831764);
-  const sentosa = new topPickPlace("Sentosa, Singapore", 1.249404, 103.830322);
+  const orchard = new topPickPlace("Orchard", 1.304052, 103.831764);
+  const sentosa = new topPickPlace("Sentosa", 1.249404, 103.830322);
   const novena = new topPickPlace("Novena", 1.3203434, 103.8406453);
   const hougang = new topPickPlace("Hougang", 1.3725948, 103.8915338);
   const placeList = [orchard, sentosa, novena, hougang];
@@ -82,9 +82,7 @@ const getTopPickPlaces = () => {
 };
 
 const showTopPickLocation = () => {
-  const searchPlaceContainer = document.querySelector(
-    ".search-option-container"
-  );
+  const searchPlaceContainer = document.querySelector(".search-option-container");
   const placeList = getTopPickPlaces();
   placeList.forEach((place) => {
     place.showTopPickPlace(searchPlaceContainer);
@@ -95,16 +93,12 @@ const getTopLickLocation = async (evnt) => {
   const placeList = getTopPickPlaces();
   const target = evnt.target;
   const userSelectPlace = target.textContent.toLowerCase();
-  const getSelectedPlaceObj = placeList.find(
-    (place) => place.locationName.toLowerCase() === userSelectPlace
-  );
+  const getSelectedPlaceObj = placeList.find((place) => place.locationName.toLowerCase() === userSelectPlace);
   return getSelectedPlaceObj.getPosition();
 };
 
 const getUserCurrentPosition = () => {
-  return new Promise((resolved, rejected) =>
-    navigator.geolocation.getCurrentPosition(resolved, rejected)
-  );
+  return new Promise((resolved, rejected) => navigator.geolocation.getCurrentPosition(resolved, rejected));
 };
 
 const getCurrentLocation = async () => {
@@ -130,17 +124,12 @@ const getRestaurantsByLocation = async (location) => {
 
 const getCategoriesByLocation = async (location) => {
   const restaurantObjList = await getRestaurantsByLocation(location);
-  // console.log(restaurantObjList);
-  const restaurantCategories = restaurantObjList
-    .map((obj) => obj.categories.map((category) => category.title))
-    .flat();
+  const restaurantCategories = restaurantObjList.map((obj) => obj.categories.map((category) => category.title)).flat();
   return [...new Set(restaurantCategories)];
 };
 
 const showCategories = (categories) => {
-  const filterCategoryContainer = document.querySelector(
-    ".filter-catogery-container"
-  );
+  const filterCategoryContainer = document.querySelector(".filter-catogery-container");
   const categoriesStr = categories
     .map((category) => {
       return `
@@ -177,12 +166,24 @@ const getSelectedCategories = (evnt) => {
   selectedCategories.push(catogeriesContent.trim());
   return selectedCategories;
 };
+const selectedLocaiton = async () => {
+  const userSelectPlaces = [];
+  const areaList = getTopPickPlaces();
+  document.querySelectorAll(".selected-location").forEach((item) => userSelectPlaces.push(item.innerHTML));
+  const locationList = userSelectPlaces
+    .map((place) => areaList.filter((item) => item.locationName === place))
+    .flat()
+    .map((place) => place.getPosition());
+  if (userSelectPlaces.includes("Nearby")) {
+    const currentLocation = await getCurrentLocation();
+    locationList.push(currentLocation);
+  }
+  return locationList;
+};
 
 const getFilterLink = async function (location, categories) {
   const { latitude, longitude } = location;
-  const selectedCategorytLink = categories?.reduce(
-    (acc, cur) => `${acc}&categories=${cur}`
-  );
+  const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
   return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&categories=${selectedCategorytLink}`;
 };
 
@@ -198,33 +199,31 @@ const renderFilterPage = async function (location, categories) {
 };
 
 const onCategoriesClick = async (evnt) => {
-  const selectedLocation = await await getCurrentLocation();
-  const selectedCategories = await getSelectedCategories(evnt);
-  renderFilterPage(selectedLocation, selectedCategories);
+  const location = await selectedLocaiton();
+  console.log(location);
+  // const selectedCategories = await getSelectedCategories(evnt);
+  // renderFilterPage(location, selectedCategories);
 };
-
-const onSubmitFilter = async (evnt) => {};
 
 //EVENT:
 const addEventListeners = () => {
-  document
-    .querySelector(".search-option-container")
-    .addEventListener("click", (evnt) => {
-      const target = evnt.target;
-      target.style.color = "Red";
+  document.querySelector(".search-option-container").addEventListener("click", (evnt) => {
+    const target = evnt.target;
+    if (!target.classList.contains("location-name")) return;
 
-      if (!target.classList.contains("location-name")) return;
-      if (target.classList.contains("near-by")) {
-        onNearByClicked();
-        return;
-      }
-      onTopPickClicked(evnt);
-    });
-  document
-    .querySelector(".filter-catogery-container")
-    .addEventListener("click", (evnt) => {
-      onCategoriesClick(evnt);
-    });
+    target.classList.toggle("selected-location");
+    // const selectedPlaceList = document.querySelectorAll(".selected");
+    // selectedPlaceList.forEach((place) => console.log(place.innerHTML));
+    if (target.classList.contains("near-by")) {
+      onNearByClicked();
+      return;
+    }
+    // selectedPlaceList.forEach((place) => alert(place.innerHTML));
+    onTopPickClicked(evnt);
+  });
+  document.querySelector(".filter-catogery-container").addEventListener("click", (evnt) => {
+    onCategoriesClick(evnt);
+  });
 };
 
 const init = () => {

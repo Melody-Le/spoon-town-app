@@ -138,3 +138,7 @@ a {
   width: 8rem;
   height: 8rem;
 }
+.selected-location,
+.selected-categories {
+  color: rgb(12, 43, 35);
+}
