@@ -21,7 +21,7 @@ class topPickPlace {
     const htmlTopPick = `
       <li class="search-option-item">
       <a href="#" class = "search-location search-top-pick">
-        <img class="icon" src="./img/map-point-icon.svg" alt="icon Nearby">
+        <img class="icon" src="./img/map-point-icon.svg" alt="icon-location">
         <p class = "location-name">${this.locationName}</p>
       </a>
       </li>
@@ -72,25 +72,25 @@ class RestaurantFilter {
   }
 }
 
-const getTopPickPlaces = () => {
+const areaList = () => {
   const orchard = new topPickPlace("Orchard", 1.304052, 103.831764);
   const sentosa = new topPickPlace("Sentosa", 1.249404, 103.830322);
   const novena = new topPickPlace("Novena", 1.3203434, 103.8406453);
   const hougang = new topPickPlace("Hougang", 1.3725948, 103.8915338);
-  const placeList = [orchard, sentosa, novena, hougang];
-  return placeList;
+  const areaList = [orchard, sentosa, novena, hougang];
+  return areaList;
 };
 
 const showTopPickLocation = () => {
   const searchPlaceContainer = document.querySelector(".search-option-container");
-  const placeList = getTopPickPlaces();
+  const placeList = areaList();
   placeList.forEach((place) => {
     place.showTopPickPlace(searchPlaceContainer);
   });
 };
 
 const getTopLickLocation = async (evnt) => {
-  const placeList = getTopPickPlaces();
+  const placeList = areaList();
   const target = evnt.target;
   const userSelectPlace = target.textContent.toLowerCase();
   const getSelectedPlaceObj = placeList.find((place) => place.locationName.toLowerCase() === userSelectPlace);
@@ -112,6 +112,21 @@ const getCurrentLocation = async () => {
       longitude: 103.8547508,
     };
   }
+};
+
+const selectedLocation = async () => {
+  const userSelectPlaces = [];
+  const topPickList = areaList();
+  document.querySelectorAll(".selected-location").forEach((item) => userSelectPlaces.push(item.innerHTML));
+  const locationList = userSelectPlaces
+    .map((place) => topPickList.filter((item) => item.locationName === place))
+    .flat()
+    .map((place) => place.getPosition());
+  if (userSelectPlaces.includes("Nearby")) {
+    const currentLocation = await getCurrentLocation();
+    locationList.push(currentLocation);
+  }
+  return locationList;
 };
 
 const getRestaurantsByLocation = async (location) => {
@@ -144,52 +159,33 @@ const showCategories = (categories) => {
   filterCategoryContainer.innerHTML = categoriesStr;
 };
 
-const onNearByClicked = async () => {
-  const currentUserLocation = await getCurrentLocation();
-  const categories = await getCategoriesByLocation(currentUserLocation);
-  showCategories(categories);
-};
-
-const onTopPickClicked = async (evnt) => {
-  const selectedTopPickLocation = await getTopLickLocation(evnt);
-  const categories = await getCategoriesByLocation(selectedTopPickLocation);
-  showCategories(categories);
+const onPlaceClicked = async () => {
+  const locationList = await selectedLocation();
+  locationList.forEach(async (location) => {
+    const categories = await getCategoriesByLocation(location);
+    showCategories(categories);
+  });
 };
 
 //RENDER FILTER PAGE:
-const getSelectedCategories = (evnt) => {
-  const target = evnt.target;
-  const selectedCategories = [];
-  target.style.color = "Red";
-  if (!target.classList.contains("search-categories")) return;
-  const catogeriesContent = target.textContent;
-  selectedCategories.push(catogeriesContent.trim());
-  return selectedCategories;
-};
-const selectedLocaiton = async () => {
-  const userSelectPlaces = [];
-  const areaList = getTopPickPlaces();
-  document.querySelectorAll(".selected-location").forEach((item) => userSelectPlaces.push(item.innerHTML));
-  const locationList = userSelectPlaces
-    .map((place) => areaList.filter((item) => item.locationName === place))
-    .flat()
-    .map((place) => place.getPosition());
-  if (userSelectPlaces.includes("Nearby")) {
-    const currentLocation = await getCurrentLocation();
-    locationList.push(currentLocation);
-  }
-  return locationList;
+const getSelectedCategories = () => {
+  const selectedCategories = document.querySelectorAll(".selected-category");
+  const selectedCategoryList = [];
+  selectedCategories.forEach((item) => {
+    selectedCategoryList.push(item.innerHTML.trim());
+  });
+  return selectedCategoryList;
 };
 
-const getFilterLink = async function (location, categories) {
+const getFilterLink = async function (location) {
   const { latitude, longitude } = location;
+  const categories = await getSelectedCategories();
   const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
   return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&categories=${selectedCategorytLink}`;
 };
-
-const renderFilterPage = async function (location, categories) {
+const renderFilterPage = async function (location) {
   const restaurantCardContainer = document.querySelector(".container-card");
-  const url = await getFilterLink(location, categories);
+  const url = await getFilterLink(location);
   const resulf = await callApi(url);
   const { businesses: data } = resulf;
   data.forEach((resObj) => {
@@ -198,30 +194,25 @@ const renderFilterPage = async function (location, categories) {
   });
 };
 
-const onCategoriesClick = async (evnt) => {
-  const location = await selectedLocaiton();
-  console.log(location);
-  // const selectedCategories = await getSelectedCategories(evnt);
-  // renderFilterPage(location, selectedCategories);
+const onCategoriesClick = async () => {
+  const locationList = await selectedLocation();
+  locationList.forEach(async (location) => {
+    renderFilterPage(location);
+  });
 };
 
-//EVENT:
 const addEventListeners = () => {
   document.querySelector(".search-option-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
     if (!target.classList.contains("location-name")) return;
-
+    // document.querySelector(".selected-location")?.classList?.remove("selected-location");
     target.classList.toggle("selected-location");
-    // const selectedPlaceList = document.querySelectorAll(".selected");
-    // selectedPlaceList.forEach((place) => console.log(place.innerHTML));
-    if (target.classList.contains("near-by")) {
-      onNearByClicked();
-      return;
-    }
-    // selectedPlaceList.forEach((place) => alert(place.innerHTML));
-    onTopPickClicked(evnt);
+    onPlaceClicked();
   });
   document.querySelector(".filter-catogery-container").addEventListener("click", (evnt) => {
+    const target = evnt.target;
+    if (!target.classList.contains("search-categories")) return;
+    target.classList.toggle("selected-category");
     onCategoriesClick(evnt);
   });
 };

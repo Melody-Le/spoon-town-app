@@ -39,13 +39,11 @@ body {
   display: flex;
   flex-direction: column;
   background-color: rgba(34, 34, 34, 0.6);
-  color: white;
 }
 .search-option-item {
   display: flex;
   align-items: center;
   list-style: none;
-  color: white;
 }
 .search-option-item a {
   color: #fff;
@@ -66,6 +64,7 @@ h1.cover-title {
 }
 ul li a {
   cursor: pointer;
+  color: white;
 }
 
 a {
@@ -138,7 +137,7 @@ a {
   width: 8rem;
   height: 8rem;
 }
-.selected-location,
-.selected-categories {
-  color: rgb(12, 43, 35);
+.selected-location:last-child,
+.search-option-item .selected-category {
+  color: rgb(43, 170, 138);
 }
