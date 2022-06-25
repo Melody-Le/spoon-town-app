@@ -108,9 +108,6 @@ a {
   max-width: 100%;
   border-radius: 10rem;
 }
-.restaurant-card {
-  cursor: pointer;
-}
 .detail-restaurant {
   padding-left: 1rem;
   border: #549490 1px solid;
