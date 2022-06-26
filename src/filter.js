@@ -24,12 +24,10 @@ class TopPickPlace {
   }
   showTopPickPlace(parentElm) {
     const htmlTopPick = `
-      <li class="search-option-item">
-        <a href="#" class="search-location search-top-pick">
+      <div class="location">
           <img class="icon" src="./img/map-point-icon.svg" alt="icon-location">
           <p class="location-name">${this.#locationName}</p>
-        </a>
-      </li>
+      </div>
     `;
     parentElm.insertAdjacentHTML("beforeend", htmlTopPick);
   }
@@ -50,7 +48,6 @@ class RestaurantFilter {
   #restaurantName;
   #imageUrl;
   #rating;
-  // #title;
   constructor(restaurant) {
     this.#id = restaurant.id;
     this.#restaurantName = restaurant.name;
@@ -85,7 +82,7 @@ const getTopPickPlaces = () => {
 
 // Ok
 const showTopPickLocation = (places) => {
-  const searchPlaceContainer = document.querySelector(".search-option-container");
+  const searchPlaceContainer = document.querySelector(".location-container");
   places.forEach((place) => place.showTopPickPlace(searchPlaceContainer));
 };
 
@@ -140,10 +137,8 @@ const showCategories = (categories) => {
     categories
       .map(
         (category) => `
-          <div class="search-option-item categories">
-            <div class="search-categories">
+          <div class="categories">
               ${category}
-            </div>
           </div>
         `
       )
@@ -194,7 +189,11 @@ const onCategoriesClick = async (topPickPlaces) => {
 
 // Ok
 const addEventListeners = (topPickPlaces) => {
-  document.querySelector(".search-option-container").addEventListener("click", (evnt) => {
+  document.querySelector(".search-location").addEventListener("click", () => {
+    document.querySelector(".location-container").classList.toggle("hidden");
+  });
+
+  document.querySelector(".location-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
 
     if (!target.classList.contains("location-name")) return;
@@ -203,12 +202,13 @@ const addEventListeners = (topPickPlaces) => {
     target.classList.toggle("selected-location");
 
     onPlaceClicked(topPickPlaces);
+    document.querySelector(".location-container").classList.toggle("hidden");
   });
 
   document.querySelector(".filter-catogery-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
 
-    if (!target.classList.contains("search-categories")) return;
+    if (!target.classList.contains("categories")) return;
 
     target.classList.toggle("selected-category");
 

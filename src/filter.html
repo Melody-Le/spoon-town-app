@@ -4,82 +4,61 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-    rel="icon"
-    href="./img/myfavicon.jpeg"
-  />
+    <link rel="icon" href="./img/SpoonTown-logo2.png"/>
     <link rel="stylesheet" href="./style.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <title>Filter</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-light sticky-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <img src="https://i.pinimg.com/564x/13/82/9d/13829d380c2b555345f9859c51b676cb.jpg" alt="logo" width="60" />
-          Spoon Town
-        </a>
-        <form class="d-flex" role="search">
-          <button class="btn bg-white search-by-map border-0 rounded-5 py-2">Search MAP</button>
-          <form  action="search-location">
-            <div class="search-box px-4 py-1 border-0 rounded-5  bg-white">
-              <input class="search border-0" type="search" name="search" id="seach" placeholder="Where to eat?">
-              <button type="submit" class="btn border-0" ><img src="./img/icons8-search.gif" alt="search icon" width="20rem"/></button>
-            </div>
-        </form>
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarTogglerDemo01"
-          aria-controls="navbarTogglerDemo01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+      <div class="container-fluid">
+        <div class="brand row align-items-center">
+          <a class="navbar-brand col-lg-3 col-sm-12" href="./index.html">
+            <img class="logo" src="./img/SpoonTown-logo2.png" alt="logo"/>
+          </a>
+          <div class="brand-name col-lg-8 col-sm-12 mt-lg-4">SPOON TOWN</div>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+          <span class="navbar-toggler-icon" id="toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <ul class="navbar-nav ms-auto">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item"><a class="nav-link" href="./index.html">HOME</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"">TOP PICK </a></li>
-            <li class="nav-item"><a class="nav-link" href="#"">FILTER PAGE</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"">CONTACT</a></li>
-            <li class="nav-item account">
-              <a class="navbar-brand" href="#">
-                <img src="./img/user-profile-img.jpeg" alt="account" width="60" />
-              </a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="./filter.html"">FILTER PAGE</a></li>
+            <li class="nav-item"><a class="nav-link" href="./index.html"">CONTACT</a></li>
+            <div class="nav-item">
+                <img class="account" src="./img/account.jpeg" alt="account"/>
+            </div>
           </ul>
         </div>
       </div>
     </nav>
-    </div>
+    
     <div class="filter-page-container">
       <!-- FILTER BOX  -->
-      <div class="search-filter-box g-3">
-        <button class="btn bg-white search-by-map border-0 rounded-5 py-2">Search MAP</button>
-        <form  action="search-location">
-          <div class="search-box px-4 py-1 border-0 rounded-5  bg-white">
-            <input class="search border-0" type="search" name="search" id="seach" placeholder="Where to eat?">
-            <button type="submit" class="btn border-0" ><img src="./img/icons8-search.gif" alt="search icon" width="20rem"/></button>
+      <div class="search-location-container g-3">
+        <div class="search-method my-3">
+          <button class="btn">
+            <img class="search-map" src="./img/search Map-white.png" alt="">
+          </button>
+          <div class="search-location px-4 py-1 border-0 rounded-5 bg-white">
+            <input class="border-0" type="search" name="search" placeholder="Where to eat?">
+            <button class=" btn border-0" type="submit"><img class="search-btn" src="./img/icons8-search.gif" alt="search-icon"/></button>
           </div>
-          <div class="search-option-container hidden">
-            <li class="search-option-item ">
-              <a href="#" class = "search-nearby">
-                <img class="icon" src="./img/icons8-near-me-48.png" alt="icon Nearby">
-                <p class="location-name near-by">Nearby</p>
-              </a>
-            </li>
-            <hr class="m-3">
-            <p class="text-start popular-place-title">TOP PICK</p>
-            <!-- ADD TOP PICK LOCATION HERE-->
+        </div>
+        <div class="location-container hidden">
+          <div class="location">
+            <img class="icon" src="./img/icons8-near-me-48.png" alt="icon-Nearby">
+            <p class="location-name">Nearby</p>
           </div>
-        </form>
+          <hr class="m-3">
+          <p class="mx-4">TOP PICK</p>
+          <!-- ADD TOP PICK LOCATION HERE-->  
+        </div>
       </div>
       <div class="search-categories mt-5">
         <div>
-          <h3 >What are your favorite cuisines? </h3>
+          <h3>What are your favorite cuisines? </h3>
           <div class="filter-catogery-container p-2">
             <!-- ADD FILTER CATEGORIES FORM HERE-->
           </div>

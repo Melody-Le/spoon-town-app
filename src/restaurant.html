@@ -14,49 +14,30 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-light sticky-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <img src="https://i.pinimg.com/564x/13/82/9d/13829d380c2b555345f9859c51b676cb.jpg" alt="logo" width="60" />
-          Spoon Town
-        </a>
-        <form class="d-flex" role="search">
-          <button class="btn bg-white search-by-map border-0 rounded-5 py-2">Search MAP</button>
-          <form  action="search-location">
-            <div class="search-box px-4 py-1 border-0 rounded-5  bg-white">
-              <input class="search border-0" type="search" name="search" id="seach" placeholder="Where to eat?">
-              <button type="submit" class="btn border-0" ><img src="./img/icons8-search.gif" alt="search icon" width="20rem"/></button>
-            </div>
-        </form>
-        
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarTogglerDemo01"
-          aria-controls="navbarTogglerDemo01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+      <div class="container-fluid">
+        <div class="brand row align-items-center">
+          <a class="navbar-brand col-lg-3 col-sm-12" href="./index.html">
+            <img class="logo" src="./img/SpoonTown-logo2.png" alt="logo"/>
+          </a>
+          <div class="brand-name col-lg-8 col-sm-12 mt-lg-4">SPOON TOWN</div>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+          <span class="navbar-toggler-icon" id="toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <ul class="navbar-nav ms-auto">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item"><a class="nav-link" href="./index.html">HOME</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"">TOP PICK </a></li>
-            <li class="nav-item"><a class="nav-link" href="#"">FILTER PAGE</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"">CONTACT</a></li>
-            <li class="nav-item account">
-              <a class="navbar-brand" href="#">
-                <img src="./img/user-profile-img.jpeg" alt="account" width="60" />
-              </a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="./filter.html"">FILTER PAGE</a></li>
+            <li class="nav-item"><a class="nav-link" href="./index.html"">CONTACT</a></li>
+            <div class="nav-item">
+                <img class="account" src="./img/account.jpeg" alt="account"/>
+            </div>
           </ul>
         </div>
       </div>
     </nav>
     <div class="container restaurant-content mt-lg-5 ">
       <!-- RESTAURANT CONTENT:  -->
-      </div>
     </div>
     <div class = "review-container container">
        <!-- REVIEW CONTAINER  -->

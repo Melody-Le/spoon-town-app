@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Montserrat:ital,wght@0,200;0,400;0,600;0,900;1,700&family=Rubik+Moonrocks&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400;0,600;0,900;1,700&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -6,9 +6,7 @@
 }
 
 body {
-  font-family: "Montserrat", sans-serif !important;
-  /* font-family: "Oswald", sans-serif !important; */
-  /* font-family: "Barlow", sans-serif !important; */
+  font-family: "Montserrat", sans-serif;
   color: #868e96;
   font-size: 1.5rem;
   position: relative;
@@ -23,62 +21,32 @@ body {
   background-position: center;
   color: #fff;
 }
-
-.brand {
-  font-family: "Rubik Moonrocks", cursive;
-  font-size: 1.5rem;
-  color: #549490;
-}
-
-.logo {
-  width: 5rem;
-}
-
-#toggler-icon {
-  background-image: url("./img/toggle-icon.png");
-  background-size: 2.5rem;
-  background-position: center;
+.icon {
   border: none;
 }
-
-.account {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 5rem;
-}
-
-/* NOTE: Filter search box:  */
-
-.icon {
-  width: 2rem;
-  margin-right: 1rem;
-}
-.search-method {
-  display: flex;
-  align-items: center;
-  height: 3rem;
-}
-
-.search-map {
+.search-top-pick .icon {
   width: 3rem;
 }
-
-.search-btn {
-  width: 2rem;
+.search-filter-box {
+  align-items: start;
+  gap: 1rem;
 }
 
-.hidden {
-  display: none !important;
-}
-
-.location-container {
+.search-option-container {
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   background-color: rgba(34, 34, 34, 0.6);
 }
-.location {
+.search-option-item {
   display: flex;
+  align-items: center;
+  list-style: none;
+}
+.search-option-item a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 .btn-submit {
@@ -93,6 +61,7 @@ ul li a {
   text-decoration: none;
 }
 
+/* NOTE: Filter search box:  */
 .filter-page-container {
   display: flex;
   flex-direction: column;
@@ -120,7 +89,6 @@ ul li a {
 .categories {
   display: flex;
   justify-content: center;
-  align-items: center;
   flex: 8rem 0 0;
   height: 8rem;
   background-image: url(./img/home-cover2.png);
@@ -133,15 +101,14 @@ ul li a {
 .selected-location {
   color: #549490;
 }
-.selected-category {
+.selected-category:div {
   color: #082e2b;
   background-color: #549490;
   background-image: none;
 }
 .selected-category {
-  color: white;
+  color: red;
 }
-
 /* Filter page content:  */
 .restaurant-card {
   color: #030303;
