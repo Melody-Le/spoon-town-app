@@ -134,11 +134,11 @@ const showCategories = (categories) => {
   const categoriesStr = categories
     .map((category) => {
       return `
-      <li class="search-option-item">
-        <a href="#" class="search-categories">
+      <div class="search-option-item categories">
+        <div class="search-categories text-center">
           ${category}
-        </a>
-      </li>
+        </div>
+      </div>
     `;
     })
     .join("");
