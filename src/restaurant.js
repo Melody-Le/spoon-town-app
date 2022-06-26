@@ -117,9 +117,7 @@ const params = new Proxy(new URLSearchParams(window.location.search), {
 
 const renderReview = async function (restaurantId) {
   const reviewContainer = document.querySelector(".review-container");
-  const { reviews: data } = await callApi(
-    `https://api.yelp.com/v3/businesses/${restaurantId}/reviews`
-  );
+  const { reviews: data } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
   data.forEach((reviewCard) => {
     const reviewUser = new Review(reviewCard);
     reviewUser.showReview(reviewContainer);
@@ -128,9 +126,7 @@ const renderReview = async function (restaurantId) {
 
 const renderRestaurant = async function (idRestaurant) {
   const restaurantContent = document.querySelector(".restaurant-content");
-  const data = await callApi(
-    `https://api.yelp.com/v3/businesses/${idRestaurant}`
-  );
+  const data = await callApi(`https://api.yelp.com/v3/businesses/${idRestaurant}`);
   const restaurant = new Restaurant(data);
   restaurant.showRestaurantCard(restaurantContent);
 };
