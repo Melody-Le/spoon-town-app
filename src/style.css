@@ -83,6 +83,9 @@ ul li a {
   text-align: center;
   text-shadow: 3px 3px 6px #030303;
 }
+.review {
+  margin-bottom: 0rem;
+}
 .categories {
   display: flex;
   justify-content: center;
@@ -91,7 +94,6 @@ ul li a {
   background-image: url(./img/home-cover2.png);
   background-size: cover;
   background-position: center;
-
   border-radius: 8rem;
   cursor: pointer;
 }

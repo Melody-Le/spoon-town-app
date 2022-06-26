@@ -59,7 +59,7 @@ class RestaurantFilter {
   }
   showRestaurantCard() {
     return `
-      <a class="restaurant-card my-2" id ="${this.#id}" href="./restaurant.html?id=${this.#id}">
+      <a class="restaurant-card my-3" id ="${this.#id}" href="./restaurant.html?id=${this.#id}">
         <div class="card border-0">
             <img
               src=${this.#imageUrl}
@@ -163,18 +163,27 @@ const getSelectedCategories = () => {
 };
 
 const getFilterLink = async function (location) {
-  const { latitude, longitude } = location;
-  const categories = await getSelectedCategories();
-  const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
-  return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&term=${selectedCategorytLink}`;
+  try {
+    const { latitude, longitude } = location;
+    const categories = await getSelectedCategories();
+    const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
+    return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&term=${selectedCategorytLink}`;
+  } catch (error) {
+    console.log("Error is:", error);
+  }
 };
 
 const renderFilterPage = async function (location) {
-  const url = await getFilterLink(location);
-  const { businesses } = await callApi(url);
-  const filterPageContent = businesses.map((resObj) => new RestaurantFilter(resObj).showRestaurantCard()).join("");
   const restaurantCardContainer = document.querySelector(".container-card");
-  restaurantCardContainer.innerHTML = filterPageContent;
+  try {
+    const url = await getFilterLink(location);
+    const { businesses } = await callApi(url);
+    const filterPageContent = businesses.map((resObj) => new RestaurantFilter(resObj).showRestaurantCard()).join("");
+
+    restaurantCardContainer.insertAdjacentHTML("afterbegin", filterPageContent);
+  } catch {
+    restaurantCardContainer.innerHTML = "";
+  }
 };
 
 // Ok
