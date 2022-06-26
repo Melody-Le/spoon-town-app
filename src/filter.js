@@ -56,7 +56,6 @@ class RestaurantFilter {
     this.#restaurantName = restaurant.name;
     this.#imageUrl = restaurant.image_url;
     this.#rating = restaurant.rating;
-    // this.title = restaurant.categories?.map((item) => item.title).join(", ");
   }
   showRestaurantCard() {
     return `
@@ -114,7 +113,8 @@ const selectedLocation = async (topPickPlaces) => {
   if (selectedLocationDom === "Nearby") {
     return await getCurrentLocation();
   }
-  const { latitude, longitude } = topPickPlaces?.find((place) => place.getLocation() === selectedLocationDom)?.getPosition() || {};
+  const { latitude, longitude } =
+    topPickPlaces?.find((place) => place.getLocation() === selectedLocationDom)?.getPosition() || {};
   return { latitude, longitude }; // This is to ensure this function return same data format as in line 115
 };
 
@@ -136,15 +136,18 @@ const getCategoriesByLocation = async (location) => {
 // Ok
 const showCategories = (categories) => {
   const filterCategoryContainer = document.querySelector(".filter-catogery-container");
-  filterCategoryContainer.innerHTML = categories
-    .map((category) => (`
-      <div class="search-option-item categories">
-        <div class="search-categories text-center">
-          ${category}
-        </div>
-      </div>
-    `))
-    .join("") || "";
+  filterCategoryContainer.innerHTML =
+    categories
+      .map(
+        (category) => `
+          <div class="search-option-item categories">
+            <div class="search-categories">
+              ${category}
+            </div>
+          </div>
+        `
+      )
+      .join("") || "";
 };
 
 // Ok
@@ -156,38 +159,20 @@ const onPlaceClicked = async (topPickPlaces) => {
 
 // Ok
 const getSelectedCategories = () => {
-  return [...document.querySelectorAll(".selected-category")].map(categoryDom => categoryDom.textContent.trim());
+  return [...document.querySelectorAll(".selected-category")].map((categoryDom) => categoryDom.textContent.trim());
 };
 
-// TODO: issue is most probably here
 const getFilterLink = async function (location) {
   const { latitude, longitude } = location;
   const categories = await getSelectedCategories();
   const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
-  return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&categories=${selectedCategorytLink}`;
+  return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&term=${selectedCategorytLink}`;
 };
 
-// TODO: removed if not needed. This is used to check if data is the same
-async function hash(string) {
-  const utf8 = new TextEncoder().encode(string);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray
-    .map((bytes) => bytes.toString(16).padStart(2, '0'))
-    .join('');
-}
-
-// Broken somewhere
 const renderFilterPage = async function (location) {
   const url = await getFilterLink(location);
   const { businesses } = await callApi(url);
-  const checksum = await hash(businesses);
-
-  console.log('checksum: ', checksum)
-
-  const filterPageContent = businesses
-    .map((resObj) => (new RestaurantFilter(resObj)).showRestaurantCard())
-    .join("");
+  const filterPageContent = businesses.map((resObj) => new RestaurantFilter(resObj).showRestaurantCard()).join("");
   const restaurantCardContainer = document.querySelector(".container-card");
   restaurantCardContainer.innerHTML = filterPageContent;
 };
