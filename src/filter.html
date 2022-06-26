@@ -54,14 +54,10 @@
         </div>
       </div>
     </nav>
-    <div class="error-container">
     </div>
-    <div class="container filter-page-container">
-      <button class=" btn-filter px-4 py-2 m-lg-3 border-1 rounded-1 bg-white">Filter</button>
-      <button class="btn-sort px-4 py-2 m-lg-3 border-1 rounded-1 bg-white">Sort ↓</button>
-
+    <div class="filter-page-container">
       <!-- FILTER BOX  -->
-      <div class="search-filter-box hidden d-md-flex g-3 " >
+      <div class="search-filter-box g-3">
         <button class="btn bg-white search-by-map border-0 rounded-5 py-2">Search MAP</button>
         <form  action="search-location">
           <div class="search-box px-4 py-1 border-0 rounded-5  bg-white">
@@ -80,36 +76,19 @@
             <!-- ADD TOP PICK LOCATION HERE-->
           </div>
         </form>
-        <form  action="filter-catogery">
-          <input class="filter py-2 border-0 rounded-5 " type="search" name="search" id="filter-catogery" placeholder="Catogery">
-          <div class="filter-catogery-container p-2 hidden ">
+      </div>
+      <div class="search-categories mt-5">
+        <div>
+          <h3 >What are your favorite cuisines? </h3>
+          <div class="filter-catogery-container p-2">
             <!-- ADD FILTER CATEGORIES FORM HERE-->
           </div>
-        </form>
+        </div>
       </div>
     </div>
-    <div class="container"></div>
-    <hr>
-    <div class="restaurant-content container mt-lg-5">RESTAURANT CONTENT</div>
-    <div class = "review-container container">
-      <hr class="m-3 my-5">
-      <div class = "review-container container">
-        <div class="review row p-3 bg-light my-3">
-          <div class=" col-lg-2 col-sm-2 user-identify ">
-            <img class="user-image" src="https://i.pinimg.com/564x/90/b7/62/90b762c1436b620eae93ec1db63a8171.jpg" alt="progile-picture">
-            <h6 class = "user-name text-center mt-md-5">NAME 1</h6>
-          </div>
-          <div class="col-md-10 ms-auto  ">
-            <p class="user-rating">Review: 4.5</p>
-            <p class = "user-comment">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor, voluptatum molestiae tempora omnis, at nemo assumenda architecto autem illo dolorum odit voluptas rerum maiores corrupti eum fugiat reiciendis praesentium ipsam.
-            </p>
-            <p class="comment-time">review time: 2021-07-06 03:54:08</p>
-            <li class="userProfile"><a href="#">User Profile</a></li>
-          </div>
-        </div>
-    </div>
+    <div class="container">
+      <div class="container-card g-3 p-1 justify-content-center card-columns">
+        <!-- RENDER RESTAURANT FILTER COMPONENT HERE -->
     <script type = "module" src="./filter.js"></script>
-    <!-- <script type="module" src="./restaurant.js"></script> -->
   </body>
 </html>
