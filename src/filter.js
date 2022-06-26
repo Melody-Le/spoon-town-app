@@ -78,14 +78,6 @@ const showTopPickLocation = () => {
   });
 };
 
-const getTopLickLocation = async (evnt) => {
-  const placeList = areaList();
-  const target = evnt.target;
-  const userSelectPlace = target.textContent.toLowerCase();
-  const getSelectedPlaceObj = placeList.find((place) => place.locationName.toLowerCase() === userSelectPlace);
-  return getSelectedPlaceObj.getPosition();
-};
-
 const getUserCurrentPosition = () => {
   return new Promise((resolved, rejected) => navigator.geolocation.getCurrentPosition(resolved, rejected));
 };
@@ -135,7 +127,7 @@ const showCategories = (categories) => {
     .map((category) => {
       return `
       <div class="search-option-item categories">
-        <div class="search-categories text-center">
+        <div class="search-categories">
           ${category}
         </div>
       </div>

@@ -79,18 +79,33 @@ ul li a {
   gap: 1rem;
   overflow-x: auto;
 }
-.search-categories h3 {
+.search-categories {
   text-align: center;
+  text-shadow: 3px 3px 6px #030303;
 }
 .categories {
-  background-color: #549490;
+  display: flex;
+  justify-content: center;
   flex: 8rem 0 0;
   height: 8rem;
   background-image: url(./img/home-cover2.png);
   background-size: cover;
   background-position: center;
+
   border-radius: 8rem;
   cursor: pointer;
+}
+
+.selected-location {
+  color: #549490;
+}
+.selected-category:div {
+  color: #082e2b;
+  background-color: #549490;
+  background-image: none;
+}
+.selected-category {
+  color: red;
 }
 /* Filter page content:  */
 .restaurant-card {
@@ -154,10 +169,6 @@ h6.restaurant-name {
 .user-image {
   width: 8rem;
   height: 8rem;
-}
-.selected-location:last-child,
-.search-option-item .selected-category {
-  color: #549490;
 }
 
 @media (max-width: 575.98px) {
