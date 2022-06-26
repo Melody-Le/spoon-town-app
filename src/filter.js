@@ -1,4 +1,3 @@
-// proxy server
 const callApi = async (url) => {
   const cors = "https://melodycors.herokuapp.com/";
   const apiKey =
@@ -38,23 +37,17 @@ class topPickPlace {
 
 class RestaurantFilter {
   constructor(data) {
-    const address = Object.values(data.location).toString();
     const title = data.categories.map((item) => item.title).join(", ");
     this.id = data.id;
     this.restaurantName = data.name;
     this.image = data.image_url;
-    this.sourceUrl = data.url;
     this.rating = data.rating;
-    this.price = data.price;
-    this.phone = data.phone;
-    this.address = address;
     this.title = title;
   }
-
-  showRestaurantCard(parentElm) {
-    const html = `
-      <a class="col-md-4 restaurant-card" id = "${this.id}" href="./restaurant.html?id=${this.id}">
-        <div class="card" >
+  showRestaurantCard() {
+    return `
+      <a class="col-md-4 restaurant-card" id ="${this.id}" href="./restaurant.html?id=${this.id}">
+        <div class="card">
           <div class="card-body">
             <img
               src=${this.image}
@@ -63,12 +56,10 @@ class RestaurantFilter {
             />
             <h5 class="card-title restaurant-name">${this.restaurantName}</h5>
             <p class="card-text review"> Review: ${this.rating}</p>
-            <p class="card-text review"> </p>
           </div>
         </div>
       </a>
     `;
-    parentElm.insertAdjacentHTML("beforeend", html);
   }
 }
 
@@ -115,18 +106,14 @@ const getCurrentLocation = async () => {
 };
 
 const selectedLocation = async () => {
-  const userSelectPlaces = [];
-  const topPickList = areaList();
-  document.querySelectorAll(".selected-location").forEach((item) => userSelectPlaces.push(item.innerHTML));
-  const locationList = userSelectPlaces
-    .map((place) => topPickList.filter((item) => item.locationName === place))
-    .flat()
-    .map((place) => place.getPosition());
-  if (userSelectPlaces.includes("Nearby")) {
+  const selectedLocation = document.querySelector(".selected-location").innerHTML;
+  if (selectedLocation === "Nearby") {
     const currentLocation = await getCurrentLocation();
-    locationList.push(currentLocation);
+    return currentLocation;
   }
-  return locationList;
+  const topPickList = areaList();
+  const [location] = topPickList.filter((place) => place.locationName === selectedLocation);
+  return location;
 };
 
 const getRestaurantsByLocation = async (location) => {
@@ -134,12 +121,13 @@ const getRestaurantsByLocation = async (location) => {
   const urlRestaurant = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}`;
   const restaurantApi = await callApi(urlRestaurant);
   const { businesses } = restaurantApi;
+  console.log(businesses);
   return businesses;
 };
 
 const getCategoriesByLocation = async (location) => {
   const restaurantObjList = await getRestaurantsByLocation(location);
-  const restaurantCategories = restaurantObjList.map((obj) => obj.categories.map((category) => category.title)).flat();
+  const restaurantCategories = restaurantObjList.map((obj) => obj.categories.map((category) => category.alias)).flat();
   return [...new Set(restaurantCategories)];
 };
 
@@ -160,11 +148,9 @@ const showCategories = (categories) => {
 };
 
 const onPlaceClicked = async () => {
-  const locationList = await selectedLocation();
-  locationList.forEach(async (location) => {
-    const categories = await getCategoriesByLocation(location);
-    showCategories(categories);
-  });
+  const location = await selectedLocation();
+  const categories = await getCategoriesByLocation(location);
+  showCategories(categories);
 };
 
 //RENDER FILTER PAGE:
@@ -181,31 +167,35 @@ const getFilterLink = async function (location) {
   const { latitude, longitude } = location;
   const categories = await getSelectedCategories();
   const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
+  console.log(selectedCategorytLink);
   return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&categories=${selectedCategorytLink}`;
 };
+
 const renderFilterPage = async function (location) {
   const restaurantCardContainer = document.querySelector(".container-card");
   const url = await getFilterLink(location);
   const resulf = await callApi(url);
+  console.log(url);
   const { businesses: data } = resulf;
-  data.forEach((resObj) => {
-    const restaurantCard = new RestaurantFilter(resObj);
-    restaurantCard.showRestaurantCard(restaurantCardContainer);
-  });
+  const filterPageContent = data
+    .map((resObj) => {
+      const restaurantCard = new RestaurantFilter(resObj);
+      return restaurantCard.showRestaurantCard();
+    })
+    .join("");
+  restaurantCardContainer.innerHTML = filterPageContent;
 };
 
 const onCategoriesClick = async () => {
-  const locationList = await selectedLocation();
-  locationList.forEach(async (location) => {
-    renderFilterPage(location);
-  });
+  const location = await selectedLocation();
+  renderFilterPage(location);
 };
 
 const addEventListeners = () => {
   document.querySelector(".search-option-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
     if (!target.classList.contains("location-name")) return;
-    // document.querySelector(".selected-location")?.classList?.remove("selected-location");
+    document.querySelector(".selected-location")?.classList?.remove("selected-location");
     target.classList.toggle("selected-location");
     onPlaceClicked();
   });
