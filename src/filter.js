@@ -1,8 +1,9 @@
+// Ok
 const callApi = async (url) => {
   const cors = "https://melodycors.herokuapp.com/";
   const apiKey =
     "XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx";
-  const response = await fetch(cors + url, {
+  const response = await fetch(`${cors}${url}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -10,86 +11,90 @@ const callApi = async (url) => {
   });
   return await response.json();
 };
-class topPickPlace {
+
+// Ok
+class TopPickPlace {
+  #locationName;
+  #latitude;
+  #longitude;
   constructor(locationName, latitude, longitude) {
-    this.locationName = locationName;
-    this.latitude = latitude;
-    this.longitude = longitude;
+    this.#locationName = locationName;
+    this.#latitude = latitude;
+    this.#longitude = longitude;
   }
   showTopPickPlace(parentElm) {
     const htmlTopPick = `
       <li class="search-option-item">
-      <a href="#" class="search-location search-top-pick">
-        <img class="icon" src="./img/map-point-icon.svg" alt="icon-location">
-        <p class="location-name">${this.locationName}</p>
-      </a>
+        <a href="#" class="search-location search-top-pick">
+          <img class="icon" src="./img/map-point-icon.svg" alt="icon-location">
+          <p class="location-name">${this.#locationName}</p>
+        </a>
       </li>
     `;
     parentElm.insertAdjacentHTML("beforeend", htmlTopPick);
   }
   getPosition() {
     return {
-      latitude: this.latitude,
-      longitude: this.longitude,
+      latitude: this.#latitude,
+      longitude: this.#longitude,
     };
+  }
+  getLocation() {
+    return this.#locationName;
   }
 }
 
+// Ok
 class RestaurantFilter {
-  constructor(data) {
-    const title = data.categories.map((item) => item.title).join(", ");
-    this.id = data.id;
-    this.restaurantName = data.name;
-    this.image = data.image_url;
-    this.rating = data.rating;
-    this.title = title;
+  #id;
+  #restaurantName;
+  #imageUrl;
+  #rating;
+  // #title;
+  constructor(restaurant) {
+    this.#id = restaurant.id;
+    this.#restaurantName = restaurant.name;
+    this.#imageUrl = restaurant.image_url;
+    this.#rating = restaurant.rating;
+    // this.title = restaurant.categories?.map((item) => item.title).join(", ");
   }
   showRestaurantCard() {
     return `
-      <a class="restaurant-card my-2" id ="${this.id}" href="./restaurant.html?id=${this.id}">
+      <a class="restaurant-card my-2" id ="${this.#id}" href="./restaurant.html?id=${this.#id}">
         <div class="card border-0">
             <img
-              src=${this.image}
+              src=${this.#imageUrl}
               class="card-img-top restaurant-image rounded-4"
               alt="restaurant-image"
             />
-            <h6 class="restaurant-name">${this.restaurantName}</h6>
-            <p class="review"> Review: ${this.rating}</p>
+            <h6 class="restaurant-name">${this.#restaurantName}</h6>
+            <p class="review"> Review: ${this.#rating}</p>
         </div>
       </a>
     `;
   }
 }
 
-const areaList = () => {
-  const orchard = new topPickPlace("Orchard", 1.304052, 103.831764);
-  const sentosa = new topPickPlace("Sentosa", 1.249404, 103.830322);
-  const novena = new topPickPlace("Novena", 1.3203434, 103.8406453);
-  const hougang = new topPickPlace("Hougang", 1.3725948, 103.8915338);
-  const areaList = [orchard, sentosa, novena, hougang];
-  return areaList;
+// Ok
+const getTopPickPlaces = () => {
+  const orchard = new TopPickPlace("Orchard", 1.304052, 103.831764);
+  const sentosa = new TopPickPlace("Sentosa", 1.249404, 103.830322);
+  const novena = new TopPickPlace("Novena", 1.3203434, 103.8406453);
+  const hougang = new TopPickPlace("Hougang", 1.3725948, 103.8915338);
+  return [orchard, sentosa, novena, hougang];
 };
 
-const showTopPickLocation = () => {
+// Ok
+const showTopPickLocation = (places) => {
   const searchPlaceContainer = document.querySelector(".search-option-container");
-  const placeList = areaList();
-  placeList.forEach((place) => {
-    place.showTopPickPlace(searchPlaceContainer);
-  });
-};
-
-const getTopLickLocation = async (evnt) => {
-  const placeList = areaList();
-  const target = evnt.target;
-  const userSelectPlace = target.textContent.toLowerCase();
-  const getSelectedPlaceObj = placeList.find((place) => place.locationName.toLowerCase() === userSelectPlace);
-  return getSelectedPlaceObj.getPosition();
+  places.forEach((place) => place.showTopPickPlace(searchPlaceContainer));
 };
 
 const getUserCurrentPosition = () => {
   return new Promise((resolved, rejected) => navigator.geolocation.getCurrentPosition(resolved, rejected));
 };
 
+// Ok
 const getCurrentLocation = async () => {
   try {
     const position = await getUserCurrentPosition();
@@ -103,110 +108,123 @@ const getCurrentLocation = async () => {
   }
 };
 
-const selectedLocation = async () => {
-  const selectedLocation = document.querySelector(".selected-location").innerHTML;
-  if (selectedLocation === "Nearby") {
-    const currentLocation = await getCurrentLocation();
-    return currentLocation;
+// Ok
+const selectedLocation = async (topPickPlaces) => {
+  const selectedLocationDom = document.querySelector(".selected-location").textContent;
+  if (selectedLocationDom === "Nearby") {
+    return await getCurrentLocation();
   }
-  const topPickList = areaList();
-  const [location] = topPickList.filter((place) => place.locationName === selectedLocation);
-  return location;
+  const { latitude, longitude } = topPickPlaces?.find((place) => place.getLocation() === selectedLocationDom)?.getPosition() || {};
+  return { latitude, longitude }; // This is to ensure this function return same data format as in line 115
 };
 
+// Ok
 const getRestaurantsByLocation = async (location) => {
   const { latitude, longitude } = location;
   const urlRestaurant = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}`;
-  const restaurantApi = await callApi(urlRestaurant);
-  const { businesses } = restaurantApi;
-  console.log(businesses);
+  const { businesses } = await callApi(urlRestaurant);
   return businesses;
 };
 
+// Ok
 const getCategoriesByLocation = async (location) => {
   const restaurantObjList = await getRestaurantsByLocation(location);
   const restaurantCategories = restaurantObjList.map((obj) => obj.categories.map((category) => category.alias)).flat();
   return [...new Set(restaurantCategories)];
 };
 
+// Ok
 const showCategories = (categories) => {
   const filterCategoryContainer = document.querySelector(".filter-catogery-container");
-  const categoriesStr = categories
-    .map((category) => {
-      return `
+  filterCategoryContainer.innerHTML = categories
+    .map((category) => (`
       <div class="search-option-item categories">
         <div class="search-categories text-center">
           ${category}
         </div>
       </div>
-    `;
-    })
-    .join("");
-  filterCategoryContainer.innerHTML = categoriesStr;
+    `))
+    .join("") || "";
 };
 
-const onPlaceClicked = async () => {
-  const location = await selectedLocation();
+// Ok
+const onPlaceClicked = async (topPickPlaces) => {
+  const location = await selectedLocation(topPickPlaces);
   const categories = await getCategoriesByLocation(location);
   showCategories(categories);
 };
 
-//RENDER FILTER PAGE:
+// Ok
 const getSelectedCategories = () => {
-  const selectedCategories = document.querySelectorAll(".selected-category");
-  const selectedCategoryList = [];
-  selectedCategories.forEach((item) => {
-    selectedCategoryList.push(item.innerHTML.trim());
-  });
-  return selectedCategoryList;
+  return [...document.querySelectorAll(".selected-category")].map(categoryDom => categoryDom.textContent.trim());
 };
 
+// TODO: issue is most probably here
 const getFilterLink = async function (location) {
   const { latitude, longitude } = location;
   const categories = await getSelectedCategories();
   const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
-  console.log(selectedCategorytLink);
   return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&categories=${selectedCategorytLink}`;
 };
 
+// TODO: removed if not needed. This is used to check if data is the same
+async function hash(string) {
+  const utf8 = new TextEncoder().encode(string);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray
+    .map((bytes) => bytes.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+// Broken somewhere
 const renderFilterPage = async function (location) {
-  const restaurantCardContainer = document.querySelector(".container-card");
   const url = await getFilterLink(location);
-  const resulf = await callApi(url);
-  console.log(url);
-  const { businesses: data } = resulf;
-  const filterPageContent = data
-    .map((resObj) => {
-      const restaurantCard = new RestaurantFilter(resObj);
-      return restaurantCard.showRestaurantCard();
-    })
+  const { businesses } = await callApi(url);
+  const checksum = await hash(businesses);
+
+  console.log('checksum: ', checksum)
+
+  const filterPageContent = businesses
+    .map((resObj) => (new RestaurantFilter(resObj)).showRestaurantCard())
     .join("");
+  const restaurantCardContainer = document.querySelector(".container-card");
   restaurantCardContainer.innerHTML = filterPageContent;
 };
 
-const onCategoriesClick = async () => {
-  const location = await selectedLocation();
+// Ok
+const onCategoriesClick = async (topPickPlaces) => {
+  const location = await selectedLocation(topPickPlaces);
   renderFilterPage(location);
 };
 
-const addEventListeners = () => {
+// Ok
+const addEventListeners = (topPickPlaces) => {
   document.querySelector(".search-option-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
+
     if (!target.classList.contains("location-name")) return;
+
     document.querySelector(".selected-location")?.classList?.remove("selected-location");
     target.classList.toggle("selected-location");
-    onPlaceClicked();
+
+    onPlaceClicked(topPickPlaces);
   });
+
   document.querySelector(".filter-catogery-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
+
     if (!target.classList.contains("search-categories")) return;
+
     target.classList.toggle("selected-category");
-    onCategoriesClick(evnt);
+
+    onCategoriesClick(topPickPlaces);
   });
 };
 
 const init = () => {
-  showTopPickLocation();
-  addEventListeners();
+  const topPickPlaces = getTopPickPlaces();
+  showTopPickLocation(topPickPlaces);
+  addEventListeners(topPickPlaces);
 };
 init();
