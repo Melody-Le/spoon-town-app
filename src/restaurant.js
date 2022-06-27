@@ -54,7 +54,7 @@ class Review {
   }
 }
 
-export class Restaurant {
+class Restaurant {
   constructor(data) {
     const address = Object.values(data.location.display_address).toString(" ");
     const title = data.categories.map((item) => item.title).join(", ");

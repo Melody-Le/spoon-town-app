@@ -14,7 +14,7 @@
       <div class="container-fluid">
         <div class="brand row align-items-center">
           <a class="navbar-brand col-lg-3 col-sm-12" href="./index.html">
-            <img class="logo" src="./img/SpoonTown-logo2.png" alt="logo"/>
+            <img class="logo" src="./img/logo-orange.png" alt="logo"/>
           </a>
           <div class="brand-name col-lg-8 col-sm-12 mt-lg-4">SPOON TOWN</div>
         </div>
@@ -33,41 +33,43 @@
         </div>
       </div>
     </nav>
-    
-    <div class="filter-page-container">
       <!-- FILTER BOX  -->
-      <div class="search-location-container g-3">
-        <div class="search-method my-3">
-          <button class="btn">
-            <img class="search-map" src="./img/search Map-white.png" alt="">
-          </button>
-          <div class="search-location px-4 py-1 border-0 rounded-5 bg-white">
-            <input class="border-0" type="search" name="search" placeholder="Where to eat?">
-            <button class=" btn border-0" type="submit"><img class="search-btn" src="./img/icons8-search.gif" alt="search-icon"/></button>
-          </div>
-        </div>
-        <div class="location-container hidden">
-          <div class="location">
-            <img class="icon" src="./img/icons8-near-me-48.png" alt="icon-Nearby">
-            <p class="location-name">Nearby</p>
-          </div>
-          <hr class="m-3">
-          <p class="mx-4">TOP PICK</p>
-          <!-- ADD TOP PICK LOCATION HERE-->  
+    
+    <div class="search-location-container g-3">
+      <div class="search-method my-3">
+        <button class="btn">
+          <img class="search-map" src="./img/search Map-white.png" alt="">
+        </button>
+        <div class="search-location px-4 py-1 border-0 rounded-5 bg-white">
+          <input class="border-0" type="search" name="search" placeholder="Where to eat?">
+          <button class=" btn border-0" type="submit"><img class="search-btn" src="./img/icons8-search.gif" alt="search-icon"/></button>
         </div>
       </div>
-      <div class="search-categories mt-5">
-        <div>
-          <h3>What are your favorite cuisines? </h3>
-          <div class="filter-catogery-container p-2">
-            <!-- ADD FILTER CATEGORIES FORM HERE-->
-          </div>
+      <div class="location-container hidden">
+        <div class="location">
+          <img class="location-icon" src="./img/icons8-near-me-48.png" alt="icon-nearby">
+          <p class="location-name mb-0">Nearby</p>
+        </div>
+        <hr class="m-3">
+        <p class="mx-4">TOP PICK</p>
+        <!-- ADD TOP PICK LOCATION HERE-->  
+      </div>
+    </div>  
+
+    <div class="categories-container mt-5">
+      <div>
+        <h3 class = "category-title hidden">What are your favorite cuisines? </h3>
+        <div class="category-list p-2">
+          <!-- ADD FILTER CATEGORIES FORM HERE-->
         </div>
       </div>
     </div>
     <div class="container">
       <div class="container-card g-3 p-1 justify-content-center card-columns">
         <!-- RENDER RESTAURANT FILTER COMPONENT HERE -->
-    <script type = "module" src="./filter.js"></script>
+      </div>
+    </div>
+    <div class="overlay hidden"></div>
+    <script src="./filter.js"></script>
   </body>
 </html>

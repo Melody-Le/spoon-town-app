@@ -24,9 +24,9 @@ class TopPickPlace {
   }
   showTopPickPlace(parentElm) {
     const htmlTopPick = `
-      <div class="location">
-          <img class="icon" src="./img/map-point-icon.svg" alt="icon-location">
-          <p class="location-name">${this.#locationName}</p>
+      <div class="location mb-2">
+          <img class="location-icon" src="./img/map-point-icon.svg" alt="icon-location">
+          <p class="location-name mb-0">${this.#locationName}</p>
       </div>
     `;
     parentElm.insertAdjacentHTML("beforeend", htmlTopPick);
@@ -132,7 +132,7 @@ const getCategoriesByLocation = async (location) => {
 
 // Ok
 const showCategories = (categories) => {
-  const filterCategoryContainer = document.querySelector(".filter-catogery-container");
+  const filterCategoryContainer = document.querySelector(".category-list");
   filterCategoryContainer.innerHTML =
     categories
       .map(
@@ -187,10 +187,26 @@ const onCategoriesClick = async (topPickPlaces) => {
   renderFilterPage(location);
 };
 
+const toggleLocationContainer = () => {
+  const locationContainer = document.querySelector(".location-container");
+  const overlayLayer = document.querySelector(".overlay");
+  [locationContainer, overlayLayer].forEach((event) => {
+    event.classList?.toggle("hidden");
+  });
+};
+
 // Ok
 const addEventListeners = (topPickPlaces) => {
+  let searchLocationClicked = false;
   document.querySelector(".search-location").addEventListener("click", () => {
-    document.querySelector(".location-container").classList.toggle("hidden");
+    toggleLocationContainer();
+    searchLocationClicked = true;
+  });
+  document.addEventListener("keydown", (evnt) => {
+    if (evnt.key === "Escape" && searchLocationClicked) {
+      toggleLocationContainer();
+      searchLocationClicked = false;
+    }
   });
 
   document.querySelector(".location-container").addEventListener("click", (evnt) => {
@@ -200,14 +216,15 @@ const addEventListeners = (topPickPlaces) => {
 
     document.querySelector(".selected-location")?.classList?.remove("selected-location");
     target.classList.toggle("selected-location");
-
+    document.querySelector(".category-title").classList.remove("hidden");
     onPlaceClicked(topPickPlaces);
-    document.querySelector(".location-container").classList.toggle("hidden");
+
+    toggleLocationContainer();
+    searchLocationClicked = false;
   });
 
-  document.querySelector(".filter-catogery-container").addEventListener("click", (evnt) => {
+  document.querySelector(".category-list").addEventListener("click", (evnt) => {
     const target = evnt.target;
-
     if (!target.classList.contains("categories")) return;
 
     target.classList.toggle("selected-category");
