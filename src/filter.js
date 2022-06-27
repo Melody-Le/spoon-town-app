@@ -56,16 +56,14 @@ class RestaurantFilter {
   }
   showRestaurantCard() {
     return `
-      <a class="restaurant-card my-3" id ="${this.#id}" href="./restaurant.html?id=${this.#id}">
-        <div class="card border-0">
+      <a class="restaurant-card my-2 border-0" id ="${this.#id}" href="./restaurant.html?id=${this.#id}">
             <img
               src=${this.#imageUrl}
               class="card-img-top restaurant-image rounded-4"
               alt="restaurant-image"
             />
-            <h6 class="restaurant-name">${this.#restaurantName}</h6>
-            <p class="review"> Review: ${this.#rating}</p>
-        </div>
+            <h6 class="restaurant-card-name mb-0 mt-1">${this.#restaurantName}</h6>
+            <p class="restaurant-card-review mb-0"> Review: ${this.#rating}</p>
       </a>
     `;
   }
@@ -137,7 +135,7 @@ const showCategories = (categories) => {
     categories
       .map(
         (category) => `
-          <div class="categories">
+          <div class="categories text-capitalize">
               ${category}
           </div>
         `
@@ -195,19 +193,21 @@ const toggleLocationContainer = () => {
   });
 };
 
+const closeLocationContainer = () => {
+  const locationContainer = document.querySelector(".location-container");
+  const overlayLayer = document.querySelector(".overlay");
+  [locationContainer, overlayLayer].forEach((event) => {
+    event.classList?.add("hidden");
+  });
+};
+
 // Ok
 const addEventListeners = (topPickPlaces) => {
-  let searchLocationClicked = false;
-  document.querySelector(".search-location").addEventListener("click", () => {
-    toggleLocationContainer();
-    searchLocationClicked = true;
-  });
+  document.querySelector(".search-location").addEventListener("click", toggleLocationContainer);
   document.addEventListener("keydown", (evnt) => {
-    if (evnt.key === "Escape" && searchLocationClicked) {
-      toggleLocationContainer();
-      searchLocationClicked = false;
-    }
+    if (evnt.key === "Escape") closeLocationContainer();
   });
+  document.querySelector(".overlay").addEventListener("click", closeLocationContainer);
 
   document.querySelector(".location-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
@@ -216,11 +216,10 @@ const addEventListeners = (topPickPlaces) => {
 
     document.querySelector(".selected-location")?.classList?.remove("selected-location");
     target.classList.toggle("selected-location");
-    document.querySelector(".category-title").classList.remove("hidden");
     onPlaceClicked(topPickPlaces);
 
-    toggleLocationContainer();
-    searchLocationClicked = false;
+    closeLocationContainer();
+    document.querySelector(".category-title").classList.remove("hidden");
   });
 
   document.querySelector(".category-list").addEventListener("click", (evnt) => {
