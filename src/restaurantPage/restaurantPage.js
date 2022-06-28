@@ -12,11 +12,26 @@ async function callApi(url) {
   return data;
 }
 
+// const ratingIcon = (rating) => {
+//   const html = `
+//     <div>
+//       <div class="stars-outer">
+//         <div class="stars-inner"></div>
+//       </div>
+//     </div>
+//   `;
+//   const starTotal = 5;
+//   const starPercentage = (rating / starTotal) * 100;
+//   const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
+//   const ratingDom = document.querySelectorAll(".rating");
+//   ratingDom.forEach(rating=>rating.stars-inner)
+// };
+
 class Review {
   // #reviewId;
   #reviewUrl;
   #comment;
-  #userRating;
+  #rating;
   #commentTime;
   #userId;
   #userProfileUrl;
@@ -27,13 +42,16 @@ class Review {
     // this.#reviewId = reviewApi.id;
     this.#reviewUrl = reviewApi.url;
     this.#comment = reviewApi.text;
-    this.#userRating = reviewApi.rating;
+    this.#rating = reviewApi.rating;
     this.#commentTime = reviewApi.time_created;
     this.#userId = id;
     this.#userProfileUrl = profile_url;
     this.#userProfilePhoto = image_url;
     this.#userName = name;
   }
+  showReviewStar = () => {
+    ratingIcon(this.#rating);
+  };
   getUserReview(user) {
     return {
       userId: user.id,
@@ -52,7 +70,7 @@ class Review {
           <h6 class="user-name text-center mt-md-5">${this.#userName}</h6>
         </div> 
         <div class="col-md-10 ms-auto">
-          <p class="user-rating">Rating: ${this.#userRating}</p>
+          <p class="user-rating">Rating: ${this.#rating}</p>
           <p class="user-comment">${this.#comment}</p>
           <p class="comment-time">review time: ${this.#commentTime}</p>
           <li class="userProfile"><a href="${this.#reviewUrl}">Click here for more Review</a></li>

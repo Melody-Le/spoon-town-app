@@ -64,6 +64,7 @@ class RestaurantFilter {
             />
             <h6 class="restaurant-card-name mb-0 mt-1">${this.#restaurantName}</h6>
             <p class="restaurant-card-review mb-0"> Review: ${this.#rating}</p>
+            
       </a>
     `;
   }
