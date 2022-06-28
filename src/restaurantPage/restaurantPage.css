@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Montserrat:ital,wght@0,200;0,400;0,600;0,900;1,700&family=Rubik+Moonrocks&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #868e96;
+  position: relative;
+}
+/* NOTE: GENERAL  */
+a {
+  text-decoration: none;
+}
+
+/* NOTE: NAVIGATION BAR  */
+.brand {
+  font-family: "Rubik Moonrocks", cursive;
+  font-size: 1.5rem;
+  color: #de6035;
+}
+.logo {
+  width: 5rem;
+}
+#toggler-icon {
+  background-image: url("../img/toggle-icon.png");
+  background-size: 2.5rem;
+  background-position: center;
+  border: none;
+}
+.account {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 5rem;
+}
+
+/* .offcanvas.offcanvas-end {
+  max-width: 100%;
+} */
+/* SEARCH BOX  */
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+.hidden {
+  display: none !important;
+}
+
+.search-location-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url(../img/home-cover1.png);
+  background-size: cover;
+  background-position: center;
+  min-height: 50vh;
+  color: #fff;
+}
+.search-method {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+}
+
+.location-icon {
+  width: 2rem;
+  margin-right: 1rem;
+}
+.search-map {
+  width: 3rem;
+}
+.search-btn {
+  width: 2rem;
+}
+
+/* LOCATION COMPONENT  */
+.location-container {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  cursor: pointer;
+  background-color: rgba(34, 34, 34, 0.6);
+  z-index: 10;
+}
+.location {
+  display: flex;
+  align-items: center;
+}
+.location:hover {
+  color: #de6035;
+}
+.selected-location {
+  color: #549490;
+  font-weight: 600;
+}
+
+/* CATEGORIES COMPONENT  */
+.categories-container {
+  text-align: center;
+  color: #de6035;
+}
+.category-list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+.categories {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 8rem 0 0;
+  height: 8rem;
+  background-image: url(../img/home-cover2.png);
+  background-size: cover;
+  background-position: center;
+  border-radius: 8rem;
+  cursor: pointer;
+  color: #fff;
+  text-shadow: 3px 3px 6px #030303;
+}
+.categories:hover {
+  background-color: rgba(194, 194, 194, 0.6);
+  background-blend-mode: overlay;
+}
+.selected-category {
+  background-color: #549490;
+  background-image: none;
+}
+
+/* FILTER PAGE CONTENT  */
+.restaurant-card {
+  color: #030303;
+  text-decoration: none;
+  font-weight: 500;
+}
+.restaurant-card:hover {
+  color: #de6035 !important;
+}
+
+/* RESTAURANT PAGE:  */
+.restaurant-image {
+  object-fit: cover;
+  max-height: 100%;
+}
+
+.detail-restaurant {
+  padding-left: 1rem;
+  border: #549490 1px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+}
+.other-button button,
+.other-button li {
+  background-color: #549490;
+  color: white;
+  border-radius: 10rem;
+}
+.page-url {
+  text-decoration: none;
+  color: white;
+}
+.map-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20rem;
+  background-color: #549490;
+  padding-right: 0rem;
+  color: white;
+}
+
+/* REVIEW CONTAINER */
+.user-identify {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-image {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 10rem;
+}
+
+@media (max-width: 575.98px) {
+  .card-columns {
+    column-count: 1;
+  }
+}
+@media (min-width: 576px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+@media (min-width: 768px) {
+  .card-columns {
+    column-count: 3;
+  }
+}
+@media (min-width: 992px) {
+  .card-columns {
+    column-count: 4;
+  }
+}
+@media (min-width: 1200px) {
+  .card-columns {
+    column-count: 4;
+  }
+}
