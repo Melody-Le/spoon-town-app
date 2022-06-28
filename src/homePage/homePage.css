@@ -6,7 +6,7 @@
 }
 body {
   font-family: "Montserrat", sans-serif;
-  color: #868e96;
+  color: #1b1b1b;
   position: relative;
 }
 /* NOTE: GENERAL  */
@@ -33,6 +33,7 @@ a {
   width: 4rem;
   height: 4rem;
   border-radius: 5rem;
+  margin-left: 2rem;
 }
 
 /* NOTE: HOMEPAGE:  */

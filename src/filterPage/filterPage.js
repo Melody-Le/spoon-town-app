@@ -56,9 +56,7 @@ class RestaurantFilter {
   }
   showRestaurantCard() {
     return `
-      <a class="restaurant-card my-2 border-0" id ="${this.#id}" href="../restaurantPage/restaurantPage.html?id=${
-      this.#id
-    }">
+      <a class="restaurant-card my-2 border-0" id ="${this.#id}" href="../restaurantPage/restaurantPage.html?id=${this.#id}">
             <img
               src=${this.#imageUrl}
               class="card-img-top restaurant-image rounded-4"
