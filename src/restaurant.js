@@ -13,17 +13,26 @@ async function callApi(url) {
 }
 
 class Review {
+  // #reviewId;
+  #reviewUrl;
+  #comment;
+  #userRating;
+  #commentTime;
+  #userId;
+  #userProfileUrl;
+  #userProfilePhoto;
+  #userName;
   constructor(data) {
     const { id, profile_url, image_url, name } = data.user;
-    this.reviewId = data.id;
-    this.reviewUrl = data.url;
-    this.comment = data.text;
-    this.userRating = data.rating;
-    this.commentTime = data.time_created;
-    this.userId = id;
-    this.userProfileUrl = profile_url;
-    this.userProfilePhoto = image_url;
-    this.userName = name;
+    // this.#reviewId = data.id;
+    this.#reviewUrl = data.url;
+    this.#comment = data.text;
+    this.#userRating = data.rating;
+    this.#commentTime = data.time_created;
+    this.#userId = id;
+    this.#userProfileUrl = profile_url;
+    this.#userProfilePhoto = image_url;
+    this.#userName = name;
   }
   getUserReview(user) {
     return {
@@ -39,14 +48,15 @@ class Review {
       <hr class="m-3 my-5">
       <div class="review row p-3 bg-light my-3">
         <div class="col-lg-2 col-sm-2 user-identify">
-          <img class="user-image" src="${this.userProfilePhoto}" alt="profile-picture-${this.userId}">
-          <h6 class="user-name text-center mt-md-5">${this.userName}</h6>
+          <img class="user-image" src="${this.#userProfilePhoto}" alt="profile-picture-${this.#userId}">
+          <h6 class="user-name text-center mt-md-5">${this.#userName}</h6>
         </div> 
         <div class="col-md-10 ms-auto">
-          <p class="user-rating">Rating: ${this.userRating}</p>
-          <p class="user-comment">${this.comment}</p>
-          <p class="comment-time">review time: ${this.commentTime}</p>
-          <li class="userProfile"><a href="${this.userProfileUrl}">User Profile</a></li>
+          <p class="user-rating">Rating: ${this.#userRating}</p>
+          <p class="user-comment">${this.#comment}</p>
+          <p class="comment-time">review time: ${this.#commentTime}</p>
+          <li class="userProfile"><a href="${this.#reviewUrl}">Click here for more Review</a></li>
+          <li class="userProfile"><a href="${this.#userProfileUrl}">User Profile</a></li>
         </div>
       </div>
     `;
@@ -55,7 +65,7 @@ class Review {
 }
 
 class Restaurant {
-  // #id;
+  #idRestaurantApi;
   #restaurantName;
   #photo1;
   #photo2;
@@ -66,19 +76,19 @@ class Restaurant {
   #phone;
   #address;
   #cuisine;
-  constructor(data) {
-    const address = Object.values(data.location.display_address).toString(" ");
-    const title = data.categories.map((item) => item.title).join(", ");
-    const [photo1, photo2, photo3] = data.photos;
-    // this.#id = data.id;
-    this.#restaurantName = data.name;
+  constructor(restaurantApi) {
+    const address = Object.values(restaurantApi.location.display_address).toString(" ");
+    const title = restaurantApi.categories.map((item) => item.title).join(", ");
+    const [photo1, photo2, photo3] = restaurantApi.photos;
+    this.#idRestaurantApi = restaurantApi.id;
+    this.#restaurantName = restaurantApi.name;
     this.#photo1 = photo1;
     this.#photo2 = photo2;
     this.#photo3 = photo3;
-    this.#sourceUrl = data.url;
-    this.#rating = data.rating;
-    this.#price = data.price;
-    this.#phone = data.phone;
+    this.#sourceUrl = restaurantApi.url;
+    this.#rating = restaurantApi.rating;
+    this.#price = restaurantApi.price;
+    this.#phone = restaurantApi.phone;
     this.#address = address;
     this.#cuisine = title;
   }
@@ -88,29 +98,29 @@ class Restaurant {
       <h1 class="restaurant-name my-3">${this.#restaurantName}</h1>
       <div class="row">
         <div class="row g-2">
-          <img class="restaurant-image col-md-4" src="${this.#photo2}" alt="restaurant-image-${this.id}">
-          <img class="restaurant-image col-md-4" src="${this.#photo1}" alt="restaurant-image-${this.id}">
-          <img class="restaurant-image col-md-4" src="${this.#photo3}" alt="restaurant-image-${this.id}">
+          <img class="restaurant-image col-md-4" src="${this.#photo2}" alt="restaurant-image-${this.#idRestaurantApi}">
+          <img class="restaurant-image col-md-4" src="${this.#photo1}" alt="restaurant-image-${this.#idRestaurantApi}">
+          <img class="restaurant-image col-md-4" src="${this.#photo3}" alt="restaurant-image-${this.#idRestaurantApi}">
         </div>
-        <div class="restaurant-information row gy-3 gx-2 justify-content-between">
-          <div class="detail-restaurant col-6">
+        <div class="row gy-3 gx-2">
+          <div class="detail-restaurant col-lg-6">
             <h3>Detail</h3>
-            <p class="card-text review">Rating: ${this.#rating}</p>
-            <p class="card-text review">Adress: ${this.#address}</p>
-            <p class="card-text review">Price: ${this.#price}</p>
-            <p class="card-text review">Phone: ${this.#phone}</p>
-            <p class="card-text review">Cuisine: ${this.#cuisine}</p>
+            <p>Rating: ${this.#rating}</p>
+            <p>Adress: ${this.#address}</p>
+            <p>Price: ${this.#price}</p>
+            <p>Phone: ${this.#phone}</p>
+            <p>Cuisine: ${this.#cuisine}</p>
             <div class="other-button">
-              <li class = "btn btn-go-page p-2">
+              <li class="btn p-2">
                 <a class="page-url" href="${this.#sourceUrl}">MAKE A RESERVATION</a>
               </li>
-              <button class="btn btn-share p-2">SHARE</button>
-              <button class="btn btn-like p-2">♥️</button>
-              <button class="btn btn-pin p-2">📌</button>
+              <button class="btn p-2">SHARE</button>
+              <button class="btn p-2">♥️</button>
+              <button class="btn p-2">📌</button>
             </div>
           </div>
-          <div class="see-map col-6">
-            I AM MAP LOCATION - API MAP
+          <div class="map-location col-lg-6">
+            I AM API MAP TO SHOW LOCATION OF THIS RESTAURANT.
           </div>
         </div>
       </div>
@@ -133,15 +143,15 @@ const renderReview = async function (restaurantId) {
 };
 
 const renderRestaurant = async function (idRestaurant) {
-  const restaurantContent = document.querySelector(".restaurant-content");
-  const data = await callApi(`https://api.yelp.com/v3/businesses/${idRestaurant}`);
-  const restaurant = new Restaurant(data);
-  restaurant.showRestaurantCard(restaurantContent);
+  const restaurantContainer = document.querySelector(".restaurant-container");
+  const restaurantApi = await callApi(`https://api.yelp.com/v3/businesses/${idRestaurant}`);
+  const restaurant = new Restaurant(restaurantApi);
+  restaurant.showRestaurantCard(restaurantContainer);
 };
 
 const init = () => {
   const restaurantId = params.id;
-  renderReview(restaurantId);
   renderRestaurant(restaurantId);
+  renderReview(restaurantId);
 };
 init();

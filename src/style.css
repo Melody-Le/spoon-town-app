@@ -178,11 +178,7 @@ h1.cover-title {
   object-fit: cover;
   max-height: 100%;
 }
-.user-image {
-  object-fit: cover;
-  max-width: 100%;
-  border-radius: 10rem;
-}
+
 .detail-restaurant {
   padding-left: 1rem;
   border: #549490 1px solid;
@@ -201,10 +197,14 @@ h1.cover-title {
   text-decoration: none;
   color: white;
 }
-.see-map {
+.map-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 20rem;
   background-color: #549490;
   padding-right: 0rem;
+  color: white;
 }
 
 /* REVIEW CONTAINER */
@@ -212,6 +212,11 @@ h1.cover-title {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.user-image {
+  object-fit: cover;
+  max-width: 100%;
+  border-radius: 10rem;
 }
 .user-image {
   width: 8rem;
