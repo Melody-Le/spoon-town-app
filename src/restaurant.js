@@ -22,13 +22,13 @@ class Review {
   #userProfileUrl;
   #userProfilePhoto;
   #userName;
-  constructor(data) {
-    const { id, profile_url, image_url, name } = data.user;
-    // this.#reviewId = data.id;
-    this.#reviewUrl = data.url;
-    this.#comment = data.text;
-    this.#userRating = data.rating;
-    this.#commentTime = data.time_created;
+  constructor(reviewApi) {
+    const { id, profile_url, image_url, name } = reviewApi.user;
+    // this.#reviewId = reviewApi.id;
+    this.#reviewUrl = reviewApi.url;
+    this.#comment = reviewApi.text;
+    this.#userRating = reviewApi.rating;
+    this.#commentTime = reviewApi.time_created;
     this.#userId = id;
     this.#userProfileUrl = profile_url;
     this.#userProfilePhoto = image_url;
@@ -135,8 +135,8 @@ const params = new Proxy(new URLSearchParams(window.location.search), {
 
 const renderReview = async function (restaurantId) {
   const reviewContainer = document.querySelector(".review-container");
-  const { reviews: data } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
-  data.forEach((reviewCard) => {
+  const { reviews } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
+  reviews.forEach((reviewCard) => {
     const reviewUser = new Review(reviewCard);
     reviewUser.showReview(reviewContainer);
   });

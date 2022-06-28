@@ -6,14 +6,13 @@
 }
 
 body {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Montserrat", sans-serif;
   color: #868e96;
-  font-size: 1.5rem;
   position: relative;
 }
 /* NOTE: GENERAL  */
 a {
-  text-decoration: none !important;
+  text-decoration: none;
 }
 
 /* NOTE: HOMEPAGE:  */
