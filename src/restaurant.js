@@ -55,46 +55,54 @@ class Review {
 }
 
 class Restaurant {
+  // #id;
+  #restaurantName;
+  #photo1;
+  #photo2;
+  #photo3;
+  #sourceUrl;
+  #rating;
+  #price;
+  #phone;
+  #address;
+  #cuisine;
   constructor(data) {
     const address = Object.values(data.location.display_address).toString(" ");
     const title = data.categories.map((item) => item.title).join(", ");
-    const { latitude, longitude } = data.coordinates;
     const [photo1, photo2, photo3] = data.photos;
-    this.id = data.id;
-    this.restaurantName = data.name;
-    this.image = data.image_url;
-    this.photo1 = photo1;
-    this.photo2 = photo2;
-    this.photo3 = photo3;
-    this.sourceUrl = data.url;
-    this.rating = data.rating;
-    this.price = data.price;
-    this.phone = data.phone;
-    this.address = address;
-    this.title = title;
-    this.latitude = latitude;
-    this.longitude = longitude;
+    // this.#id = data.id;
+    this.#restaurantName = data.name;
+    this.#photo1 = photo1;
+    this.#photo2 = photo2;
+    this.#photo3 = photo3;
+    this.#sourceUrl = data.url;
+    this.#rating = data.rating;
+    this.#price = data.price;
+    this.#phone = data.phone;
+    this.#address = address;
+    this.#cuisine = title;
   }
 
   showRestaurantCard(parentElm) {
     const html = `
-      <h1 class="card-title restaurant-name my-lg-2">${this.restaurantName}</h1>
-      <div class="row gy-3 m-y-5">
-        <div class="row align-items-stretch g-2 mt-3">
-        <img class="restaurant-image col-md-4" src="${this.photo2}" alt="restaurant-image-${this.id}">
-        <img class="restaurant-image col-md-4" src="${this.photo1}" alt="restaurant-image-${this.id}">
-        <img class="restaurant-image col-md-4" src="${this.photo3}" alt="restaurant-image-${this.id}">
+      <h1 class="restaurant-name my-3">${this.#restaurantName}</h1>
+      <div class="row">
+        <div class="row g-2">
+          <img class="restaurant-image col-md-4" src="${this.#photo2}" alt="restaurant-image-${this.id}">
+          <img class="restaurant-image col-md-4" src="${this.#photo1}" alt="restaurant-image-${this.id}">
+          <img class="restaurant-image col-md-4" src="${this.#photo3}" alt="restaurant-image-${this.id}">
         </div>
         <div class="restaurant-information row gy-3 gx-2 justify-content-between">
           <div class="detail-restaurant col-6">
             <h3>Detail</h3>
-            <p class="card-text review">Rating: ${this.rating}</p>
-            <p class="card-text review">Adress: ${this.address}</p>
-            <p class="card-text review">Phone: ${this.phone}</p>
-            <p class="card-text review">Cuisine: ${this.title}</p>
+            <p class="card-text review">Rating: ${this.#rating}</p>
+            <p class="card-text review">Adress: ${this.#address}</p>
+            <p class="card-text review">Price: ${this.#price}</p>
+            <p class="card-text review">Phone: ${this.#phone}</p>
+            <p class="card-text review">Cuisine: ${this.#cuisine}</p>
             <div class="other-button">
               <li class = "btn btn-go-page p-2">
-                <a class="page-url" href="${this.sourceUrl}">MAKE A RESERVATION</a>
+                <a class="page-url" href="${this.#sourceUrl}">MAKE A RESERVATION</a>
               </li>
               <button class="btn btn-share p-2">SHARE</button>
               <button class="btn btn-like p-2">♥️</button>

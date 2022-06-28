@@ -185,6 +185,7 @@ const onCategoriesClick = async (topPickPlaces) => {
   renderFilterPage(location);
 };
 
+//FIXME: can you help me, how to clean code for 2 funciton below: toggleLocationCOntainer and closeLocationContainer.
 const toggleLocationContainer = () => {
   const locationContainer = document.querySelector(".location-container");
   const overlayLayer = document.querySelector(".overlay");

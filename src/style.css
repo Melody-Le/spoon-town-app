@@ -174,16 +174,6 @@ h1.cover-title {
 }
 
 /* RESTAURANT PAGE:  */
-.restaurant-content {
-  width: 100%;
-}
-.restaurant-card {
-  display: inline-block;
-}
-.card {
-  position: relative;
-  display: block;
-}
 .restaurant-image {
   object-fit: cover;
   max-height: 100%;
