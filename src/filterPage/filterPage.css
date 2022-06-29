@@ -137,13 +137,31 @@ a {
 }
 
 /* FILTER PAGE CONTENT  */
+.card {
+  border: #549490 1px solid;
+  border-radius: 2rem;
+  padding-bottom: 2rem;
+  background-color: #549490;
+  color: white;
+}
+.restaurant-image {
+  object-fit: cover;
+  border-radius: 2rem 2rem 0rem 0;
+}
+.restaurant-image:hover {
+  object-fit: cover;
+  border-radius: 2rem 2rem 8rem 0;
+}
+
 .restaurant-card {
-  color: #030303;
+  color: white;
   text-decoration: none;
   font-weight: 500;
+  transition: opacity 1s ease-in;
+  box-shadow: rgba(17, 12, 46, 0.5) 0px 48px 100px 0px;
 }
 .restaurant-card:hover {
-  color: #de6035 !important;
+  color: #ffffff !important;
 }
 
 @media (max-width: 575.98px) {

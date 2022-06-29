@@ -56,15 +56,15 @@ class RestaurantFilter {
   }
   showRestaurantCard() {
     return `
-      <div class="card d-inline-block mb-3 border-0">
-        <a class="restaurant-card my-2 border-0" id ="${this.#id}" href="../restaurantPage/restaurantPage.html?id=${this.#id}">
+      <div class="card d-inline-block mb-3">
+        <a class="restaurant-card my-2" id ="${this.#id}" href="../restaurantPage/restaurantPage.html?id=${this.#id}">
           <img
             src=${this.#imageUrl}
-            class="card-img-top restaurant-image rounded-4"
+            class="card-img-top restaurant-image"
             alt="restaurant-image"
           />
-          <h6 class="restaurant-card-name mb-0 mt-1">${this.#restaurantName}</h6>
-          <p class="restaurant-card-review mb-0"> Review: ${this.#rating}</p>
+          <h6 class="restaurant-card-name mb-0 mt-3 mx-1">${this.#restaurantName}</h6>
+          <p class="restaurant-card-review mb-0 mx-1"> Review: ${this.#rating}</p>
         </a>
       </div>  
     `;
