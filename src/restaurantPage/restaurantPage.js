@@ -16,7 +16,7 @@ class Review {
   // #reviewId;
   #reviewUrl;
   #comment;
-  #rating;
+  // #rating;
   #commentTime;
   #userId;
   #userProfileUrl;
@@ -27,7 +27,7 @@ class Review {
     // this.#reviewId = reviewApi.id;
     this.#reviewUrl = reviewApi.url;
     this.#comment = reviewApi.text;
-    this.#rating = reviewApi.rating;
+    this.rating = reviewApi.rating;
     this.#commentTime = reviewApi.time_created;
     this.#userId = id;
     this.#userProfileUrl = profile_url;
@@ -37,32 +37,30 @@ class Review {
 
   //THE LOGIC BELOW IS WRONG. I WILL FIX LATER.
   showRatingStar = (rating) => {
-    const starTotal = 5;
-    const starPercentage = (rating / starTotal) * 100;
-    const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
-    document.querySelector(`.user-rating1 .stars-inner`).style.width = "10%";
+    const starPercentage = `${(rating / 5) * 100}%`;
+    document.querySelectorAll(`.user-rating .stars-inner`).forEach((item) => (item.style.width = `${starPercentage}`));
   };
   showReview(parentElm) {
     const html = `
     <div class="review-container container">
-    <hr class="m-3 my-5">
-    <div class="review row p-3 bg-light my-3">
-    <div class="col-lg-2 col-sm-2 user-identify">
-    <img class="user-image" src="${this.#userProfilePhoto}" alt="profile-picture-${this.#userId}">
-    <h6 class="user-name text-center mt-md-5">${this.#userName}</h6>
-    </div> 
-    <div class="col-md-10 ms-auto">
-    <p class="user-rating">Rating: ${this.#rating}</p>
-    <div class="user-rating1">  
-      <div class="stars-outer">
-        <div class="stars-inner"></div>
+      <hr class="m-3 my-5">
+      <div class="review row p-3 bg-light my-3">
+        <div class="col-lg-2 col-sm-2 user-identify">
+        <img class="user-image" src="${this.#userProfilePhoto}" alt="profile-picture-${this.#userId}">
+        <h6 class="user-name text-center mt-md-5">${this.#userName}</h6>
+      </div> 
+      <div class="col-md-10 ms-auto">
+        <p class="user-rating">Rating: ${this.rating}</p>
+          <div class="user-rating">  
+            <div class="stars-outer">
+              <div class="stars-inner"></div>
+            </div>
+          </div>
+        <p class="user-comment">${this.#comment}</p>
+        <p class="comment-time">review time: ${this.#commentTime}</p>
+        <li class="userProfile"><a href="${this.#reviewUrl}">Click here for more Review</a></li>
+        <li class="userProfile"><a href="${this.#userProfileUrl}">User Profile</a></li>
       </div>
-    </div>
-    <p class="user-comment">${this.#comment}</p>
-    <p class="comment-time">review time: ${this.#commentTime}</p>
-    <li class="userProfile"><a href="${this.#reviewUrl}">Click here for more Review</a></li>
-    <li class="userProfile"><a href="${this.#userProfileUrl}">User Profile</a></li>
-    </div>
     </div>
     `;
     parentElm.insertAdjacentHTML("beforeend", html);
@@ -144,7 +142,6 @@ const renderReview = async function (restaurantId) {
   const { reviews } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
   reviews.forEach((reviewCard) => {
     const reviewUser = new Review(reviewCard);
-    // reviewUser.ratingIcon();
     reviewUser.showReview(reviewContainer);
     reviewUser.showRatingStar(reviewUser.rating);
   });

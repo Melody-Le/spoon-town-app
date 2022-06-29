@@ -99,7 +99,7 @@ a {
   left: 0;
   white-space: nowrap;
   overflow: hidden;
-  width: 50%;
+  width: 0%;
 }
 .stars-inner::before {
   content: "\f005 \f005 \f005 \f005 \f005";
