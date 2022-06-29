@@ -188,6 +188,14 @@ const renderFilterPage = async function (location) {
     const filterPageContent = businesses.map((resObj) => new RestaurantFilter(resObj).showRestaurantCard()).join("");
 
     restaurantCardContainer.insertAdjacentHTML("afterbegin", filterPageContent);
+
+    const navbarHeight = document.querySelector(".navbar").clientHeight;
+    const restaurantCardContainerTop = restaurantCardContainer.offsetTop;
+    const top = restaurantCardContainerTop - navbarHeight;
+    window.scrollTo?.({
+      top,
+      behavior: 'smooth' // smooth doesn't work for safari
+    });
   } catch {
     restaurantCardContainer.innerHTML = "";
   }
