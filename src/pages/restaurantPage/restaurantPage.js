@@ -12,7 +12,6 @@ async function callApi(url) {
 }
 
 class Review {
-  // #reviewId;
   #reviewUrl;
   #comment;
   // #rating;
@@ -23,7 +22,7 @@ class Review {
   #userName;
   constructor(reviewApi) {
     const { id, profile_url, image_url, name } = reviewApi.user;
-    // this.#reviewId = reviewApi.id;
+    this.reviewId = reviewApi.id;
     this.#reviewUrl = reviewApi.url;
     this.#comment = reviewApi.text;
     this.rating = reviewApi.rating;
@@ -35,16 +34,17 @@ class Review {
   }
 
   display(rating, parentElm) {
-    this.#showRatingStar(rating);
-    this.#showReview(parentElm);
+    this.showReview(parentElm);
+    this.showRatingStar(rating);
   }
 
-  //THE LOGIC BELOW IS WRONG. I WILL FIX LATER.
-  #showRatingStar(rating) {
+  //THE LOGIC BELOW IS WRONG.
+  showRatingStar(rating) {
     const starPercentage = `${(rating / 5) * 100}%`;
-    document.querySelectorAll(`.user-rating .stars-inner`).forEach((item) => (item.style.width = `${starPercentage}`));
-  };
-  #showReview(parentElm) {
+    const starElement = document.querySelector(`#${this.reviewId}`);
+    starElement.style.width = starPercentage;
+  }
+  showReview(parentElm) {
     const html = `
       <div class="review-container container">
         <hr class="m-3 my-5" />
@@ -57,7 +57,7 @@ class Review {
             <p class="user-rating">Rating: ${this.rating}</p>
             <div class="user-rating">
               <div class="stars-outer">
-                <div class="stars-inner"></div>
+                <div class="stars-inner" id=${this.reviewId}></div>
               </div>
             </div>
             <p class="user-comment">${this.#comment}</p>
@@ -73,7 +73,6 @@ class Review {
       </div>
     `;
     parentElm.insertAdjacentHTML("beforeend", html);
-    // this.#showRatingStar(this.rating);
   }
 }
 
@@ -151,7 +150,7 @@ const renderReview = async function (restaurantId) {
   const { reviews } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
   reviews.forEach((reviewCard) => {
     const reviewUser = new Review(reviewCard);
-    reviewUser.display(reviewUser.rating, reviewContainer)
+    reviewUser.display(reviewUser.rating, reviewContainer);
   });
 };
 
