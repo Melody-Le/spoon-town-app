@@ -8,8 +8,7 @@ async function callApi(url) {
       Authorization: `Bearer ${apiKey}`,
     },
   });
-  const data = await response.json();
-  return data;
+  return await response.json();
 }
 
 class Review {
@@ -35,36 +34,46 @@ class Review {
     this.#userName = name;
   }
 
+  display(rating, parentElm) {
+    this.#showRatingStar(rating);
+    this.#showReview(parentElm);
+  }
+
   //THE LOGIC BELOW IS WRONG. I WILL FIX LATER.
-  showRatingStar = (rating) => {
+  #showRatingStar(rating) {
     const starPercentage = `${(rating / 5) * 100}%`;
     document.querySelectorAll(`.user-rating .stars-inner`).forEach((item) => (item.style.width = `${starPercentage}`));
   };
-  showReview(parentElm) {
+  #showReview(parentElm) {
     const html = `
-    <div class="review-container container">
-      <hr class="m-3 my-5">
-      <div class="review row p-3 bg-light my-3">
-        <div class="col-lg-2 col-sm-2 user-identify">
-        <img class="user-image" src="${this.#userProfilePhoto}" alt="profile-picture-${this.#userId}">
-        <h6 class="user-name text-center mt-md-5">${this.#userName}</h6>
-      </div> 
-      <div class="col-md-10 ms-auto">
-        <p class="user-rating">Rating: ${this.rating}</p>
-          <div class="user-rating">  
-            <div class="stars-outer">
-              <div class="stars-inner"></div>
-            </div>
+      <div class="review-container container">
+        <hr class="m-3 my-5" />
+        <div class="review row p-3 bg-light my-3">
+          <div class="col-lg-2 col-sm-2 user-identify">
+            <img class="user-image" src="${this.#userProfilePhoto}" alt="profile-picture-${this.#userId}" />
+            <h6 class="user-name text-center mt-md-5">${this.#userName}</h6>
           </div>
-        <p class="user-comment">${this.#comment}</p>
-        <p class="comment-time">review time: ${this.#commentTime}</p>
-        <li class="userProfile"><a href="${this.#reviewUrl}">Click here for more Review</a></li>
-        <li class="userProfile"><a href="${this.#userProfileUrl}">User Profile</a></li>
+          <div class="col-md-10 ms-auto">
+            <p class="user-rating">Rating: ${this.rating}</p>
+            <div class="user-rating">
+              <div class="stars-outer">
+                <div class="stars-inner"></div>
+              </div>
+            </div>
+            <p class="user-comment">${this.#comment}</p>
+            <p class="comment-time">review time: ${this.#commentTime}</p>
+            <li class="userProfile">
+              <a href="${this.#reviewUrl}">Click here for more Review</a>
+            </li>
+            <li class="userProfile">
+              <a href="${this.#userProfileUrl}">User Profile</a>
+            </li>
+          </div>
+        </div>
       </div>
-    </div>
     `;
     parentElm.insertAdjacentHTML("beforeend", html);
-    // this.showRatingStar(this.rating);
+    // this.#showRatingStar(this.rating);
   }
 }
 
@@ -142,14 +151,13 @@ const renderReview = async function (restaurantId) {
   const { reviews } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
   reviews.forEach((reviewCard) => {
     const reviewUser = new Review(reviewCard);
-    reviewUser.showReview(reviewContainer);
-    reviewUser.showRatingStar(reviewUser.rating);
+    reviewUser.display(reviewUser.rating, reviewContainer)
   });
 };
 
-const renderRestaurant = async function (idRestaurant) {
+const renderRestaurant = async function (restaurantId) {
   const restaurantContainer = document.querySelector(".restaurant-container");
-  const restaurantApi = await callApi(`https://api.yelp.com/v3/businesses/${idRestaurant}`);
+  const restaurantApi = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}`);
   const restaurant = new Restaurant(restaurantApi);
   restaurant.showRestaurantCard(restaurantContainer);
 };

@@ -1,15 +1,27 @@
+const toggleLoader = () => {
+  const dom = document.getElementById('loader-container');
+  dom.classList?.toggle("hidden");
+}
+
 // Ok
 const callApi = async (url) => {
   const cors = "https://melodycors.herokuapp.com/";
   const apiKey =
     "XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx";
+
+  toggleLoader();
+
   const response = await fetch(`${cors}${url}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${apiKey}`,
     },
   });
-  return await response.json();
+  const json =  await response.json();
+
+  toggleLoader();
+
+  return json;
 };
 
 // Ok
@@ -66,7 +78,7 @@ class RestaurantFilter {
           <h6 class="restaurant-card-name mb-0 mt-3 mx-1">${this.#restaurantName}</h6>
           <p class="restaurant-card-review mb-0 mx-1"> Review: ${this.#rating}</p>
         </a>
-      </div>  
+      </div>
     `;
   }
 }
@@ -176,6 +188,14 @@ const renderFilterPage = async function (location) {
     const filterPageContent = businesses.map((resObj) => new RestaurantFilter(resObj).showRestaurantCard()).join("");
 
     restaurantCardContainer.insertAdjacentHTML("afterbegin", filterPageContent);
+
+    const navbarHeight = document.querySelector(".navbar").clientHeight;
+    const restaurantCardContainerTop = restaurantCardContainer.offsetTop;
+    const top = restaurantCardContainerTop - navbarHeight;
+    window.scrollTo?.({
+      top,
+      behavior: 'smooth' // smooth doesn't work for safari
+    });
   } catch {
     restaurantCardContainer.innerHTML = "";
   }
@@ -187,30 +207,27 @@ const onCategoriesClick = async (topPickPlaces) => {
   renderFilterPage(location);
 };
 
-//FIXME: can you help me, how to clean code for 2 funciton below: toggleLocationCOntainer and closeLocationContainer.
-const toggleLocationContainer = () => {
+const toggleLocationContainer = (isForceHidden=false) => {
   const locationContainer = document.querySelector(".location-container");
   const overlayLayer = document.querySelector(".overlay");
-  [locationContainer, overlayLayer].forEach((event) => {
-    event.classList?.toggle("hidden");
-  });
-};
-
-const closeLocationContainer = () => {
-  const locationContainer = document.querySelector(".location-container");
-  const overlayLayer = document.querySelector(".overlay");
-  [locationContainer, overlayLayer].forEach((event) => {
-    event.classList?.add("hidden");
+  [locationContainer, overlayLayer].forEach((dom) => {
+    if(isForceHidden) {
+      dom.classList?.add("hidden");
+    } else {
+      dom.classList?.toggle("hidden");
+    }
   });
 };
 
 // Ok
 const addEventListeners = (topPickPlaces) => {
-  document.querySelector(".search-location").addEventListener("click", toggleLocationContainer);
+  document.querySelector(".search-location").addEventListener("click", () => { toggleLocationContainer() });
+
   document.addEventListener("keydown", (evnt) => {
-    if (evnt.key === "Escape") closeLocationContainer();
+    if (evnt.key === "Escape") toggleLocationContainer(true);
   });
-  document.querySelector(".overlay").addEventListener("click", closeLocationContainer);
+
+  document.querySelector(".overlay").addEventListener("click", () => { toggleLocationContainer(true) });
 
   document.querySelector(".location-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
@@ -221,7 +238,7 @@ const addEventListeners = (topPickPlaces) => {
     target.classList.toggle("selected-location");
     onPlaceClicked(topPickPlaces);
 
-    closeLocationContainer();
+    toggleLocationContainer(true);
     document.querySelector(".category-title").classList.remove("hidden");
   });
 

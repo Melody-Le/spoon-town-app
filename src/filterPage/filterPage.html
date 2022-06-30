@@ -13,7 +13,7 @@
     <nav class="navbar navbar-expand-md bg-light sticky-top">
       <div class="container-fluid">
         <div class="brand row align-items-center">
-          <a class="navbar-brand col-3" href="../homePage/homePage.html">
+          <a class="navbar-brand col-3" href="/">
             <img class="logo" src="../img/logo-orange.png" alt="logo"/>
           </a>
           <div class="brand-name col-8 mt-4">SPOON TOWN</div>
@@ -41,7 +41,9 @@
         </button>
         <div class="search-location px-4 py-1 border-0 rounded-5 bg-white">
           <input class="border-0" type="search" name="search" placeholder="Where to eat?">
-          <button class=" btn border-0" type="submit"><img class="search-btn" src="../img/icons8-search.gif" alt="search-icon"/></button>
+          <button class=" btn border-0" type="submit">
+            <img class="search-btn" src="../img/icons8-search.gif" alt="search-icon"/>
+          </button>
         </div>
       </div>
       <div class="location-container hidden">
@@ -51,9 +53,9 @@
         </div>
         <hr class="m-3">
         <p class="mx-4">TOP PICK</p>
-        <!-- ADD TOP PICK LOCATION HERE-->  
+        <!-- ADD TOP PICK LOCATION HERE-->
       </div>
-    </div>  
+    </div>
 
     <div class="categories-container mt-5">
       <div>
@@ -69,6 +71,9 @@
       </div>
     </div>
     <div class="overlay hidden"></div>
+    <div class="hidden" id="loader-container">
+      <div class="lds-dual-ring"></div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="./filterPage.js"></script>
   </body>
