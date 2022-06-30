@@ -14,7 +14,7 @@ async function callApi(url) {
 class Review {
   #reviewUrl;
   #comment;
-  // #rating;
+  #rating;
   #commentTime;
   #userId;
   #userProfileUrl;
@@ -25,26 +25,15 @@ class Review {
     this.reviewId = reviewApi.id;
     this.#reviewUrl = reviewApi.url;
     this.#comment = reviewApi.text;
-    this.rating = reviewApi.rating;
+    this.#rating = reviewApi.rating;
     this.#commentTime = reviewApi.time_created;
     this.#userId = id;
     this.#userProfileUrl = profile_url;
     this.#userProfilePhoto = image_url;
     this.#userName = name;
   }
-
-  display(rating, parentElm) {
-    this.showReview(parentElm);
-    this.showRatingStar(rating);
-  }
-
-  //THE LOGIC BELOW IS WRONG.
-  showRatingStar(rating) {
-    const starPercentage = `${(rating / 5) * 100}%`;
-    const starElement = document.querySelector(`#${this.reviewId}`);
-    starElement.style.width = starPercentage;
-  }
   showReview(parentElm) {
+    const starPercentage = `${(this.#rating / 5) * 100}%`;
     const html = `
       <div class="review-container container">
         <hr class="m-3 my-5" />
@@ -54,10 +43,9 @@ class Review {
             <h6 class="user-name text-center mt-md-5">${this.#userName}</h6>
           </div>
           <div class="col-md-10 ms-auto">
-            <p class="user-rating">Rating: ${this.rating}</p>
             <div class="user-rating">
               <div class="stars-outer">
-                <div class="stars-inner" id=${this.reviewId}></div>
+                <div class="stars-inner" style="width:${starPercentage}"></div>
               </div>
             </div>
             <p class="user-comment">${this.#comment}</p>
@@ -78,12 +66,12 @@ class Review {
 
 class Restaurant {
   #idRestaurantApi;
+  #rating;
   #restaurantName;
   #photo1;
   #photo2;
   #photo3;
   #sourceUrl;
-  #rating;
   #price;
   #phone;
   #address;
@@ -104,20 +92,32 @@ class Restaurant {
     this.#address = address;
     this.#cuisine = title;
   }
-
   showRestaurantCard(parentElm) {
+    const starPercentage = `${(this.#rating / 5) * 100}%`;
     const html = `
-      <h1 class="restaurant-name my-3">${this.#restaurantName}</h1>
-      <div class="row">
-        <div class="row g-2">
-          <img class="restaurant-image col-md-4" src="${this.#photo2}" alt="restaurant-image-${this.#idRestaurantApi}">
-          <img class="restaurant-image col-md-4" src="${this.#photo1}" alt="restaurant-image-${this.#idRestaurantApi}">
-          <img class="restaurant-image col-md-4" src="${this.#photo3}" alt="restaurant-image-${this.#idRestaurantApi}">
+      <div class="my-3">
+        <h1 class="restaurant-name">${this.#restaurantName}</h1>
+        <div class="user-rating">
+          <div class="stars-outer">
+            <div class="stars-inner" style="width:${starPercentage}"></div>
+          </div>
+        </div>
+      </div>
+      
+        <div class="myrow">
+          <figure class="restaurant-image col-md-4">
+            <img src="${this.#photo2}" alt="restaurant-image-${this.#idRestaurantApi}" />
+          </figure>
+          <figure class="restaurant-image col-md-4">
+            <img src="${this.#photo1}" alt="restaurant-image-${this.#idRestaurantApi}" />
+          </figure>
+          <figure class="restaurant-image col-md-4">
+            <img src="${this.#photo3}" alt="restaurant-image-${this.#idRestaurantApi}" />
+          </figure>
         </div>
         <div class="row gy-3 gx-2">
           <div class="detail-restaurant col-lg-6">
             <h3>Detail</h3>
-            <p>Rating: ${this.#rating}</p>
             <p>Adress: ${this.#address}</p>
             <p>Price: ${this.#price}</p>
             <p>Phone: ${this.#phone}</p>
@@ -135,7 +135,7 @@ class Restaurant {
             I AM API MAP TO SHOW LOCATION OF THIS RESTAURANT.
           </div>
         </div>
-      </div>
+      
     `;
     parentElm.insertAdjacentHTML("beforeend", html);
   }
@@ -145,16 +145,16 @@ const params = new Proxy(new URLSearchParams(window.location.search), {
   get: (searchParams, prop) => searchParams.get(prop),
 });
 
-const renderReview = async function (restaurantId) {
+const renderReview = async (restaurantId) => {
   const reviewContainer = document.querySelector(".review-container");
   const { reviews } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
   reviews.forEach((reviewCard) => {
     const reviewUser = new Review(reviewCard);
-    reviewUser.display(reviewUser.rating, reviewContainer);
+    reviewUser.showReview(reviewContainer);
   });
 };
 
-const renderRestaurant = async function (restaurantId) {
+const renderRestaurant = async (restaurantId) => {
   const restaurantContainer = document.querySelector(".restaurant-container");
   const restaurantApi = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}`);
   const restaurant = new Restaurant(restaurantApi);

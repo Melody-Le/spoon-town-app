@@ -17,6 +17,9 @@ a {
 }
 
 /* NOTE:NAVIGATION BAR  */
+nav {
+  background-color: rgba(255, 255, 255, 0.9);
+}
 .brand {
   font-family: "Rubik Moonrocks", cursive;
   font-size: 1.5rem;
@@ -154,8 +157,10 @@ a {
   box-shadow: 2px 5px 7px rgba(15, 15, 15, 0.5);
 }
 .restaurant-image {
+  width: 100%;
   object-fit: cover;
   border-radius: 2rem 2rem 30% 0;
+  transition: all 0.2s;
 }
 .restaurant-image:hover {
   object-fit: cover;
@@ -262,4 +267,29 @@ a {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* RATING ICON */
+.stars-outer {
+  display: inline-block;
+  position: relative;
+  font-family: "FontAwesome";
+}
+.stars-outer::before {
+  content: "\f006 \f006 \f006 \f006 \f006";
+}
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0%;
+}
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  color: #549490;
+}
+.icon {
+  height: 3rem;
 }

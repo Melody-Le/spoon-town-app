@@ -56,30 +56,38 @@ class TopPickPlace {
 
 // Ok
 class RestaurantFilter {
-  #id;
   #restaurantName;
   #imageUrl;
   #rating;
   constructor(restaurant) {
-    this.#id = restaurant.id;
+    this.id = restaurant.id;
     this.#restaurantName = restaurant.name;
     this.#imageUrl = restaurant.image_url;
     this.#rating = restaurant.rating;
   }
+
   showRestaurantCard() {
-    return `
+    const starPercentage = `${(this.#rating / 5) * 100}%`;
+    const htmlCard = `
       <div class="card d-inline-block mb-4">
-        <a class="restaurant-card my-2" id ="${this.#id}" href="../restaurantPage/restaurantPage.html?id=${this.#id}">
+        <a class="restaurant-card my-2" href="../restaurantPage/restaurantPage.html?id=${this.id}">
           <img
             src=${this.#imageUrl}
             class="card-img-top restaurant-image"
             alt="restaurant-image"
           />
-          <h6 class="restaurant-card-name mb-0 mt-3 mx-1">${this.#restaurantName}</h6>
-          <p class="restaurant-card-review mb-0 mx-1"> Review: ${this.#rating}</p>
+          <div class="mx-2">
+            <h6 class="restaurant-card-name mb-0 mt-3 mx-1">${this.#restaurantName}</h6>
+            <div class="user-rating">
+              <div class="stars-outer">
+                <div class="stars-inner" style="width:${starPercentage}"></div>
+              </div>
+            </div>
+          </div>
         </a>
       </div>
     `;
+    return htmlCard;
   }
 }
 
@@ -186,7 +194,6 @@ const renderFilterPage = async function (location) {
     const url = await getFilterLink(location);
     const { businesses } = await callApi(url);
     const filterPageContent = businesses.map((resObj) => new RestaurantFilter(resObj).showRestaurantCard()).join("");
-
     restaurantCardContainer.insertAdjacentHTML("afterbegin", filterPageContent);
 
     const navbarHeight = document.querySelector(".navbar").clientHeight;

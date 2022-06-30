@@ -45,9 +45,27 @@ a {
 }
 
 /* NOTE: RESTAURANT PAGE:  */
+.myrow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
 .restaurant-image {
+  overflow: hidden;
+  width: 100%;
+}
+.restaurant-image img {
+  display: block;
+  /* overflow: hidden; */
+  width: 100%;
+  transition: all 0.4s;
   object-fit: cover;
   max-height: 100%;
+}
+.restaurant-image img:hover {
+  transform: scale(1.1);
+  overflow: hidden;
 }
 
 .detail-restaurant {
