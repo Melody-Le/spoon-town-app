@@ -104,38 +104,38 @@ class Restaurant {
         </div>
       </div>
       
-        <div class="myrow">
-          <figure class="restaurant-image col-md-4">
-            <img src="${this.#photo2}" alt="restaurant-image-${this.#idRestaurantApi}" />
-          </figure>
-          <figure class="restaurant-image col-md-4">
-            <img src="${this.#photo1}" alt="restaurant-image-${this.#idRestaurantApi}" />
-          </figure>
-          <figure class="restaurant-image col-md-4">
-            <img src="${this.#photo3}" alt="restaurant-image-${this.#idRestaurantApi}" />
-          </figure>
-        </div>
-        <div class="row gy-3 gx-2">
-          <div class="detail-restaurant col-lg-6">
-            <h3>Detail</h3>
-            <p>Adress: ${this.#address}</p>
-            <p>Price: ${this.#price}</p>
-            <p>Phone: ${this.#phone}</p>
-            <p>Cuisine: ${this.#cuisine}</p>
-            <div class="other-button">
-              <li class="btn p-2">
-                <a class="page-url" href="${this.#sourceUrl}">MAKE A RESERVATION</a>
-              </li>
-              <button class="btn p-2">SHARE</button>
-              <button class="btn p-2">♥️</button>
-              <button class="btn p-2">📌</button>
-            </div>
-          </div>
-          <div class="map-location col-lg-6">
-            I AM API MAP TO SHOW LOCATION OF THIS RESTAURANT.
+      <div class="restaurant-image-container">
+        <figure class="restaurant-image image-active">
+          <img src="${this.#photo2}" alt="restaurant-image-${this.#idRestaurantApi}" />
+        </figure>
+        <figure class="restaurant-image">
+          <img src="${this.#photo1}" alt="restaurant-image-${this.#idRestaurantApi}" />
+        </figure>
+        <figure class="restaurant-image">
+          <img src="${this.#photo3}" alt="restaurant-image-${this.#idRestaurantApi}" />
+        </figure>
+      </div>
+
+      <div class="row gy-3 gx-2">
+        <div class="detail-restaurant col-lg-6">
+          <h3>Detail</h3>
+          <p>Adress: ${this.#address}</p>
+          <p>Price: ${this.#price}</p>
+          <p>Phone: ${this.#phone}</p>
+          <p>Cuisine: ${this.#cuisine}</p>
+          <div class="other-button">
+            <li class="btn p-2">
+              <a class="page-url" href="${this.#sourceUrl}">MAKE A RESERVATION</a>
+            </li>
+            <button class="btn p-2">SHARE</button>
+            <button class="btn p-2">♥️</button>
+            <button class="btn p-2">📌</button>
           </div>
         </div>
-      
+        <div class="map-location col-lg-6">
+          I AM API MAP TO SHOW LOCATION OF THIS RESTAURANT.
+        </div>
+      </div>
     `;
     parentElm.insertAdjacentHTML("beforeend", html);
   }
@@ -154,11 +154,21 @@ const renderReview = async (restaurantId) => {
   });
 };
 
+const addEventListener = () => {
+  document.querySelector(".restaurant-image-container").addEventListener("click", (evnt) => {
+    const target = evnt.target;
+    const oldActive = document.querySelector(".image-active");
+    oldActive.classList.remove("image-active");
+    target.parentElement.classList.add("image-active");
+  });
+};
+
 const renderRestaurant = async (restaurantId) => {
   const restaurantContainer = document.querySelector(".restaurant-container");
   const restaurantApi = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}`);
   const restaurant = new Restaurant(restaurantApi);
   restaurant.showRestaurantCard(restaurantContainer);
+  addEventListener();
 };
 
 const init = () => {
