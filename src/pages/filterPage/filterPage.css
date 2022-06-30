@@ -31,11 +31,18 @@ a {
   background-position: center;
   border: none;
 }
+.dropdown {
+  margin-left: 1rem;
+}
+.dropdown-menu {
+  margin-right: 1rem;
+  margin-top: 1rem !important;
+  border: #549490 1px solid;
+}
 .account {
   width: 4rem;
   height: 4rem;
   border-radius: 5rem;
-  margin-left: 2rem;
 }
 
 /* NOTE: FILTER PAGE */
@@ -54,7 +61,6 @@ a {
 .hidden {
   display: none !important;
 }
-
 .search-location-container {
   display: flex;
   flex-direction: column;
@@ -71,13 +77,16 @@ a {
   align-items: center;
   height: 3rem;
 }
-
 .location-icon {
   width: 2rem;
   margin-right: 1rem;
 }
 .search-map {
   width: 3rem;
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.9);
+}
+.search-location {
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.9);
 }
 .search-btn {
   width: 2rem;
@@ -142,6 +151,7 @@ a {
   border: #549490 1px solid;
   border-radius: 2rem;
   padding-bottom: 2rem;
+  box-shadow: 2px 5px 7px rgba(15, 15, 15, 0.5);
 }
 .restaurant-image {
   object-fit: cover;
@@ -151,7 +161,6 @@ a {
   object-fit: cover;
   border-radius: 2rem 2rem 0 0;
 }
-
 .restaurant-card {
   color: white;
   color: #549490;
@@ -162,11 +171,39 @@ a {
   color: #de6035 !important;
 }
 
+/* SETTING CARD COLUMN  */
 @media (max-width: 575.98px) {
   .card-columns {
     column-count: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .offcanvas-end {
+    width: auto;
+    max-width: 50%;
+    margin-left: 2rem;
+  }
+  .navbar-nav {
+    display: flex;
+  }
+  .nav-item {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .nav-link {
+    border-top: #549490 1px solid;
+  }
+  .nav-link :nth-last-child(1) {
+    border-top: none;
+  }
+  .dropdown {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    order: -1;
+  }
+}
+
 @media (min-width: 576px) {
   .card-columns {
     column-count: 2;
@@ -188,6 +225,7 @@ a {
   }
 }
 
+/* LOADER  */
 #loader-container {
   position: absolute;
   top: 0;
@@ -201,7 +239,6 @@ a {
   align-items: center;
   justify-content: center;
 }
-
 .lds-dual-ring {
   display: inline-block;
   width: 80px;

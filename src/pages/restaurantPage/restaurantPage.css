@@ -30,11 +30,18 @@ a {
   background-position: center;
   border: none;
 }
+.dropdown {
+  margin-left: 1rem;
+}
+.dropdown-menu {
+  margin-right: 1rem;
+  margin-top: 1rem !important;
+  border: #549490 1px solid;
+}
 .account {
   width: 4rem;
   height: 4rem;
   border-radius: 5rem;
-  margin-left: 2rem;
 }
 
 /* NOTE: RESTAURANT PAGE:  */
@@ -107,4 +114,31 @@ a {
 }
 .icon {
   height: 3rem;
+}
+
+/* SETTING NAV BAR RESPONSIVE  */
+@media (max-width: 768px) {
+  .offcanvas-end {
+    width: auto;
+    max-width: 50%;
+    margin-left: 2rem;
+  }
+  .navbar-nav {
+    display: flex;
+  }
+  .nav-item {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .nav-link {
+    border-top: #549490 1px solid;
+  }
+  .nav-link :nth-last-child(1) {
+    border-top: none;
+  }
+  .dropdown {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    order: -1;
+  }
 }

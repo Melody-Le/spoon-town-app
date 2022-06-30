@@ -36,8 +36,8 @@ class TopPickPlace {
   }
   showTopPickPlace(parentElm) {
     const htmlTopPick = `
-      <div class="location mb-2">
-          <img class="location-icon" src="/src/img/map-point-icon.svg" alt="icon-location">
+      <div class="location mb-2 mx-2">
+          <img class="location-icon" src="/src/img/icon-locaiton-topPick-white.svg" alt="icon-location">
           <p class="location-name mb-0">${this.#locationName}</p>
       </div>
     `;
@@ -68,7 +68,7 @@ class RestaurantFilter {
   }
   showRestaurantCard() {
     return `
-      <div class="card d-inline-block mb-3">
+      <div class="card d-inline-block mb-4">
         <a class="restaurant-card my-2" id ="${this.#id}" href="../restaurantPage/restaurantPage.html?id=${this.#id}">
           <img
             src=${this.#imageUrl}

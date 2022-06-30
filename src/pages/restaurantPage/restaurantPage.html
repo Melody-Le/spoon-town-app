@@ -20,26 +20,51 @@
       <div class="container-fluid">
         <div class="brand row align-items-center">
           <a class="navbar-brand col-3" href="/src/index.html">
-            <img class="logo" src="/src/img/logo-orange.png" alt="logo"/>
+            <img class="logo" src="/src/img/logo-orange.png" alt="logo" />
           </a>
           <div class="brand-name col-8 mt-4">SPOON TOWN</div>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar"
+        >
           <span class="navbar-toggler-icon" id="toggler-icon"></span>
         </button>
-        <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-          <ul class="navbar-nav ms-auto align-items-center">
+        <div class="offcanvas-md offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <ul class="navbar-nav align-items-lg-center">
             <li class="nav-item">
               <a class="nav-link" href="/src/index.html">HOME</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"">ABOUT US</a>
+              <a class="nav-link" href="/src/index.html">ABOUT US</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"">CONTACT</a>
+              <a class="nav-link" href="/src/index.html">CONTACT</a>
             </li>
-            <div class="nav-item">
-                <img class="account" src="/src/img/account.jpeg" alt="account"/>
+            <div class="nav-item dropdown">
+              <div class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                <img class="account" src="/src/img/account.jpeg" alt="account" />
+              </div>
+              <ul class="dropdown-menu dropdown-menu-md-end dropdown-menu-sm-start">
+                <li>
+                  <h6 class="dropdown-header">Hi Melody 😊</h6>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">View Full Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Setting</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Sign out</a>
+                </li>
+              </ul>
             </div>
           </ul>
         </div>
