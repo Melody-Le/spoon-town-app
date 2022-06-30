@@ -1,7 +1,7 @@
 const toggleLoader = () => {
-  const dom = document.getElementById('loader-container');
+  const dom = document.getElementById("loader-container");
   dom.classList?.toggle("hidden");
-}
+};
 
 // Ok
 const callApi = async (url) => {
@@ -17,7 +17,7 @@ const callApi = async (url) => {
       Authorization: `Bearer ${apiKey}`,
     },
   });
-  const json =  await response.json();
+  const json = await response.json();
 
   toggleLoader();
 
@@ -37,7 +37,7 @@ class TopPickPlace {
   showTopPickPlace(parentElm) {
     const htmlTopPick = `
       <div class="location mb-2">
-          <img class="location-icon" src="../img/map-point-icon.svg" alt="icon-location">
+          <img class="location-icon" src="/src/img/map-point-icon.svg" alt="icon-location">
           <p class="location-name mb-0">${this.#locationName}</p>
       </div>
     `;
@@ -194,7 +194,7 @@ const renderFilterPage = async function (location) {
     const top = restaurantCardContainerTop - navbarHeight;
     window.scrollTo?.({
       top,
-      behavior: 'smooth' // smooth doesn't work for safari
+      behavior: "smooth", // smooth doesn't work for safari
     });
   } catch {
     restaurantCardContainer.innerHTML = "";
@@ -207,11 +207,11 @@ const onCategoriesClick = async (topPickPlaces) => {
   renderFilterPage(location);
 };
 
-const toggleLocationContainer = (isForceHidden=false) => {
+const toggleLocationContainer = (isForceHidden = false) => {
   const locationContainer = document.querySelector(".location-container");
   const overlayLayer = document.querySelector(".overlay");
   [locationContainer, overlayLayer].forEach((dom) => {
-    if(isForceHidden) {
+    if (isForceHidden) {
       dom.classList?.add("hidden");
     } else {
       dom.classList?.toggle("hidden");
@@ -221,13 +221,17 @@ const toggleLocationContainer = (isForceHidden=false) => {
 
 // Ok
 const addEventListeners = (topPickPlaces) => {
-  document.querySelector(".search-location").addEventListener("click", () => { toggleLocationContainer() });
+  document.querySelector(".search-location").addEventListener("click", () => {
+    toggleLocationContainer();
+  });
 
   document.addEventListener("keydown", (evnt) => {
     if (evnt.key === "Escape") toggleLocationContainer(true);
   });
 
-  document.querySelector(".overlay").addEventListener("click", () => { toggleLocationContainer(true) });
+  document.querySelector(".overlay").addEventListener("click", () => {
+    toggleLocationContainer(true);
+  });
 
   document.querySelector(".location-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
