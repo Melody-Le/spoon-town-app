@@ -36,23 +36,23 @@ class Review {
     const starPercentage = `${(this.#rating / 5) * 100}%`;
     const html = `
       <div class="review-container container">
-        <hr class="m-3 my-5" />
-        <div class="review row p-3 bg-light my-3">
-          <div class="col-lg-2 col-sm-2 user-identify">
-            <img class="user-image" src="${this.#userProfilePhoto}" alt="profile-picture-${this.#userId}" />
-            <h6 class="user-name text-center mt-md-5">${this.#userName}</h6>
+        <div class="review row p-1 bg-light my-3">
+          <div class="col-lg-2 col-md-2 user-identify ">
+            <li class="userProfile">
+              <a href="${this.#userProfileUrl}">
+                <img class="user-image" src="${this.#userProfilePhoto}" alt="profile-picture-${this.#userId}" />
+              </a>
+            </li>
+            <h6 class="user-name text-center">${this.#userName}</h6>
           </div>
-          <div class="col-md-10 ms-auto">
+          <div class="col-md-9 col-md-10 ms-auto py-2">
             <div class="user-rating">
               <div class="stars-outer">
                 <div class="stars-inner" style="width:${starPercentage}"></div>
               </div>
+              <p class="comment-time mx-3">${this.#commentTime}</p>
             </div>
             <p class="user-comment">${this.#comment}</p>
-            <p class="comment-time">review time: ${this.#commentTime}</p>
-            <li class="userProfile">
-              <a href="${this.#userProfileUrl}">User Profile</a>
-            </li>
           </div>
         </div>
       </div>
@@ -115,7 +115,6 @@ class Restaurant {
           <h6>${this.#reviewCount} review</h6>
         </div>
       </div>
-      
       <div class="restaurant-image-container">
         <figure class="restaurant-image image-active">
           <img src="${this.#photo2}" alt="restaurant-image-${this.#idRestaurantApi}" />
@@ -154,7 +153,7 @@ class Restaurant {
             <button class="btn btn-like">&hearts;</button>
           </div>
         </div>
-        <div class="map-location col-lg-6" id="map">
+        <div class="col-lg-6" id="map">
         </div>
       </div>
     `;

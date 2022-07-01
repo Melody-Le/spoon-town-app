@@ -121,26 +121,42 @@ nav {
   color: #de6035;
 }
 
-.map-location {
-  min-height: 20rem;
-  background-color: #549490;
-}
 .like {
   background-color: #de6035 !important;
   border: none;
   color: white !important;
 }
 /* REVIEW CONTAINER */
+.review {
+  padding: 1rem;
+  border-radius: 2rem 2rem 6rem 2rem;
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.2);
+}
 .user-identify {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding-top: 1rem;
+  gap: 1rem;
+  /* margin-right: 1rem; */
 }
 .user-image {
-  width: 8rem;
-  height: 8rem;
+  width: 6rem;
+  height: 6rem;
   object-fit: cover;
   border-radius: 10rem;
+}
+.userProfile {
+  list-style-type: none;
+}
+.userProfile a {
+  color: inherit;
+}
+.user-rating {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* RATING ICON */
@@ -198,13 +214,33 @@ nav {
 /* MAP LOCAITON  */
 #map {
   border: #549490 1px solid;
+  min-height: 20rem;
 }
-.day {
-  font-weight: 400;
+.wrapper {
+  display: flex;
+  justify-content: center;
+  /* height: 100vh; */
+  /*This part is important for centering*/
+  /* display: grid; */
+  /* place-items: center; */
 }
 
-/* OPENING HOUR */
-.openingHour {
-  border: #549490 1px solid;
-  width: 30%;
+.invite-review {
+  width: 22ch;
+  animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+}
+
+@keyframes blink {
+  70% {
+    border-color: transparent;
+  }
 }
