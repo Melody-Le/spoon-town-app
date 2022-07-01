@@ -1,18 +1,28 @@
-// Ok
+const toggleLoader = () => {
+  const dom = document.getElementById("loader-container");
+  dom.classList?.toggle("hidden");
+};
+
 const callApi = async (url) => {
   const cors = "https://melodycors.herokuapp.com/";
   const apiKey =
     "XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx";
+
+  toggleLoader();
+
   const response = await fetch(`${cors}${url}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${apiKey}`,
     },
   });
-  return await response.json();
+  const json = await response.json();
+
+  toggleLoader();
+
+  return json;
 };
 
-// Ok
 class TopPickPlace {
   #locationName;
   #latitude;
@@ -24,12 +34,10 @@ class TopPickPlace {
   }
   showTopPickPlace(parentElm) {
     const htmlTopPick = `
-      <li class="search-option-item">
-        <a href="#" class="search-location search-top-pick">
-          <img class="icon" src="./img/map-point-icon.svg" alt="icon-location">
-          <p class="location-name">${this.#locationName}</p>
-        </a>
-      </li>
+      <div class="location mb-2 mx-2">
+          <img class="location-icon" src="/src/img/icon-locaiton-topPick-white.svg" alt="icon-location">
+          <p class="location-name mb-0">${this.#locationName}</p>
+      </div>
     `;
     parentElm.insertAdjacentHTML("beforeend", htmlTopPick);
   }
@@ -44,38 +52,42 @@ class TopPickPlace {
   }
 }
 
-// Ok
 class RestaurantFilter {
-  #id;
   #restaurantName;
   #imageUrl;
   #rating;
-  // #title;
   constructor(restaurant) {
-    this.#id = restaurant.id;
+    this.id = restaurant.id;
     this.#restaurantName = restaurant.name;
     this.#imageUrl = restaurant.image_url;
     this.#rating = restaurant.rating;
-    // this.title = restaurant.categories?.map((item) => item.title).join(", ");
   }
+
   showRestaurantCard() {
-    return `
-      <a class="restaurant-card my-2" id ="${this.#id}" href="./restaurant.html?id=${this.#id}">
-        <div class="card border-0">
-            <img
-              src=${this.#imageUrl}
-              class="card-img-top restaurant-image rounded-4"
-              alt="restaurant-image"
-            />
-            <h6 class="restaurant-name">${this.#restaurantName}</h6>
-            <p class="review"> Review: ${this.#rating}</p>
-        </div>
-      </a>
+    const starPercentage = `${(this.#rating / 5) * 100}%`;
+    const htmlCard = `
+      <div class="card d-inline-block mb-4">
+        <a class="restaurant-card my-2" href="../restaurantPage/restaurantPage.html?id=${this.id}">
+          <img
+            src=${this.#imageUrl}
+            class="card-img-top restaurant-image"
+            alt="restaurant-image"
+          />
+          <div class="mx-2">
+            <h6 class="restaurant-card-name mb-0 mt-3 mx-1">${this.#restaurantName}</h6>
+            <div class="user-rating">
+              <div class="stars-outer">
+                <div class="stars-inner" style="width:${starPercentage}"></div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
     `;
+    return htmlCard;
   }
 }
 
-// Ok
 const getTopPickPlaces = () => {
   const orchard = new TopPickPlace("Orchard", 1.304052, 103.831764);
   const sentosa = new TopPickPlace("Sentosa", 1.249404, 103.830322);
@@ -84,9 +96,8 @@ const getTopPickPlaces = () => {
   return [orchard, sentosa, novena, hougang];
 };
 
-// Ok
 const showTopPickLocation = (places) => {
-  const searchPlaceContainer = document.querySelector(".search-option-container");
+  const searchPlaceContainer = document.querySelector(".location-container");
   places.forEach((place) => place.showTopPickPlace(searchPlaceContainer));
 };
 
@@ -94,7 +105,6 @@ const getUserCurrentPosition = () => {
   return new Promise((resolved, rejected) => navigator.geolocation.getCurrentPosition(resolved, rejected));
 };
 
-// Ok
 const getCurrentLocation = async () => {
   try {
     const position = await getUserCurrentPosition();
@@ -108,17 +118,16 @@ const getCurrentLocation = async () => {
   }
 };
 
-// Ok
 const selectedLocation = async (topPickPlaces) => {
   const selectedLocationDom = document.querySelector(".selected-location").textContent;
   if (selectedLocationDom === "Nearby") {
     return await getCurrentLocation();
   }
-  const { latitude, longitude } = topPickPlaces?.find((place) => place.getLocation() === selectedLocationDom)?.getPosition() || {};
+  const { latitude, longitude } =
+    topPickPlaces?.find((place) => place.getLocation() === selectedLocationDom)?.getPosition() || {};
   return { latitude, longitude }; // This is to ensure this function return same data format as in line 115
 };
 
-// Ok
 const getRestaurantsByLocation = async (location) => {
   const { latitude, longitude } = location;
   const urlRestaurant = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}`;
@@ -126,99 +135,126 @@ const getRestaurantsByLocation = async (location) => {
   return businesses;
 };
 
-// Ok
 const getCategoriesByLocation = async (location) => {
   const restaurantObjList = await getRestaurantsByLocation(location);
   const restaurantCategories = restaurantObjList.map((obj) => obj.categories.map((category) => category.alias)).flat();
   return [...new Set(restaurantCategories)];
 };
 
-// Ok
 const showCategories = (categories) => {
-  const filterCategoryContainer = document.querySelector(".filter-catogery-container");
-  filterCategoryContainer.innerHTML = categories
-    .map((category) => (`
-      <div class="search-option-item categories">
-        <div class="search-categories text-center">
-          ${category}
-        </div>
-      </div>
-    `))
-    .join("") || "";
+  const filterCategoryContainer = document.querySelector(".category-list");
+  filterCategoryContainer.innerHTML =
+    categories
+      .map(
+        (category) => `
+          <div class="categories text-capitalize">
+              ${category}
+          </div>
+        `
+      )
+      .join("") || "";
 };
 
-// Ok
 const onPlaceClicked = async (topPickPlaces) => {
   const location = await selectedLocation(topPickPlaces);
   const categories = await getCategoriesByLocation(location);
   showCategories(categories);
 };
 
-// Ok
 const getSelectedCategories = () => {
-  return [...document.querySelectorAll(".selected-category")].map(categoryDom => categoryDom.textContent.trim());
+  return [...document.querySelectorAll(".selected-category")].map((categoryDom) => categoryDom.textContent.trim());
 };
 
-// TODO: issue is most probably here
 const getFilterLink = async function (location) {
-  const { latitude, longitude } = location;
-  const categories = await getSelectedCategories();
-  const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
-  return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&categories=${selectedCategorytLink}`;
+  try {
+    const { latitude, longitude } = location;
+    const categories = await getSelectedCategories();
+    const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
+    return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&term=${selectedCategorytLink}`;
+  } catch (error) {
+    console.log("Error is:", error);
+  }
 };
 
-// TODO: removed if not needed. This is used to check if data is the same
-async function hash(string) {
-  const utf8 = new TextEncoder().encode(string);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray
-    .map((bytes) => bytes.toString(16).padStart(2, '0'))
-    .join('');
-}
-
-// Broken somewhere
 const renderFilterPage = async function (location) {
-  const url = await getFilterLink(location);
-  const { businesses } = await callApi(url);
-  const checksum = await hash(businesses);
-
-  console.log('checksum: ', checksum)
-
-  const filterPageContent = businesses
-    .map((resObj) => (new RestaurantFilter(resObj)).showRestaurantCard())
-    .join("");
   const restaurantCardContainer = document.querySelector(".container-card");
-  restaurantCardContainer.innerHTML = filterPageContent;
+  try {
+    const url = await getFilterLink(location);
+    const { businesses } = await callApi(url);
+    const filterPageContent = businesses.map((resObj) => new RestaurantFilter(resObj).showRestaurantCard()).join("");
+    restaurantCardContainer.insertAdjacentHTML("afterbegin", filterPageContent);
+
+    const navbarHeight = document.querySelector(".navbar").clientHeight;
+    const restaurantCardContainerTop = restaurantCardContainer.offsetTop;
+    const top = restaurantCardContainerTop - navbarHeight;
+    window.scrollTo?.({
+      top,
+      behavior: "smooth",
+    });
+  } catch {
+    restaurantCardContainer.innerHTML = "";
+  }
 };
 
-// Ok
 const onCategoriesClick = async (topPickPlaces) => {
   const location = await selectedLocation(topPickPlaces);
   renderFilterPage(location);
 };
 
-// Ok
+const toggleLocationContainer = (isForceHidden = false) => {
+  const locationContainer = document.querySelector(".location-container");
+  const overlayLayer = document.querySelector(".overlay");
+  [locationContainer, overlayLayer].forEach((dom) => {
+    if (isForceHidden) {
+      dom.classList?.add("hidden");
+    } else {
+      dom.classList?.toggle("hidden");
+    }
+  });
+};
+
 const addEventListeners = (topPickPlaces) => {
-  document.querySelector(".search-option-container").addEventListener("click", (evnt) => {
+  document.querySelector(".search-location").addEventListener("click", () => {
+    toggleLocationContainer();
+  });
+
+  document.addEventListener("keydown", (evnt) => {
+    if (evnt.key === "Escape") toggleLocationContainer(true);
+  });
+
+  document.querySelector(".overlay").addEventListener("click", () => {
+    toggleLocationContainer(true);
+  });
+
+  document.querySelector(".location-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
 
     if (!target.classList.contains("location-name")) return;
 
     document.querySelector(".selected-location")?.classList?.remove("selected-location");
     target.classList.toggle("selected-location");
-
     onPlaceClicked(topPickPlaces);
+
+    toggleLocationContainer(true);
+    document.querySelector(".category-title").classList.remove("hidden");
   });
 
-  document.querySelector(".filter-catogery-container").addEventListener("click", (evnt) => {
+  document.querySelector(".category-list").addEventListener("click", (evnt) => {
     const target = evnt.target;
-
-    if (!target.classList.contains("search-categories")) return;
+    if (!target.classList.contains("categories")) return;
 
     target.classList.toggle("selected-category");
 
     onCategoriesClick(topPickPlaces);
+  });
+
+  const toTop = document.querySelector(".to-top");
+  window.addEventListener("scroll", () => {
+    if (window.pageYOffset > 100) {
+      toTop.classList.add("active");
+    } else {
+      toTop.classList.remove("active");
+    }
   });
 };
 

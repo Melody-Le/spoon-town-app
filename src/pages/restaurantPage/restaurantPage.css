@@ -1,0 +1,259 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Montserrat:ital,wght@0,200;0,400;0,600;0,900;1,700&family=Rubik+Moonrocks&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #424242;
+  position: relative;
+}
+
+/* NOTE: GENERAL  */
+a {
+  text-decoration: none;
+}
+
+/* NOTE: NAVIGATION BAR  */
+nav {
+  background-color: rgba(248, 248, 248, 0.9);
+}
+.brand {
+  font-family: "Rubik Moonrocks", cursive;
+  font-size: 1.5rem;
+  color: #de6035;
+}
+.logo {
+  width: 5rem;
+}
+#toggler-icon {
+  background-image: url("/src/img/toggle-icon.png");
+  background-size: 2.5rem;
+  background-position: center;
+  border: none;
+}
+.dropdown {
+  margin-left: 1rem;
+}
+.dropdown-menu {
+  margin-right: 1rem;
+  margin-top: 1rem !important;
+  border: #549490 1px solid;
+}
+.account {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 5rem;
+  box-shadow: 2px 5px 8px rgba(2, 2, 1, 0.3);
+}
+.nav-link {
+  text-shadow: 1px 1px 3px rgba(2, 2, 1, 0.1);
+}
+
+/* NOTE: RESTAURANT PAGE:  */
+.restaurant-name {
+  font-weight: 400;
+}
+.restaurant-review-information {
+  display: flex;
+  grid-area: 1rem;
+  justify-content: space-between;
+}
+.restaurant-image-container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.restaurant-image {
+  overflow: hidden;
+  flex: 1 0 5%;
+  border-radius: 5rem;
+  height: 60vh;
+}
+
+.restaurant-image img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.image-active {
+  transition: all 0.9s;
+  flex: 1 0 80%;
+}
+
+.detail-restaurant {
+  padding-left: 1rem;
+  border: #549490 1px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  min-height: 20rem;
+}
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+.detail-icon {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1rem;
+}
+
+.other-button button,
+.other-button li {
+  background-color: #549490;
+  color: white;
+  border-radius: 10rem;
+}
+.btn:hover {
+  border: 1px #de6035 solid;
+  color: #de6035;
+}
+.btn-reservation a {
+  color: #ffffff;
+  border: none;
+}
+.btn-reservation a:hover {
+  color: #de6035;
+}
+
+.like {
+  background-color: #de6035 !important;
+  border: none;
+  color: white !important;
+}
+/* REVIEW CONTAINER */
+.review {
+  padding: 1rem;
+  border-radius: 2rem 2rem 6rem 2rem;
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.2);
+}
+.user-identify {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding-top: 1rem;
+  gap: 1rem;
+  /* margin-right: 1rem; */
+}
+.user-image {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: 10rem;
+}
+.userProfile {
+  list-style-type: none;
+}
+.userProfile a {
+  color: inherit;
+}
+.user-rating {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* RATING ICON */
+.stars-outer {
+  display: inline-block;
+  position: relative;
+  font-family: "FontAwesome";
+}
+.stars-outer::before {
+  content: "\f006 \f006 \f006 \f006 \f006";
+}
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0%;
+}
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  color: #549490;
+}
+.icon {
+  height: 3rem;
+}
+
+/* SETTING NAV BAR RESPONSIVE  */
+@media (max-width: 768px) {
+  .offcanvas-end {
+    width: auto;
+    max-width: 50%;
+    margin-left: 2rem;
+  }
+  .navbar-nav {
+    display: flex;
+  }
+  .nav-item {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .nav-link {
+    border-top: #549490 1px solid;
+  }
+  .nav-link :nth-last-child(1) {
+    border-top: none;
+  }
+  .dropdown {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    order: -1;
+  }
+}
+
+/* MAP LOCAITON  */
+#map {
+  border: #549490 1px solid;
+  min-height: 20rem;
+}
+.leaflet-popup-content-wrapper {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* REVIEW FROM ACCOUNT */
+.account-review {
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.2);
+}
+.account-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.account-image img {
+  border-radius: 100%;
+  width: 6rem;
+  height: 6rem;
+  margin-top: 1rem;
+}
+#textarea-review {
+  background-color: white;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+#btn-post-review {
+  color: white;
+  margin: 0 auto;
+  width: 10rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5rem;
+  background-color: #de6035;
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.2);
+}

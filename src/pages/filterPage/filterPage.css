@@ -1,0 +1,330 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Montserrat:ital,wght@0,200;0,400;0,600;0,900;1,700&family=Rubik+Moonrocks&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #868e96;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* NOTE: GENERAL  */
+a {
+  text-decoration: none;
+}
+
+/* NOTE:NAVIGATION BAR  */
+nav {
+  background-color: rgba(248, 248, 248, 0.9);
+}
+.brand {
+  font-family: "Rubik Moonrocks", cursive;
+  font-size: 1.5rem;
+  color: #de6035;
+}
+.logo {
+  width: 5rem;
+}
+#toggler-icon {
+  background-image: url("/src/img/toggle-icon.png");
+  background-size: 2.5rem;
+  background-position: center;
+  border: none;
+}
+.dropdown {
+  margin-left: 1rem;
+}
+.dropdown-menu {
+  margin-right: 1rem;
+  margin-top: 1rem !important;
+  border: #549490 1px solid;
+}
+.account {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 5rem;
+  box-shadow: 2px 5px 8px rgba(2, 2, 1, 0.5);
+}
+.nav-link {
+  text-shadow: 1px 1px 3px rgba(2, 2, 1, 0);
+}
+
+/* NOTE: FILTER PAGE */
+
+/* SEARCH BOX  */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+.hidden {
+  display: none !important;
+}
+.search-location-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url(/src/img/home-cover1.png);
+  background-size: cover;
+  background-position: center;
+  min-height: 50vh;
+  color: #fff;
+}
+.search-method {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+}
+.location-icon {
+  width: 2rem;
+  margin-right: 1rem;
+}
+.search-map {
+  width: 3rem;
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.9);
+}
+.search-location {
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.9);
+}
+.search-btn {
+  width: 2rem;
+}
+
+/* LOCATION COMPONENT  */
+.location-container {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  cursor: pointer;
+  background-color: rgba(34, 34, 34, 0.6);
+  z-index: 10;
+}
+.location {
+  display: flex;
+  align-items: center;
+}
+.location:hover {
+  color: #de6035;
+}
+.selected-location {
+  color: #549490;
+  font-weight: 600;
+}
+
+/* CATEGORIES COMPONENT  */
+.categories-container {
+  text-align: center;
+  color: #de6035;
+}
+.category-list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+.categories {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 8rem 0 0;
+  height: 8rem;
+  background-image: url(/src/img/home-cover2.png);
+  background-size: cover;
+  background-position: center;
+  border-radius: 8rem;
+  cursor: pointer;
+  color: #fff;
+  text-shadow: 3px 3px 6px #030303;
+}
+.categories:hover {
+  background-color: rgba(194, 194, 194, 0.6);
+  background-blend-mode: overlay;
+}
+.selected-category {
+  background-color: #549490;
+  background-image: none;
+}
+
+/* FILTER PAGE CONTENT  */
+.card {
+  border: #549490 1px solid;
+  border-radius: 2rem;
+  padding-bottom: 2rem;
+  box-shadow: 2px 5px 7px rgba(15, 15, 15, 0.2);
+  overflow: hidden;
+}
+.restaurant-image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0 0 30% 0;
+}
+.restaurant-image:hover {
+  object-fit: cover;
+  border-radius: 0;
+  transition: all 0.3s ease-in;
+  transform: scale(1.04);
+}
+.restaurant-card {
+  color: white;
+  color: #549490;
+  text-decoration: none;
+  font-weight: 500;
+}
+.restaurant-card:hover {
+  color: #de6035 !important;
+}
+
+/* SETTING CARD COLUMN  */
+@media (max-width: 575.98px) {
+  .card-columns {
+    column-count: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .offcanvas-end {
+    width: auto;
+    max-width: 50%;
+    margin-left: 2rem;
+  }
+  .navbar-nav {
+    display: flex;
+  }
+  .nav-item {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .nav-link {
+    border-top: #549490 1px solid;
+  }
+  .nav-link :nth-last-child(1) {
+    border-top: none;
+  }
+  .dropdown {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    order: -1;
+  }
+}
+
+@media (min-width: 576px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+@media (min-width: 768px) {
+  .card-columns {
+    column-count: 3;
+  }
+}
+@media (min-width: 992px) {
+  .card-columns {
+    column-count: 4;
+  }
+}
+@media (min-width: 1200px) {
+  .card-columns {
+    column-count: 4;
+  }
+}
+
+/* LOADER  */
+#loader-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #000;
+  border-color: rgb(255, 255, 255) transparent rgb(255, 255, 255) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* RATING ICON */
+.stars-outer {
+  display: inline-block;
+  position: relative;
+  font-family: "FontAwesome";
+}
+.stars-outer::before {
+  content: "\f006 \f006 \f006 \f006 \f006";
+}
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0%;
+}
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  color: #549490;
+}
+.icon {
+  height: 3rem;
+}
+/* BACK TO TOP ICON  */
+.to-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 1rem;
+  right: 2rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  background-color: #fff;
+  color: #de6035;
+  border: #de6035 1px solid;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s;
+}
+.to-top:hover {
+  color: #fff;
+  background-color: #de6035;
+}
+.to-top.active {
+  bottom: 4rem;
+  pointer-events: auto;
+  opacity: 1;
+  box-shadow: 2px 5px 7px rgba(4, 4, 3, 0.1);
+}
