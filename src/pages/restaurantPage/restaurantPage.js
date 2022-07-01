@@ -211,7 +211,7 @@ const onPostReviewClick = (evnt) => {
       <div class="review row p-1 bg-light my-3">
         <div class="col-lg-2 col-md-2 user-identify ">
           <li class="userProfile">
-            <img class="user-image" src="/src/img/account.jpeg" alt="profile-picture-account" />
+            <img class="user-image" src="/src/img/account-photo.jpeg" alt="profile-picture-account" />
           </li>
           <h6 class="user-name text-center">Melody</h6>
         </div>
