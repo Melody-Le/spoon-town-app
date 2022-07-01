@@ -72,14 +72,17 @@ class Restaurant {
   #photo2;
   #photo3;
   #sourceUrl;
-  #price;
   #phone;
   #address;
   #cuisine;
+  #isClose;
+  #isOpen;
+  #reviewCount;
   constructor(restaurantApi) {
-    const address = Object.values(restaurantApi.location.display_address).toString(" ");
+    const address = Object.values(restaurantApi.location.display_address).join(", ");
     const title = restaurantApi.categories.map((item) => item.title).join(", ");
     const [photo1, photo2, photo3] = restaurantApi.photos;
+    const { latitude, longitude } = restaurantApi.coordinates;
     this.#idRestaurantApi = restaurantApi.id;
     this.#restaurantName = restaurantApi.name;
     this.#photo1 = photo1;
@@ -87,11 +90,16 @@ class Restaurant {
     this.#photo3 = photo3;
     this.#sourceUrl = restaurantApi.url;
     this.#rating = restaurantApi.rating;
-    this.#price = restaurantApi.price;
     this.#phone = restaurantApi.phone;
     this.#address = address;
     this.#cuisine = title;
+    this.#isClose = restaurantApi.is_closed;
+    this.#isOpen = this.#isClose ? "Closed" : "Open now";
+    this.#reviewCount = restaurantApi.review_count;
+    this.latitude = latitude;
+    this.longitude = longitude;
   }
+
   showRestaurantCard(parentElm) {
     const starPercentage = `${(this.#rating / 5) * 100}%`;
     const html = `
@@ -120,9 +128,10 @@ class Restaurant {
         <div class="detail-restaurant col-lg-6">
           <h3>Detail</h3>
           <p>Adress: ${this.#address}</p>
-          <p>Price: ${this.#price}</p>
           <p>Phone: ${this.#phone}</p>
           <p>Cuisine: ${this.#cuisine}</p>
+          <p>${this.#isOpen}</p>
+          <p>Read all ${this.#reviewCount} review</p>
           <div class="other-button">
             <li class="btn p-2">
               <a class="page-url" href="${this.#sourceUrl}">MAKE A RESERVATION</a>
@@ -132,8 +141,11 @@ class Restaurant {
             <button class="btn p-2">📌</button>
           </div>
         </div>
-        <div class="map-location col-lg-6">
+        <div class="map-location col-lg-6" id="map">
           I AM API MAP TO SHOW LOCATION OF THIS RESTAURANT.
+          <button>GET DIRECTION</button>
+          <a href="https://www.google.com./maps/@${this.latitude},${this.longitude}">GET DIRECTION</a>
+          ${this.latitude} & ${this.longitude}
         </div>
       </div>
     `;
@@ -144,7 +156,15 @@ class Restaurant {
 const params = new Proxy(new URLSearchParams(window.location.search), {
   get: (searchParams, prop) => searchParams.get(prop),
 });
+const showMap = () => {
+  const map = L.map("map").setView([51.505, -0.09], 13);
 
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
+
+  L.marker([51.5, -0.09]).addTo(map).bindPopup("A pretty CSS3 popup.<br> Easily customizable.").openPopup();
+};
 const renderReview = async (restaurantId) => {
   const reviewContainer = document.querySelector(".review-container");
   const { reviews } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
@@ -153,7 +173,7 @@ const renderReview = async (restaurantId) => {
     reviewUser.showReview(reviewContainer);
   });
 };
-
+showMap();
 const addEventListener = () => {
   document.querySelector(".restaurant-image-container").addEventListener("click", (evnt) => {
     const target = evnt.target;

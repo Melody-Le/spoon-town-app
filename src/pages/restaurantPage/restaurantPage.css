@@ -167,3 +167,8 @@ nav {
     order: -1;
   }
 }
+
+/* MAP LOCAITON  */
+#map {
+  height: 30rem;
+}
