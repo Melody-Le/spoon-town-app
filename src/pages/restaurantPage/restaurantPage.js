@@ -75,14 +75,14 @@ class Restaurant {
   #reviewCount;
   #latitude;
   #longitude;
+  #isClosed;
   #isOpen;
-  #isOpenNow;
   constructor(restaurantApi) {
     const address = Object.values(restaurantApi.location.display_address).join(", ");
     const title = restaurantApi.categories.map((item) => item.title).join(", ");
     const [photo1, photo2, photo3] = restaurantApi.photos;
     const { latitude, longitude } = restaurantApi.coordinates;
-    const { is_open_now } = restaurantApi.hours[0];
+    const isClosed = restaurantApi.is_closed;
 
     this.#idRestaurantApi = restaurantApi.id;
     this.#restaurantName = restaurantApi.name;
@@ -97,8 +97,8 @@ class Restaurant {
     this.#reviewCount = restaurantApi.review_count;
     this.#latitude = latitude;
     this.#longitude = longitude;
-    this.#isOpen = is_open_now;
-    this.#isOpenNow = this.#isOpen ? "Open now" : "Closed";
+    this.#isClosed = isClosed;
+    this.#isOpen = this.#isClosed ? "Closed" : "Open now";
   }
 
   showRestaurantCard(parentElm) {
@@ -143,7 +143,7 @@ class Restaurant {
           </div>
           <div class="information">
             <img class="open-now-icon detail-icon" src="/src/img/open-now-icon.png" alt="icon-location">
-            <p class="my-auto">${this.#isOpenNow}</p>
+            <p class="my-auto">${this.#isOpen}</p>
           </div>
           <div class="other-button">
             <li class="btn btn-reservation">
@@ -193,6 +193,50 @@ const renderReview = async (restaurantId) => {
     reviewUser.showReview(reviewContainer);
   });
 };
+
+const inputEvent = () => {
+  const inputReviewDom = document.querySelector("#textarea-review");
+  const btnPost = document.querySelector("#btn-post-review");
+  const reviewTimeOrigin = new Date();
+  const reviewTime = reviewTimeOrigin.toLocaleString("en-gb", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
+  });
+
+  const handlelEvent = (evnt) => {
+    evnt.preventDefault();
+    const htmlPostReview = `
+    <div class="review-container container">
+    <div class="review row p-1 bg-light my-3">
+      <div class="col-lg-2 col-md-2 user-identify ">
+        <li class="userProfile">
+          <img class="user-image" src="/src/img/account.jpeg" alt="profile-picture-account" />
+        </li>
+        <h6 class="user-name text-center">Melody</h6>
+      </div>
+      <div class="col-md-9 col-md-10 ms-auto py-2">
+        <div class="user-rating">
+          <div class="stars-outer">
+            <div class="stars-inner" style="width:100%"></div>
+          </div>
+          <p class="comment-time mx-3">${reviewTime}</p>
+        </div>
+        <p class="user-comment">${inputReviewDom.value}</p>
+      </div>
+    </div>
+  </div>
+    `;
+    document.querySelector(".review-container").insertAdjacentHTML("beforeend", htmlPostReview);
+    inputReviewDom.value = "";
+  };
+  btnPost.addEventListener("click", handlelEvent);
+};
+inputEvent();
 const addEventListener = () => {
   document.querySelector(".restaurant-image-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
@@ -200,6 +244,7 @@ const addEventListener = () => {
     oldActive.classList.remove("image-active");
     target.parentElement.classList.add("image-active");
   });
+
   document.querySelector(".btn-like").addEventListener("click", (evnt) => {
     const target = evnt.target;
     target.classList.toggle("like");

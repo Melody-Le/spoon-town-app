@@ -216,31 +216,40 @@ nav {
   border: #549490 1px solid;
   min-height: 20rem;
 }
-.wrapper {
+
+/* REVIEW FROM ACCOUNT */
+.account-review {
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.2);
+}
+.account-image {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  /* height: 100vh; */
-  /*This part is important for centering*/
-  /* display: grid; */
-  /* place-items: center; */
+  align-items: center;
+  gap: 1rem;
 }
-
-.invite-review {
-  width: 22ch;
-  animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid;
+.account-image img {
+  border-radius: 100%;
+  width: 6rem;
+  height: 6rem;
+  margin-top: 1rem;
 }
-
-@keyframes typing {
-  from {
-    width: 0;
-  }
+#textarea-review {
+  background-color: white;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
 }
-
-@keyframes blink {
-  70% {
-    border-color: transparent;
-  }
+#btn-post-review {
+  color: white;
+  margin: 0 auto;
+  width: 10rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5rem;
+  background-color: #de6035;
+  box-shadow: 2px 5px 8px rgba(15, 15, 15, 0.2);
 }
