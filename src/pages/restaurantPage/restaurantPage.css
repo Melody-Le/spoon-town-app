@@ -91,6 +91,7 @@ nav {
   justify-content: space-between;
   padding-bottom: 1rem;
   padding-top: 1rem;
+  min-height: 20rem;
 }
 .information {
   display: flex;

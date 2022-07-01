@@ -194,11 +194,10 @@ const renderReview = async (restaurantId) => {
   });
 };
 
-const inputEvent = () => {
+const onPostReviewClick = (evnt) => {
+  evnt.preventDefault();
   const inputReviewDom = document.querySelector("#textarea-review");
-  const btnPost = document.querySelector("#btn-post-review");
-  const reviewTimeOrigin = new Date();
-  const reviewTime = reviewTimeOrigin.toLocaleString("en-gb", {
+  const reviewTime = new Date().toLocaleString("en-gb", {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -207,36 +206,31 @@ const inputEvent = () => {
     second: "numeric",
     hour12: false,
   });
-
-  const handlelEvent = (evnt) => {
-    evnt.preventDefault();
-    const htmlPostReview = `
+  const htmlPostReview = `
     <div class="review-container container">
-    <div class="review row p-1 bg-light my-3">
-      <div class="col-lg-2 col-md-2 user-identify ">
-        <li class="userProfile">
-          <img class="user-image" src="/src/img/account.jpeg" alt="profile-picture-account" />
-        </li>
-        <h6 class="user-name text-center">Melody</h6>
-      </div>
-      <div class="col-md-9 col-md-10 ms-auto py-2">
-        <div class="user-rating">
-          <div class="stars-outer">
-            <div class="stars-inner" style="width:100%"></div>
-          </div>
-          <p class="comment-time mx-3">${reviewTime}</p>
+      <div class="review row p-1 bg-light my-3">
+        <div class="col-lg-2 col-md-2 user-identify ">
+          <li class="userProfile">
+            <img class="user-image" src="/src/img/account.jpeg" alt="profile-picture-account" />
+          </li>
+          <h6 class="user-name text-center">Melody</h6>
         </div>
-        <p class="user-comment">${inputReviewDom.value}</p>
+        <div class="col-md-9 col-md-10 ms-auto py-2">
+          <div class="user-rating">
+            <div class="stars-outer">
+              <div class="stars-inner" style="width:100%"></div>
+            </div>
+            <p class="comment-time mx-3">${reviewTime}</p>
+          </div>
+          <p class="user-comment">${inputReviewDom.value}</p>
+        </div>
       </div>
     </div>
-  </div>
-    `;
-    document.querySelector(".review-container").insertAdjacentHTML("beforeend", htmlPostReview);
-    inputReviewDom.value = "";
-  };
-  btnPost.addEventListener("click", handlelEvent);
+  `;
+  document.querySelector(".review-container").insertAdjacentHTML("beforeend", htmlPostReview);
+  inputReviewDom.value = "";
 };
-inputEvent();
+
 const addEventListener = () => {
   document.querySelector(".restaurant-image-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
@@ -249,6 +243,8 @@ const addEventListener = () => {
     const target = evnt.target;
     target.classList.toggle("like");
   });
+
+  document.querySelector("#btn-post-review").addEventListener("click", onPostReviewClick);
 };
 
 const renderRestaurant = async (restaurantId) => {
