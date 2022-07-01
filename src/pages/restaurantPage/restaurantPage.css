@@ -6,7 +6,7 @@
 }
 body {
   font-family: "Montserrat", sans-serif;
-  color: #868e96;
+  color: #424242;
   position: relative;
 }
 
@@ -52,6 +52,14 @@ nav {
 }
 
 /* NOTE: RESTAURANT PAGE:  */
+.restaurant-name {
+  font-weight: 400;
+}
+.restaurant-review-information {
+  display: flex;
+  grid-area: 1rem;
+  justify-content: space-between;
+}
 .restaurant-image-container {
   display: flex;
   flex-flow: row wrap;
@@ -82,27 +90,46 @@ nav {
   flex-direction: column;
   justify-content: space-between;
   padding-bottom: 1rem;
+  padding-top: 1rem;
 }
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+.detail-icon {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1rem;
+}
+
 .other-button button,
 .other-button li {
   background-color: #549490;
   color: white;
   border-radius: 10rem;
 }
-.page-url {
-  text-decoration: none;
-  color: white;
+.btn:hover {
+  border: 1px #de6035 solid;
+  color: #de6035;
 }
-.map-location {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 20rem;
-  background-color: #549490;
-  padding-right: 0rem;
-  color: white;
+.btn-reservation a {
+  color: #ffffff;
+  border: none;
+}
+.btn-reservation a:hover {
+  color: #de6035;
 }
 
+.map-location {
+  min-height: 20rem;
+  background-color: #549490;
+}
+.like {
+  background-color: #de6035 !important;
+  border: none;
+  color: white !important;
+}
 /* REVIEW CONTAINER */
 .user-identify {
   display: flex;
@@ -170,5 +197,14 @@ nav {
 
 /* MAP LOCAITON  */
 #map {
-  max-height: 30rem;
+  border: #549490 1px solid;
+}
+.day {
+  font-weight: 400;
+}
+
+/* OPENING HOUR */
+.openingHour {
+  border: #549490 1px solid;
+  width: 30%;
 }
