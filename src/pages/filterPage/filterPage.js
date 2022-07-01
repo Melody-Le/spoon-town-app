@@ -3,7 +3,6 @@ const toggleLoader = () => {
   dom.classList?.toggle("hidden");
 };
 
-// Ok
 const callApi = async (url) => {
   const cors = "https://melodycors.herokuapp.com/";
   const apiKey =
@@ -24,7 +23,6 @@ const callApi = async (url) => {
   return json;
 };
 
-// Ok
 class TopPickPlace {
   #locationName;
   #latitude;
@@ -54,7 +52,6 @@ class TopPickPlace {
   }
 }
 
-// Ok
 class RestaurantFilter {
   #restaurantName;
   #imageUrl;
@@ -91,7 +88,6 @@ class RestaurantFilter {
   }
 }
 
-// Ok
 const getTopPickPlaces = () => {
   const orchard = new TopPickPlace("Orchard", 1.304052, 103.831764);
   const sentosa = new TopPickPlace("Sentosa", 1.249404, 103.830322);
@@ -100,7 +96,6 @@ const getTopPickPlaces = () => {
   return [orchard, sentosa, novena, hougang];
 };
 
-// Ok
 const showTopPickLocation = (places) => {
   const searchPlaceContainer = document.querySelector(".location-container");
   places.forEach((place) => place.showTopPickPlace(searchPlaceContainer));
@@ -110,7 +105,6 @@ const getUserCurrentPosition = () => {
   return new Promise((resolved, rejected) => navigator.geolocation.getCurrentPosition(resolved, rejected));
 };
 
-// Ok
 const getCurrentLocation = async () => {
   try {
     const position = await getUserCurrentPosition();
@@ -124,7 +118,6 @@ const getCurrentLocation = async () => {
   }
 };
 
-// Ok
 const selectedLocation = async (topPickPlaces) => {
   const selectedLocationDom = document.querySelector(".selected-location").textContent;
   if (selectedLocationDom === "Nearby") {
@@ -135,7 +128,6 @@ const selectedLocation = async (topPickPlaces) => {
   return { latitude, longitude }; // This is to ensure this function return same data format as in line 115
 };
 
-// Ok
 const getRestaurantsByLocation = async (location) => {
   const { latitude, longitude } = location;
   const urlRestaurant = `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}`;
@@ -143,14 +135,12 @@ const getRestaurantsByLocation = async (location) => {
   return businesses;
 };
 
-// Ok
 const getCategoriesByLocation = async (location) => {
   const restaurantObjList = await getRestaurantsByLocation(location);
   const restaurantCategories = restaurantObjList.map((obj) => obj.categories.map((category) => category.alias)).flat();
   return [...new Set(restaurantCategories)];
 };
 
-// Ok
 const showCategories = (categories) => {
   const filterCategoryContainer = document.querySelector(".category-list");
   filterCategoryContainer.innerHTML =
@@ -165,14 +155,12 @@ const showCategories = (categories) => {
       .join("") || "";
 };
 
-// Ok
 const onPlaceClicked = async (topPickPlaces) => {
   const location = await selectedLocation(topPickPlaces);
   const categories = await getCategoriesByLocation(location);
   showCategories(categories);
 };
 
-// Ok
 const getSelectedCategories = () => {
   return [...document.querySelectorAll(".selected-category")].map((categoryDom) => categoryDom.textContent.trim());
 };
@@ -201,14 +189,13 @@ const renderFilterPage = async function (location) {
     const top = restaurantCardContainerTop - navbarHeight;
     window.scrollTo?.({
       top,
-      behavior: "smooth", // smooth doesn't work for safari
+      behavior: "smooth",
     });
   } catch {
     restaurantCardContainer.innerHTML = "";
   }
 };
 
-// Ok
 const onCategoriesClick = async (topPickPlaces) => {
   const location = await selectedLocation(topPickPlaces);
   renderFilterPage(location);
@@ -226,7 +213,6 @@ const toggleLocationContainer = (isForceHidden = false) => {
   });
 };
 
-// Ok
 const addEventListeners = (topPickPlaces) => {
   document.querySelector(".search-location").addEventListener("click", () => {
     toggleLocationContainer();
@@ -260,6 +246,15 @@ const addEventListeners = (topPickPlaces) => {
     target.classList.toggle("selected-category");
 
     onCategoriesClick(topPickPlaces);
+  });
+
+  const toTop = document.querySelector(".to-top");
+  window.addEventListener("scroll", () => {
+    if (window.pageYOffset > 100) {
+      toTop.classList.add("active");
+    } else {
+      toTop.classList.remove("active");
+    }
   });
 };
 

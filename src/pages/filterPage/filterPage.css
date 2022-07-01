@@ -18,7 +18,7 @@ a {
 
 /* NOTE:NAVIGATION BAR  */
 nav {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(248, 248, 248, 0.9);
 }
 .brand {
   font-family: "Rubik Moonrocks", cursive;
@@ -46,6 +46,10 @@ nav {
   width: 4rem;
   height: 4rem;
   border-radius: 5rem;
+  box-shadow: 2px 5px 8px rgba(2, 2, 1, 0.5);
+}
+.nav-link {
+  text-shadow: 1px 1px 3px rgba(2, 2, 1, 0);
 }
 
 /* NOTE: FILTER PAGE */
@@ -154,17 +158,19 @@ nav {
   border: #549490 1px solid;
   border-radius: 2rem;
   padding-bottom: 2rem;
-  box-shadow: 2px 5px 7px rgba(15, 15, 15, 0.5);
+  box-shadow: 2px 5px 7px rgba(15, 15, 15, 0.2);
+  overflow: hidden;
 }
 .restaurant-image {
   width: 100%;
   object-fit: cover;
-  border-radius: 2rem 2rem 30% 0;
-  transition: all 0.2s;
+  border-radius: 0 0 30% 0;
 }
 .restaurant-image:hover {
   object-fit: cover;
-  border-radius: 2rem 2rem 0 0;
+  border-radius: 0;
+  transition: all 0.3s ease-in;
+  transform: scale(1.04);
 }
 .restaurant-card {
   color: white;
@@ -257,7 +263,7 @@ nav {
   margin: 8px;
   border-radius: 50%;
   border: 6px solid #000;
-  border-color: #000 transparent #000 transparent;
+  border-color: rgb(255, 255, 255) transparent rgb(255, 255, 255) transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
@@ -292,4 +298,33 @@ nav {
 }
 .icon {
   height: 3rem;
+}
+/* BACK TO TOP ICON  */
+.to-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 1rem;
+  right: 2rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  background-color: #fff;
+  color: #de6035;
+  border: #de6035 1px solid;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s;
+}
+.to-top:hover {
+  color: #fff;
+  background-color: #de6035;
+}
+.to-top.active {
+  bottom: 4rem;
+  pointer-events: auto;
+  opacity: 1;
+  box-shadow: 2px 5px 7px rgba(4, 4, 3, 0.1);
 }

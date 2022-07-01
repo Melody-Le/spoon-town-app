@@ -17,7 +17,7 @@ a {
 
 /* NOTE: NAVIGATION BAR  */
 nav {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(248, 248, 248, 0.9);
 }
 .brand {
   font-family: "Rubik Moonrocks", cursive;
@@ -45,6 +45,10 @@ nav {
   width: 4rem;
   height: 4rem;
   border-radius: 5rem;
+  box-shadow: 2px 5px 8px rgba(2, 2, 1, 0.3);
+}
+.nav-link {
+  text-shadow: 1px 1px 3px rgba(2, 2, 1, 0.1);
 }
 
 /* NOTE: RESTAURANT PAGE:  */
