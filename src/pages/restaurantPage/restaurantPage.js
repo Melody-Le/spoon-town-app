@@ -78,6 +78,8 @@ class Restaurant {
   #isClose;
   #isOpen;
   #reviewCount;
+  #latitude;
+  #longitude;
   constructor(restaurantApi) {
     const address = Object.values(restaurantApi.location.display_address).join(", ");
     const title = restaurantApi.categories.map((item) => item.title).join(", ");
@@ -96,8 +98,8 @@ class Restaurant {
     this.#isClose = restaurantApi.is_closed;
     this.#isOpen = this.#isClose ? "Closed" : "Open now";
     this.#reviewCount = restaurantApi.review_count;
-    this.latitude = latitude;
-    this.longitude = longitude;
+    this.#latitude = latitude;
+    this.#longitude = longitude;
   }
 
   showRestaurantCard(parentElm) {
@@ -143,28 +145,37 @@ class Restaurant {
         </div>
         <div class="map-location col-lg-6" id="map">
           I AM API MAP TO SHOW LOCATION OF THIS RESTAURANT.
-          <button>GET DIRECTION</button>
-          <a href="https://www.google.com./maps/@${this.latitude},${this.longitude}">GET DIRECTION</a>
-          ${this.latitude} & ${this.longitude}
         </div>
       </div>
     `;
     parentElm.insertAdjacentHTML("beforeend", html);
+  }
+
+  showMap() {
+    const map = L.map("map").setView([this.#latitude, this.#longitude], 15);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    L.marker([this.#latitude, this.#longitude])
+      .addTo(map)
+      .bindPopup(
+        L.popup({
+          maxWidth: 250,
+          minWidth: 100,
+          className: "leaflet-popup",
+        })
+      )
+      .setPopupContent(`${this.#restaurantName}`)
+      .openPopup();
   }
 }
 
 const params = new Proxy(new URLSearchParams(window.location.search), {
   get: (searchParams, prop) => searchParams.get(prop),
 });
-const showMap = () => {
-  const map = L.map("map").setView([51.505, -0.09], 13);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-
-  L.marker([51.5, -0.09]).addTo(map).bindPopup("A pretty CSS3 popup.<br> Easily customizable.").openPopup();
-};
 const renderReview = async (restaurantId) => {
   const reviewContainer = document.querySelector(".review-container");
   const { reviews } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
@@ -173,7 +184,6 @@ const renderReview = async (restaurantId) => {
     reviewUser.showReview(reviewContainer);
   });
 };
-showMap();
 const addEventListener = () => {
   document.querySelector(".restaurant-image-container").addEventListener("click", (evnt) => {
     const target = evnt.target;
@@ -189,6 +199,7 @@ const renderRestaurant = async (restaurantId) => {
   const restaurant = new Restaurant(restaurantApi);
   restaurant.showRestaurantCard(restaurantContainer);
   addEventListener();
+  restaurant.showMap();
 };
 
 const init = () => {
