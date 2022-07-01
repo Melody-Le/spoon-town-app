@@ -217,6 +217,9 @@ nav {
   border: #549490 1px solid;
   min-height: 20rem;
 }
+.leaflet-popup-content-wrapper {
+  background-color: rgba(255, 255, 255, 0.8);
+}
 
 /* REVIEW FROM ACCOUNT */
 .account-review {

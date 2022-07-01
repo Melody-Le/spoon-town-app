@@ -12,7 +12,6 @@ async function callApi(url) {
 }
 
 class Review {
-  #reviewUrl;
   #comment;
   #rating;
   #commentTime;
@@ -22,8 +21,6 @@ class Review {
   #userName;
   constructor(reviewApi) {
     const { id, profile_url, image_url, name } = reviewApi.user;
-    this.reviewId = reviewApi.id;
-    this.#reviewUrl = reviewApi.url;
     this.#comment = reviewApi.text;
     this.#rating = reviewApi.rating;
     this.#commentTime = reviewApi.time_created;
@@ -171,12 +168,17 @@ class Restaurant {
       .addTo(map)
       .bindPopup(
         L.popup({
-          maxWidth: 250,
+          maxWidth: 300,
           minWidth: 100,
           className: "leaflet-popup",
         })
       )
-      .setPopupContent(`${this.#restaurantName}`)
+      .setPopupContent(
+        `
+        <h6>${this.#restaurantName}</h6>
+        <p>${this.#address}</p>
+      `
+      )
       .openPopup();
   }
 }
