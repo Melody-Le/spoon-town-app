@@ -37,7 +37,9 @@ class Review {
           <div class="col-lg-2 col-md-2 user-identify ">
             <li class="userProfile">
               <a href="${this.#userProfileUrl}">
-                <img class="user-image" src="${this.#userProfilePhoto}" alt="profile-picture-${this.#userId}" />
+                <img class="user-image" src="${
+                  this.#userProfilePhoto
+                }" alt="profile-picture-${this.#userId}" />
               </a>
             </li>
             <h6 class="user-name text-center">${this.#userName}</h6>
@@ -75,7 +77,9 @@ class Restaurant {
   #isClosed;
   #isOpen;
   constructor(restaurantApi) {
-    const address = Object.values(restaurantApi.location.display_address).join(", ");
+    const address = Object.values(restaurantApi.location.display_address).join(
+      ", "
+    );
     const title = restaurantApi.categories.map((item) => item.title).join(", ");
     const [photo1, photo2, photo3] = restaurantApi.photos;
     const { latitude, longitude } = restaurantApi.coordinates;
@@ -114,37 +118,45 @@ class Restaurant {
       </div>
       <div class="restaurant-image-container">
         <figure class="restaurant-image image-active">
-          <img src="${this.#photo2}" alt="restaurant-image-${this.#idRestaurantApi}" />
+          <img src="${this.#photo2}" alt="restaurant-image-${
+      this.#idRestaurantApi
+    }" />
         </figure>
         <figure class="restaurant-image">
-          <img src="${this.#photo1}" alt="restaurant-image-${this.#idRestaurantApi}" />
+          <img src="${this.#photo1}" alt="restaurant-image-${
+      this.#idRestaurantApi
+    }" />
         </figure>
         <figure class="restaurant-image">
-          <img src="${this.#photo3}" alt="restaurant-image-${this.#idRestaurantApi}" />
+          <img src="${this.#photo3}" alt="restaurant-image-${
+      this.#idRestaurantApi
+    }" />
         </figure>
       </div>
       <h3 class="mt-4">Detail</h3>
       <div class="row gy-3 gx-2">
         <div class="detail-restaurant col-lg-6">
           <div class="information">
-            <img class="location-icon detail-icon" src="/src/img/icon-location-orange.png" alt="icon-location">
+            <img class="location-icon detail-icon" src="/img/icon-location-orange.png" alt="icon-location">
             <p class="my-auto">${this.#address}</p>
           </div>
           <div class="information">
-            <img class="phone-icon detail-icon" src="/src/img/phone-icon.png" alt="icon-location">
+            <img class="phone-icon detail-icon" src="/img/phone-icon.png" alt="icon-location">
             <p class="my-auto">${this.#phone}</p>
           </div>
           <div class="information">
-            <img class="cuisine-icon detail-icon" src="/src/img/favicon.png" alt="icon-location">
+            <img class="cuisine-icon detail-icon" src="/img/favicon.png" alt="icon-location">
             <p class="my-auto">Cuisine: ${this.#cuisine}</p>
           </div>
           <div class="information">
-            <img class="open-now-icon detail-icon" src="/src/img/open-now-icon.png" alt="icon-location">
+            <img class="open-now-icon detail-icon" src="/img/open-now-icon.png" alt="icon-location">
             <p class="my-auto">${this.#isOpen}</p>
           </div>
           <div class="other-button">
             <li class="btn btn-reservation">
-              <a class="page-url" href="${this.#sourceUrl}">MAKE A RESERVATION</a>
+              <a class="page-url" href="${
+                this.#sourceUrl
+              }">MAKE A RESERVATION</a>
             </li>
             <button class="btn btn-share"><i class="fas fa-share"></i></button>
             <button class="btn btn-like">&hearts;</button>
@@ -161,7 +173,8 @@ class Restaurant {
     const map = L.map("map").setView([this.#latitude, this.#longitude], 17);
 
     L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
     L.marker([this.#latitude, this.#longitude])
@@ -189,7 +202,9 @@ const params = new Proxy(new URLSearchParams(window.location.search), {
 
 const renderReview = async (restaurantId) => {
   const reviewContainer = document.querySelector(".review-container");
-  const { reviews } = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}/reviews`);
+  const { reviews } = await callApi(
+    `https://api.yelp.com/v3/businesses/${restaurantId}/reviews`
+  );
   reviews.forEach((reviewCard) => {
     const reviewUser = new Review(reviewCard);
     reviewUser.showReview(reviewContainer);
@@ -213,7 +228,7 @@ const onPostReviewClick = (evnt) => {
       <div class="review row p-1 bg-light my-3">
         <div class="col-lg-2 col-md-2 user-identify ">
           <li class="userProfile">
-            <img class="user-image" src="/src/img/account-photo.jpeg" alt="profile-picture-account" />
+            <img class="user-image" src="/img/account-photo.jpeg" alt="profile-picture-account" />
           </li>
           <h6 class="user-name text-center">Melody</h6>
         </div>
@@ -229,29 +244,37 @@ const onPostReviewClick = (evnt) => {
       </div>
     </div>
   `;
-  document.querySelector(".review-container").insertAdjacentHTML("beforeend", htmlPostReview);
+  document
+    .querySelector(".review-container")
+    .insertAdjacentHTML("beforeend", htmlPostReview);
   inputReviewDom.value = "";
 };
 
 const addEventListener = () => {
-  document.querySelector(".restaurant-image-container").addEventListener("click", (evnt) => {
-    const target = evnt.target;
-    const oldActive = document.querySelector(".image-active");
-    oldActive.classList.remove("image-active");
-    target.parentElement.classList.add("image-active");
-  });
+  document
+    .querySelector(".restaurant-image-container")
+    .addEventListener("click", (evnt) => {
+      const target = evnt.target;
+      const oldActive = document.querySelector(".image-active");
+      oldActive.classList.remove("image-active");
+      target.parentElement.classList.add("image-active");
+    });
 
   document.querySelector(".btn-like").addEventListener("click", (evnt) => {
     const target = evnt.target;
     target.classList.toggle("like");
   });
 
-  document.querySelector("#btn-post-review").addEventListener("click", onPostReviewClick);
+  document
+    .querySelector("#btn-post-review")
+    .addEventListener("click", onPostReviewClick);
 };
 
 const renderRestaurant = async (restaurantId) => {
   const restaurantContainer = document.querySelector(".restaurant-container");
-  const restaurantApi = await callApi(`https://api.yelp.com/v3/businesses/${restaurantId}`);
+  const restaurantApi = await callApi(
+    `https://api.yelp.com/v3/businesses/${restaurantId}`
+  );
   const restaurant = new Restaurant(restaurantApi);
   restaurant.showRestaurantCard(restaurantContainer);
   addEventListener();

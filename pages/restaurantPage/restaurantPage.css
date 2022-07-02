@@ -28,7 +28,7 @@ nav {
   width: 5rem;
 }
 #toggler-icon {
-  background-image: url("/src/img/toggle-icon.png");
+  background-image: url("/img/toggle-icon.png");
   background-size: 2.5rem;
   background-position: center;
   border: none;

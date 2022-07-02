@@ -35,7 +35,7 @@ class TopPickPlace {
   showTopPickPlace(parentElm) {
     const htmlTopPick = `
       <div class="location mb-2 mx-2">
-          <img class="location-icon" src="/src/img/icon-locaiton-topPick-white.svg" alt="icon-location">
+          <img class="location-icon" src="/img/icon-locaiton-topPick-white.svg" alt="icon-location">
           <p class="location-name mb-0">${this.#locationName}</p>
       </div>
     `;
@@ -67,14 +67,18 @@ class RestaurantFilter {
     const starPercentage = `${(this.#rating / 5) * 100}%`;
     const htmlCard = `
       <div class="card d-inline-block mb-4">
-        <a class="restaurant-card my-2" href="../restaurantPage/restaurantPage.html?id=${this.id}">
+        <a class="restaurant-card my-2" href="../restaurantPage/restaurantPage.html?id=${
+          this.id
+        }">
           <img
             src=${this.#imageUrl}
             class="card-img-top restaurant-image"
             alt="restaurant-image"
           />
           <div class="mx-2">
-            <h6 class="restaurant-card-name mb-0 mt-3 mx-1">${this.#restaurantName}</h6>
+            <h6 class="restaurant-card-name mb-0 mt-3 mx-1">${
+              this.#restaurantName
+            }</h6>
             <div class="user-rating">
               <div class="stars-outer">
                 <div class="stars-inner" style="width:${starPercentage}"></div>
@@ -102,7 +106,9 @@ const showTopPickLocation = (places) => {
 };
 
 const getUserCurrentPosition = () => {
-  return new Promise((resolved, rejected) => navigator.geolocation.getCurrentPosition(resolved, rejected));
+  return new Promise((resolved, rejected) =>
+    navigator.geolocation.getCurrentPosition(resolved, rejected)
+  );
 };
 
 const getCurrentLocation = async () => {
@@ -119,12 +125,15 @@ const getCurrentLocation = async () => {
 };
 
 const selectedLocation = async (topPickPlaces) => {
-  const selectedLocationDom = document.querySelector(".selected-location").textContent;
+  const selectedLocationDom =
+    document.querySelector(".selected-location").textContent;
   if (selectedLocationDom === "Nearby") {
     return await getCurrentLocation();
   }
   const { latitude, longitude } =
-    topPickPlaces?.find((place) => place.getLocation() === selectedLocationDom)?.getPosition() || {};
+    topPickPlaces
+      ?.find((place) => place.getLocation() === selectedLocationDom)
+      ?.getPosition() || {};
   return { latitude, longitude }; // This is to ensure this function return same data format as in line 115
 };
 
@@ -137,7 +146,9 @@ const getRestaurantsByLocation = async (location) => {
 
 const getCategoriesByLocation = async (location) => {
   const restaurantObjList = await getRestaurantsByLocation(location);
-  const restaurantCategories = restaurantObjList.map((obj) => obj.categories.map((category) => category.alias)).flat();
+  const restaurantCategories = restaurantObjList
+    .map((obj) => obj.categories.map((category) => category.alias))
+    .flat();
   return [...new Set(restaurantCategories)];
 };
 
@@ -162,14 +173,18 @@ const onPlaceClicked = async (topPickPlaces) => {
 };
 
 const getSelectedCategories = () => {
-  return [...document.querySelectorAll(".selected-category")].map((categoryDom) => categoryDom.textContent.trim());
+  return [...document.querySelectorAll(".selected-category")].map(
+    (categoryDom) => categoryDom.textContent.trim()
+  );
 };
 
 const getFilterLink = async function (location) {
   try {
     const { latitude, longitude } = location;
     const categories = await getSelectedCategories();
-    const selectedCategorytLink = categories?.reduce((acc, cur) => `${acc}&categories=${cur}`);
+    const selectedCategorytLink = categories?.reduce(
+      (acc, cur) => `${acc}&categories=${cur}`
+    );
     return `https://api.yelp.com/v3/businesses/search?categories=restaurants&latitude=${latitude}&longitude=${longitude}&term=${selectedCategorytLink}`;
   } catch (error) {
     console.log("Error is:", error);
@@ -181,7 +196,9 @@ const renderFilterPage = async function (location) {
   try {
     const url = await getFilterLink(location);
     const { businesses } = await callApi(url);
-    const filterPageContent = businesses.map((resObj) => new RestaurantFilter(resObj).showRestaurantCard()).join("");
+    const filterPageContent = businesses
+      .map((resObj) => new RestaurantFilter(resObj).showRestaurantCard())
+      .join("");
     restaurantCardContainer.insertAdjacentHTML("afterbegin", filterPageContent);
 
     const navbarHeight = document.querySelector(".navbar").clientHeight;
@@ -226,18 +243,22 @@ const addEventListeners = (topPickPlaces) => {
     toggleLocationContainer(true);
   });
 
-  document.querySelector(".location-container").addEventListener("click", (evnt) => {
-    const target = evnt.target;
+  document
+    .querySelector(".location-container")
+    .addEventListener("click", (evnt) => {
+      const target = evnt.target;
 
-    if (!target.classList.contains("location-name")) return;
+      if (!target.classList.contains("location-name")) return;
 
-    document.querySelector(".selected-location")?.classList?.remove("selected-location");
-    target.classList.toggle("selected-location");
-    onPlaceClicked(topPickPlaces);
+      document
+        .querySelector(".selected-location")
+        ?.classList?.remove("selected-location");
+      target.classList.toggle("selected-location");
+      onPlaceClicked(topPickPlaces);
 
-    toggleLocationContainer(true);
-    document.querySelector(".category-title").classList.remove("hidden");
-  });
+      toggleLocationContainer(true);
+      document.querySelector(".category-title").classList.remove("hidden");
+    });
 
   document.querySelector(".category-list").addEventListener("click", (evnt) => {
     const target = evnt.target;

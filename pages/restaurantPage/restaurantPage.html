@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="icon" href="/src/img/favicon.png" />
+    <link rel="icon" href="/img/favicon.png" />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
@@ -24,15 +24,18 @@
       integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
       crossorigin=""
     ></script>
-    <script src="https://kit.fontawesome.com/8ba02c3a60.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/8ba02c3a60.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Restaurant | Spoon Town</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-md sticky-top">
       <div class="container-fluid">
         <div class="brand row align-items-center">
-          <a class="navbar-brand col-3" href="/src/index.html">
-            <img class="logo" src="/src/img/logo-orange.png" alt="logo" />
+          <a class="navbar-brand col-3" href="/index.html">
+            <img class="logo" src="/img/logo-orange.png" alt="logo" />
           </a>
           <div class="brand-name col-8 mt-4">SPOON TOWN</div>
         </div>
@@ -45,22 +48,39 @@
         >
           <span class="navbar-toggler-icon" id="toggler-icon"></span>
         </button>
-        <div class="offcanvas-md offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div
+          class="offcanvas-md offcanvas-end"
+          tabindex="-1"
+          id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel"
+        >
           <ul class="navbar-nav align-items-lg-center">
             <li class="nav-item">
-              <a class="nav-link" href="/src/index.html">HOME</a>
+              <a class="nav-link" href="/index.html">HOME</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/src/index.html">ABOUT US</a>
+              <a class="nav-link" href="/index.html">ABOUT US</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/src/index.html">CONTACT</a>
+              <a class="nav-link" href="/index.html">CONTACT</a>
             </li>
             <div class="nav-item dropdown">
-              <div class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                <img class="account" src="/src/img/account-photo.jpeg" alt="account-photo" />
+              <div
+                class="dropdown-toggle"
+                data-bs-toggle="dropdown"
+                href="#"
+                role="button"
+                aria-expanded="false"
+              >
+                <img
+                  class="account"
+                  src="/img/account-photo.jpeg"
+                  alt="account-photo"
+                />
               </div>
-              <ul class="dropdown-menu dropdown-menu-md-end dropdown-menu-sm-start">
+              <ul
+                class="dropdown-menu dropdown-menu-md-end dropdown-menu-sm-start"
+              >
                 <li>
                   <h6 class="dropdown-header">Hi Melody 😊</h6>
                 </li>
@@ -94,11 +114,15 @@
     <div class="container-md mb-5">
       <div class="account-review row bg-light">
         <figure class="col-lg-2 account-image">
-          <img src="/src/img/account-photo.jpeg" alt="acount-photo" />
+          <img src="/img/account-photo.jpeg" alt="acount-photo" />
           <p>Melody Le</p>
         </figure>
         <div class="col-lg-10 ms-auto">
-          <textarea class="row" id="textarea-review" placeholder="Leave your review here"></textarea>
+          <textarea
+            class="row"
+            id="textarea-review"
+            placeholder="Leave your review here"
+          ></textarea>
         </div>
       </div>
       <button class="mt-3" id="btn-post-review">Post review</button>
