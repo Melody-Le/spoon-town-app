@@ -38,7 +38,7 @@ class Review {
             <li class="userProfile">
               <a href="${this.#userProfileUrl}">
                 <img class="user-image" src="${
-                  this.#userProfilePhoto
+                  this.#userProfilePhoto || "img/logo-orange.png"
                 }" alt="profile-picture-${this.#userId}" />
               </a>
             </li>
@@ -137,19 +137,19 @@ class Restaurant {
       <div class="row gy-3 gx-2">
         <div class="detail-restaurant col-lg-6">
           <div class="information">
-            <img class="location-icon detail-icon" src="/img/icon-location-orange.png" alt="icon-location">
+            <img class="location-icon detail-icon" src="img/icon-location-orange.png" alt="icon-location">
             <p class="my-auto">${this.#address}</p>
           </div>
           <div class="information">
-            <img class="phone-icon detail-icon" src="/img/phone-icon.png" alt="icon-location">
+            <img class="phone-icon detail-icon" src="img/phone-icon.png" alt="icon-location">
             <p class="my-auto">${this.#phone}</p>
           </div>
           <div class="information">
-            <img class="cuisine-icon detail-icon" src="/img/favicon.png" alt="icon-location">
+            <img class="cuisine-icon detail-icon" src="img/favicon.png" alt="icon-location">
             <p class="my-auto">Cuisine: ${this.#cuisine}</p>
           </div>
           <div class="information">
-            <img class="open-now-icon detail-icon" src="/img/open-now-icon.png" alt="icon-location">
+            <img class="open-now-icon detail-icon" src="img/open-now-icon.png" alt="icon-location">
             <p class="my-auto">${this.#isOpen}</p>
           </div>
           <div class="other-button">
@@ -228,7 +228,7 @@ const onPostReviewClick = (evnt) => {
       <div class="review row p-1 bg-light my-3">
         <div class="col-lg-2 col-md-2 user-identify ">
           <li class="userProfile">
-            <img class="user-image" src="/img/account-photo.jpeg" alt="profile-picture-account" />
+            <img class="user-image" src="img/account-photo.jpeg" alt="profile-picture-account" />
           </li>
           <h6 class="user-name text-center">Melody</h6>
         </div>

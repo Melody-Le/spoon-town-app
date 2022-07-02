@@ -1,1 +1,1 @@
-window.location = "./pages/filterPage/filterPage.html";
+window.location = "./filterPage.html";
