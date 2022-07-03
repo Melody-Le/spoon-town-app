@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Montserrat:ital,wght@0,200;0,400;0,600;0,900;1,700&family=Rubik+Moonrocks&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Montserrat:ital,wght@0,200;0,400;0,600;0,900;1,700&family=Rubik+Moonrocks&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: #868e96;
   position: relative;
   min-height: 100vh;
@@ -21,7 +21,7 @@ nav {
   background-color: rgba(248, 248, 248, 0.9);
 }
 .brand {
-  font-family: "Rubik Moonrocks", cursive;
+  font-family: 'Rubik Moonrocks', cursive;
   font-size: 1.5rem;
   color: #de6035;
 }
@@ -29,7 +29,7 @@ nav {
   width: 5rem;
 }
 #toggler-icon {
-  background-image: url("img/toggle-icon.png");
+  background-image: url('img/toggle-icon.png');
   background-size: 2.5rem;
   background-position: center;
   border: none;
@@ -256,7 +256,7 @@ nav {
   height: 80px;
 }
 .lds-dual-ring:after {
-  content: " ";
+  content: ' ';
   display: block;
   width: 64px;
   height: 64px;
@@ -279,10 +279,10 @@ nav {
 .stars-outer {
   display: inline-block;
   position: relative;
-  font-family: "FontAwesome";
+  font-family: 'FontAwesome';
 }
 .stars-outer::before {
-  content: "\f006 \f006 \f006 \f006 \f006";
+  content: '\f006 \f006 \f006 \f006 \f006';
 }
 .stars-inner {
   position: absolute;
@@ -293,7 +293,7 @@ nav {
   width: 0%;
 }
 .stars-inner::before {
-  content: "\f005 \f005 \f005 \f005 \f005";
+  content: '\f005 \f005 \f005 \f005 \f005';
   color: #549490;
 }
 .icon {
