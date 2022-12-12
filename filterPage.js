@@ -4,7 +4,7 @@ const toggleLoader = () => {
 };
 
 const callApi = async (url) => {
-  const cors = "https://melodycors.herokuapp.com/";
+  const cors = "https://cors-anywhere-melody.onrender.com/";
   const apiKey =
     "XbwVX7w36FwIoJR-cLgnNHErUzWI0SBOAUJYoe0PTjpGuofzTpk0xDrogIA-zx4Q2cUClcg4AjVSe8o7khBxTumGTf5_co2YKzbgeHfGi9i9pbiL8zR6sqjZDJalYnYx";
 
